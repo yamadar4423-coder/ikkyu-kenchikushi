@@ -52,7 +52,7 @@ function toggleTheme(){
 var STEPS=[
  {id:'S00',n:'0', t:'準備 ― 力学の土台',      s:'単位・つり合い・モーメント・支点・荷重・判別式', h:'structure/mechanics/S00.html', ready:true},
  {id:'S01',n:'1', t:'静定梁の応力',            s:'反力 → Q図・M図の描き方',          h:'structure/mechanics/S01.html', ready:true},
- {id:'S02',n:'2', t:'静定ラーメン・3ヒンジ',   s:'ラーメンのM図、3ヒンジ構造',      h:'structure/mechanics/S02.html'},
+ {id:'S02',n:'2', t:'静定ラーメン・3ヒンジ',   s:'ラーメンのM図、3ヒンジ構造',      h:'structure/mechanics/S02.html', ready:true},
  {id:'S03',n:'3', t:'トラス',                  s:'節点法・切断法・ゼロ部材',        h:'structure/mechanics/S03.html'},
  {id:'S04',n:'4', t:'断面の性質と応力度',      s:'断面二次モーメント・応力度・コア', h:'structure/mechanics/S04.html'},
  {id:'S05',n:'5', t:'変形',                    s:'たわみ・たわみ角の公式',          h:'structure/mechanics/S05.html'},
@@ -456,6 +456,115 @@ function frame(o){
   s+='<circle cx="'+x0+'" cy="'+yt+'" r="3" fill="currentColor"/><circle cx="'+x1+'" cy="'+yt+'" r="3" fill="currentColor"/>';
   return s+'</svg>';
 }
+/* ラーメン（骨組）の図。
+   nodes: {A:[x,y],...} 模型座標（y は上が正、単位 m）
+   members: [['A','B'],...]
+   sup: [{n:'A',t:'pin'|'fix'|'roller'}]
+   hinge: [[x,y],...]
+   loads: [{t:'P',at:[x,y],d:'down'|'right'|'left',l:'12 kN'},
+           {t:'w',from:[x,y],to:[x,y],l:'w'}]
+   M: [{m:部材の添字, pts:[[t,v],...], fn:関数, n:分割数}]
+      v は部材を p1→p2 に見たときの「左法線」向きを + とする符号つきの値。
+      引張側に描くので、どちらが + かは図で確かめること。 */
+function frameFig(o){
+  var W=o.W||460, nodes=o.nodes, mem=o.members;
+  var xs=[], ys=[], key;
+  for(key in nodes){ xs.push(nodes[key][0]); ys.push(nodes[key][1]); }
+  var minx=Math.min.apply(null,xs), maxx=Math.max.apply(null,xs);
+  var miny=Math.min.apply(null,ys), maxy=Math.max.apply(null,ys);
+  var mw=Math.max(0.001,maxx-minx), mh=Math.max(0.001,maxy-miny);
+  var padL=o.padL||78, padR=o.padR||78, padT=o.padT||72, padB=o.padB||54;
+  var k=Math.min((W-padL-padR)/mw, (o.maxH||190)/mh);
+  var H=mh*k+padT+padB;
+  function px(x){ return padL+(x-minx)*k; }
+  function py(y){ return padT+(maxy-y)*k; }
+  function P(n){ var p=(typeof n==='string')?nodes[n]:n; return [px(p[0]),py(p[1])]; }
+
+  var s='<svg class="fig" viewBox="0 0 '+W+' '+Math.round(H)+'" width="'+W+'">'+DEFS;
+
+  /* 応力図（部材の下に敷く） */
+  (o.M||[]).forEach(function(d){
+    var mm=mem[d.m], a=nodes[mm[0]], b=nodes[mm[1]];
+    var dx=b[0]-a[0], dy=b[1]-a[1], len=Math.sqrt(dx*dx+dy*dy);
+    var ux=dx/len, uy=dy/len, nx=-uy, ny=ux;   /* 左法線 */
+    var pts=d.pts;
+    if(d.fn){ pts=[]; var nn=d.n||24; for(var i=0;i<=nn;i++){ var t=i/nn; pts.push([t,d.fn(t)]); } }
+    var mx=0; pts.forEach(function(p){ mx=Math.max(mx,Math.abs(p[1])); });
+    if(mx===0) mx=1;
+    var sc=(o.mScale||46)/mx;
+    var poly=pts.map(function(p){
+      var bx=a[0]+dx*p[0], by=a[1]+dy*p[0];
+      return (px(bx)+nx*p[1]*sc)+','+(py(by)-ny*p[1]*sc);
+    }).join(' ');
+    var A=P(mm[0]), B=P(mm[1]);
+    s+='<g color="var(--acc)">'+
+       '<polygon points="'+A[0]+','+A[1]+' '+poly+' '+B[0]+','+B[1]+'" fill="currentColor" fill-opacity="0.16" stroke="none"/>'+
+       '<polyline points="'+poly+'" fill="none" stroke="currentColor" stroke-width="2.2"/></g>';
+    (d.marks||[]).forEach(function(m){
+      var bx=a[0]+dx*m.t, by=a[1]+dy*m.t;
+      var X=px(bx)+nx*m.v*sc, Y=py(by)-ny*m.v*sc;
+      s+='<text x="'+(X+(m.dx||6))+'" y="'+(Y+(m.dy||-5))+'" style="font-size:12px;font-weight:600;fill:var(--acc)">'+m.l+'</text>';
+    });
+  });
+
+  /* 部材 */
+  mem.forEach(function(m){
+    var A=P(m[0]), B=P(m[1]);
+    s+='<line x1="'+A[0]+'" y1="'+A[1]+'" x2="'+B[0]+'" y2="'+B[1]+'" class="bm"/>';
+  });
+
+  /* 剛節点の印 */
+  (o.rigid||[]).forEach(function(n){ var A=P(n); s+='<circle cx="'+A[0]+'" cy="'+A[1]+'" r="3.4" fill="currentColor"/>'; });
+
+  /* 支点 */
+  (o.sup||[]).forEach(function(p){
+    var A=P(p.n);
+    if(p.t==='fix'){ s+='<line x1="'+(A[0]-17)+'" y1="'+A[1]+'" x2="'+(A[0]+17)+'" y2="'+A[1]+'" class="gr" style="stroke-width:2.5"/>'+hatch(A[0]-17,A[0]+17,A[1],1); }
+    else s+=support(p.t,A[0],A[1]);
+    if(p.l) s+='<text x="'+(A[0]-5)+'" y="'+(A[1]+(p.t==='fix'?-10:46))+'" class="nm">'+p.l+'</text>';
+  });
+
+  /* ヒンジ */
+  (o.hinge||[]).forEach(function(h){ var A=P(h); s+='<circle cx="'+A[0]+'" cy="'+A[1]+'" r="5.2" class="sp"/>'; });
+
+  /* 節点名 */
+  (o.labels||[]).forEach(function(t){ var A=P(t.at); s+='<text x="'+(A[0]+(t.dx||-16))+'" y="'+(A[1]+(t.dy||-8))+'" class="nm">'+t.l+'</text>'; });
+
+  /* 荷重 */
+  (o.loads||[]).forEach(function(l){
+    if(l.t==='P'){
+      var A=P(l.at), x1,y1,x2,y2,tx,ty;
+      if(l.d==='down'){ x1=A[0]; y1=A[1]-50; x2=A[0]; y2=A[1]-4; tx=A[0]+6; ty=A[1]-38; }
+      else if(l.d==='right'){ x1=A[0]-52; y1=A[1]; x2=A[0]-5; y2=A[1]; tx=A[0]-58; ty=A[1]-9; }
+      else { x1=A[0]+52; y1=A[1]; x2=A[0]+5; y2=A[1]; tx=A[0]+14; ty=A[1]-9; }
+      s+='<g class="ld" color="var(--ng)"><line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" marker-end="url(#ah)"/></g>'+
+         '<text x="'+tx+'" y="'+ty+'" class="lt">'+l.l+'</text>';
+    }
+    if(l.t==='w'){
+      var a=P(l.from), b=P(l.to), top=Math.min(a[1],b[1])-32;
+      s+='<g class="ld" color="var(--ng)"><line x1="'+a[0]+'" y1="'+top+'" x2="'+b[0]+'" y2="'+top+'"/>';
+      var n=Math.max(2,Math.round((b[0]-a[0])/24));
+      for(var i=0;i<=n;i++){ var xx=a[0]+(b[0]-a[0])*i/n; s+='<line x1="'+xx+'" y1="'+top+'" x2="'+xx+'" y2="'+(a[1]-4)+'" marker-end="url(#ah)"/>'; }
+      s+='</g><text x="'+((a[0]+b[0])/2-24)+'" y="'+(top-8)+'" class="lt">'+l.l+'</text>';
+    }
+  });
+
+  /* 寸法 */
+  (o.dimX||[]).forEach(function(d){
+    var a=px(d[0]), b=px(d[1]), y=py(miny)+(d[3]||44);
+    s+='<g class="dm" color="var(--sub)"><line x1="'+a+'" y1="'+(y-6)+'" x2="'+a+'" y2="'+(y+6)+'"/><line x1="'+b+'" y1="'+(y-6)+'" x2="'+b+'" y2="'+(y+6)+'"/>'+
+       '<line x1="'+(a+2)+'" y1="'+y+'" x2="'+(b-2)+'" y2="'+y+'" marker-start="url(#ag)" marker-end="url(#ag)"/></g>'+
+       '<text x="'+((a+b)/2-12)+'" y="'+(y-4)+'" class="dt">'+d[2]+'</text>';
+  });
+  (o.dimY||[]).forEach(function(d){
+    var x=px(minx)-(d[3]||40), a=py(d[0]), b=py(d[1]);
+    s+='<g class="dm" color="var(--sub)"><line x1="'+(x-6)+'" y1="'+a+'" x2="'+(x+6)+'" y2="'+a+'"/><line x1="'+(x-6)+'" y1="'+b+'" x2="'+(x+6)+'" y2="'+b+'"/>'+
+       '<line x1="'+x+'" y1="'+(a-2)+'" x2="'+x+'" y2="'+(b+2)+'" marker-start="url(#ag)" marker-end="url(#ag)"/></g>'+
+       '<text x="'+(x-26)+'" y="'+((a+b)/2)+'" class="dt">'+d[2]+'</text>';
+  });
+  return s+'</svg>';
+}
+
 function fig(id,html){ var el=document.getElementById(id); if(el) el.innerHTML=html; }
 function figc(cap,html){ return '<figure>'+html+'<figcaption>'+cap+'</figcaption></figure>'; }
 function supFig(t){
@@ -498,6 +607,6 @@ global.IKKYU={
   initMC:initMC, initChecklist:initChecklist, initTimer:initTimer,
   startReview:startReview, exportAll:exportAll, importAll:importAll,
   initSW:initSW, refresh:refresh,
-  beam:beam, beamSet:beamSet, beamLayer:beamLayer, frame:frame, support:support, fig:fig, figc:figc, supFig:supFig, DEFS:DEFS
+  beam:beam, beamSet:beamSet, beamLayer:beamLayer, frame:frame, frameFig:frameFig, support:support, fig:fig, figc:figc, supFig:supFig, DEFS:DEFS
 };
 })(window);
