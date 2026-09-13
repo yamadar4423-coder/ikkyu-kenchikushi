@@ -51,7 +51,7 @@ function toggleTheme(){
 /* ============ ステップ定義 ============ */
 var STEPS=[
  {id:'S00',n:'0', t:'準備 ― 力学の土台',      s:'単位・つり合い・モーメント・支点・荷重・判別式', h:'structure/mechanics/S00.html', ready:true},
- {id:'S01',n:'1', t:'静定梁の応力',            s:'反力 → N図・Q図・M図',            h:'structure/mechanics/S01.html'},
+ {id:'S01',n:'1', t:'静定梁の応力',            s:'反力 → Q図・M図の描き方',          h:'structure/mechanics/S01.html', ready:true},
  {id:'S02',n:'2', t:'静定ラーメン・3ヒンジ',   s:'ラーメンのM図、3ヒンジ構造',      h:'structure/mechanics/S02.html'},
  {id:'S03',n:'3', t:'トラス',                  s:'節点法・切断法・ゼロ部材',        h:'structure/mechanics/S03.html'},
  {id:'S04',n:'4', t:'断面の性質と応力度',      s:'断面二次モーメント・応力度・コア', h:'structure/mechanics/S04.html'},
@@ -353,11 +353,9 @@ function support(t,x,y){
   if(t==='hinge') return '<circle cx="'+x+'" cy="'+y+'" r="5" class="sp"/>';
   return '';
 }
-function beam(o){
-  var W=o.W||480, H=170, X0=50, X1=W-50, Y=88;
-  function sx(x){ return X0+(X1-X0)*x/o.L; }
-  var s='<svg class="fig" viewBox="0 0 '+W+' '+H+'" width="'+W+'">'+DEFS;
-  s+='<line x1="'+X0+'" y1="'+Y+'" x2="'+X1+'" y2="'+Y+'" class="bm"/>';
+/* 梁本体（支点・荷重・寸法）を 1 つの座標系に描く */
+function beamLayer(o,sx,Y){
+  var s='<line x1="'+sx(0)+'" y1="'+Y+'" x2="'+sx(o.L)+'" y2="'+Y+'" class="bm"/>';
   (o.sup||[]).forEach(function(p){
     s+=support(p.t,sx(p.x),Y);
     if(p.n){ var dx=(p.t==='fixL'?-22:p.t==='fixR'?12:-5), dy=(p.t.indexOf('fix')===0?-30:44);
@@ -396,8 +394,59 @@ function beam(o){
        '<line x1="'+(a+2)+'" y1="'+y+'" x2="'+(b-2)+'" y2="'+y+'" marker-start="url(#ag)" marker-end="url(#ag)"/></g>'+
        '<text x="'+((a+b)/2-12)+'" y="'+(y-4)+'" class="dt">'+d[2]+'</text>';
   });
+  return s;
+}
+
+function beam(o){
+  var W=o.W||480, H=170, X0=50, X1=W-50, Y=88;
+  function sx(x){ return X0+(X1-X0)*x/o.L; }
+  return '<svg class="fig" viewBox="0 0 '+W+' '+H+'" width="'+W+'">'+DEFS+beamLayer(o,sx,Y)+'</svg>';
+}
+
+/* 応力図。値は「下側引張を +」で渡す。
+   Q は + を上に、M は + を下に描く（＝引張側に描く）。 */
+function drawDia(d,L,sx,Y,DH,kind){
+  var pts=d.pts;
+  if(d.fn){ pts=[]; var n=d.n||30; for(var i=0;i<=n;i++){ var xx=L*i/n; pts.push([xx,d.fn(xx)]); } }
+  var mx=0;
+  pts.forEach(function(p){ mx=Math.max(mx,Math.abs(p[1])); });
+  if(mx===0) mx=1;
+  var k=(DH*0.34)/mx, flip=(kind==='M')?1:-1;
+  function yv(v){ return Y+flip*v*k; }
+  var poly=pts.map(function(p){ return sx(p[0])+','+yv(p[1]); }).join(' ');
+  var col=(kind==='M')?'var(--acc)':'var(--ng)';
+  var s='<g color="'+col+'">';
+  s+='<polygon points="'+sx(pts[0][0])+','+Y+' '+poly+' '+sx(pts[pts.length-1][0])+','+Y+'" fill="currentColor" fill-opacity="0.16" stroke="none"/>';
+  s+='<polyline points="'+poly+'" fill="none" stroke="currentColor" stroke-width="2.2"/>';
+  s+='<line x1="'+sx(0)+'" y1="'+Y+'" x2="'+sx(L)+'" y2="'+Y+'" stroke="currentColor" stroke-width="1.4" stroke-opacity="0.55"/>';
+  s+='</g>';
+  s+='<text x="6" y="'+(Y+4)+'" class="nm" style="font-size:13px">'+(kind==='M'?'M図':'Q図')+'</text>';
+  (d.marks||[]).forEach(function(m){
+    var y=yv(m.v)+(flip*m.v>=0?15:-6);
+    s+='<text x="'+(sx(m.x)-12)+'" y="'+y+'" style="font-size:12px;font-weight:600;fill:'+col+'">'+m.l+'</text>';
+  });
+  (d.zero||[]).forEach(function(z){
+    s+='<line x1="'+sx(z)+'" y1="'+(Y-DH*0.4)+'" x2="'+sx(z)+'" y2="'+(Y+DH*0.4)+'" stroke="var(--sub)" stroke-width="1" stroke-dasharray="3 3"/>';
+  });
+  return s;
+}
+
+/* 梁と Q図・M図を同じ横位置で重ねて描く */
+function beamSet(o){
+  var W=o.W||480, X0=56, X1=W-46, DH=118;
+  function sx(x){ return X0+(X1-X0)*x/o.L; }
+  var yBeam=92, rows=[];
+  if(o.Q) rows.push({k:'Q',d:o.Q});
+  if(o.M) rows.push({k:'M',d:o.M});
+  var H=178+rows.length*DH;
+  var s='<svg class="fig" viewBox="0 0 '+W+' '+H+'" width="'+W+'">'+DEFS+beamLayer(o,sx,yBeam);
+  rows.forEach(function(r,i){
+    var Y=178+DH*i+DH/2;
+    s+=drawDia(r.d,o.L,sx,Y,DH,r.k);
+  });
   return s+'</svg>';
 }
+
 function frame(o){
   var W=200,H=150,x0=50,x1=150,yt=36,yb=112;
   var s='<svg class="fig" viewBox="0 0 '+W+' '+H+'" width="'+W+'">'+DEFS;
@@ -449,6 +498,6 @@ global.IKKYU={
   initMC:initMC, initChecklist:initChecklist, initTimer:initTimer,
   startReview:startReview, exportAll:exportAll, importAll:importAll,
   initSW:initSW, refresh:refresh,
-  beam:beam, frame:frame, support:support, fig:fig, figc:figc, supFig:supFig, DEFS:DEFS
+  beam:beam, beamSet:beamSet, beamLayer:beamLayer, frame:frame, support:support, fig:fig, figc:figc, supFig:supFig, DEFS:DEFS
 };
 })(window);
