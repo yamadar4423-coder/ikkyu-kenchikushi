@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>一級建築士 学科 学習ノート</title>
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--ink:#1f2933;--sub:#5b6875;--line:#d9dee5;--acc:#1d5fa8;--acc-bg:#e8f0fb;--ok:#1d8f4e;--ok-bg:#e4f5ea;--mute:#eef1f5}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI","Yu Gothic UI","Meiryo",system-ui,sans-serif;font-size:16px;line-height:1.7}
+header{background:#fff;border-bottom:1px solid var(--line)}
+.hin{max-width:760px;margin:0 auto;padding:14px 16px}
+.hin h1{font-size:20px;margin:0}
+.hin .sub{color:var(--sub);font-size:13px}
+main{max-width:760px;margin:0 auto;padding:14px 12px 40px}
+h2{font-size:17px;margin:20px 0 8px;padding-left:10px;border-left:4px solid var(--acc)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:0 0 12px}
+.note{background:var(--acc-bg);border-radius:8px;padding:10px 14px;font-size:14px;margin:8px 0}
+ol,ul{padding-left:22px;margin:6px 0}
+.steps{list-style:none;padding:0;margin:0}
+.steps li{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;margin:8px 0}
+.steps li.off{background:var(--mute);color:var(--sub)}
+.steps .num{flex:0 0 2.6em;font-weight:700;color:var(--acc);font-size:15px}
+.steps li.off .num{color:var(--sub)}
+.steps .ttl{flex:1 1 auto;min-width:0}
+.steps .ttl b{display:block;font-size:15px}
+.steps .ttl small{display:block;color:var(--sub);font-size:12px}
+.steps .st{flex:0 0 auto;font-size:12px;color:var(--sub);text-align:right;white-space:nowrap}
+.steps .st .ok{color:var(--ok);font-weight:700}
+.steps a{color:inherit;text-decoration:none;display:contents}
+.bar{height:6px;background:var(--mute);border-radius:3px;overflow:hidden;margin-top:4px;width:90px}
+.bar i{display:block;height:100%;background:var(--acc)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{border:1px solid var(--line);padding:5px 8px;text-align:left;vertical-align:top}
+th{background:#f0f3f7}
+footer{max-width:760px;margin:0 auto;padding:0 16px 30px;color:var(--sub);font-size:12px}
+</style>
+</head>
+<body>
+<header><div class="hin">
+  <h1>一級建築士 学科 学習ノート</h1>
+  <div class="sub">目標: 2027年7月 学科試験 ／ 最終更新: <span id="upd">2026-09-13</span></div>
+</div></header>
+<main>
+
+<div class="note">各ステップは <b>A 前提知識 → B 解法手順 → C 例題 → D 白紙演習 → E 確認テスト</b> の順。穴埋めの○×と確認テストの点数は、この端末のブラウザに保存されます。</div>
+
+<h2>学科IV 構造 ― 力学</h2>
+<ul class="steps" id="mech"></ul>
+
+<h2>これから作る分野</h2>
+<div class="card">
+<table>
+<tr><th>順</th><th>分野</th><th>状態</th></tr>
+<tr><td>1</td><td>構造 ― 荷重・外力／各種構造(S・RC・木・基礎・耐震)／材料</td><td>力学のあとに作成</td></tr>
+<tr><td>2</td><td>法規</td><td>未着手</td></tr>
+<tr><td>3</td><td>環境・設備</td><td>未着手</td></tr>
+<tr><td>4</td><td>計画</td><td>未着手</td></tr>
+<tr><td>5</td><td>施工</td><td>未着手</td></tr>
+</table>
+</div>
+
+<h2>1日1時間の回し方</h2>
+<div class="card">
+<ol>
+<li>1日目: A・B(解説を読んで穴埋め)</li>
+<li>2日目: C 例題の数値穴埋め</li>
+<li>3日目: D 白紙演習 ＋ E 確認テスト(4/5 で合格)</li>
+<li>4日目: 「全て隠す」で白紙から解き直し。合格していれば次のステップへ</li>
+</ol>
+</div>
+
+</main>
+<footer>教材はオリジナルの類題で構成しています。進捗はブラウザ保存のため、同じURL・同じブラウザで開いてください。</footer>
+
+<script>
+(function(){
+const steps=[
+ {id:'S00',n:'0',t:'準備 ― 力学の土台',s:'単位・つり合い・モーメント・支点・荷重・判別式',h:'structure/mechanics/S00.html',ok:true},
+ {id:'S01',n:'1',t:'静定梁の応力',s:'反力 → N図・Q図・M図'},
+ {id:'S02',n:'2',t:'静定ラーメン・3ヒンジ',s:'ラーメンのM図、3ヒンジ構造'},
+ {id:'S03',n:'3',t:'トラス',s:'節点法・切断法・ゼロ部材'},
+ {id:'S04',n:'4',t:'断面の性質と応力度',s:'断面二次モーメント・応力度・コア'},
+ {id:'S05',n:'5',t:'変形',s:'たわみ・たわみ角の公式'},
+ {id:'S06',n:'6',t:'不静定(1) 剛性と分担',s:'剛比・分配率・水平剛性'},
+ {id:'S07',n:'7',t:'不静定(2) 解法',s:'重ね合わせ・たわみ角法・分配法'},
+ {id:'S08',n:'8',t:'全塑性モーメント・崩壊荷重',s:'Mp・崩壊メカニズム・仮想仕事'},
+ {id:'S09',n:'9',t:'座屈',s:'オイラー座屈・座屈長さ'},
+ {id:'S10',n:'10',t:'振動',s:'1質点系の固有周期'},
+ {id:'S11',n:'11',t:'総合演習',s:'年度セットで時間を測る'}
+];
+const ul=document.getElementById('mech');
+steps.forEach(st=>{
+  let d={}; try{d=JSON.parse(localStorage.getItem('ikkyu_'+st.id)||'{}')||{};}catch(e){}
+  const li=document.createElement('li');
+  if(!st.ok) li.className='off';
+  let status='準備中';
+  if(st.ok){
+    const done=d.done||0,total=d.total||0,pct=total?Math.round(done/total*100):0;
+    status=(total?('穴埋め ○ '+done+'/'+total):'未着手')+(d.score!=null?'<br>テスト <span class="'+(d.score>=4?'ok':'')+'">'+d.score+'/5</span>':'')+
+      '<div class="bar"><i style="width:'+pct+'%"></i></div>';
+  }
+  const inner='<span class="num">Step '+st.n+'</span><span class="ttl"><b>'+st.t+'</b><small>'+st.s+'</small></span><span class="st">'+status+'</span>';
+  li.innerHTML=st.ok?('<a href="'+st.h+'">'+inner+'</a>'):inner;
+  ul.appendChild(li);
+});
+})();
+</script>
+</body>
+</html>
