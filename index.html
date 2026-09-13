@@ -4,105 +4,216 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>一級建築士 学科 学習ノート</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#1d5fa8">
+<link rel="apple-touch-icon" href="assets/icon-180.png">
+<link rel="stylesheet" href="assets/app.css">
 <style>
-:root{--bg:#f6f7f9;--card:#fff;--ink:#1f2933;--sub:#5b6875;--line:#d9dee5;--acc:#1d5fa8;--acc-bg:#e8f0fb;--ok:#1d8f4e;--ok-bg:#e4f5ea;--mute:#eef1f5}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI","Yu Gothic UI","Meiryo",system-ui,sans-serif;font-size:16px;line-height:1.7}
-header{background:#fff;border-bottom:1px solid var(--line)}
-.hin{max-width:760px;margin:0 auto;padding:14px 16px}
-.hin h1{font-size:20px;margin:0}
-.hin .sub{color:var(--sub);font-size:13px}
-main{max-width:760px;margin:0 auto;padding:14px 12px 40px}
-h2{font-size:17px;margin:20px 0 8px;padding-left:10px;border-left:4px solid var(--acc)}
-.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:0 0 12px}
-.note{background:var(--acc-bg);border-radius:8px;padding:10px 14px;font-size:14px;margin:8px 0}
-ol,ul{padding-left:22px;margin:6px 0}
-.steps{list-style:none;padding:0;margin:0}
-.steps li{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;margin:8px 0}
-.steps li.off{background:var(--mute);color:var(--sub)}
-.steps .num{flex:0 0 2.6em;font-weight:700;color:var(--acc);font-size:15px}
-.steps li.off .num{color:var(--sub)}
-.steps .ttl{flex:1 1 auto;min-width:0}
-.steps .ttl b{display:block;font-size:15px}
-.steps .ttl small{display:block;color:var(--sub);font-size:12px}
-.steps .st{flex:0 0 auto;font-size:12px;color:var(--sub);text-align:right;white-space:nowrap}
-.steps .st .ok{color:var(--ok);font-weight:700}
-.steps a{color:inherit;text-decoration:none;display:contents}
-.bar{height:6px;background:var(--mute);border-radius:3px;overflow:hidden;margin-top:4px;width:90px}
-.bar i{display:block;height:100%;background:var(--acc)}
-table{border-collapse:collapse;width:100%;font-size:14px}
-th,td{border:1px solid var(--line);padding:5px 8px;text-align:left;vertical-align:top}
-th{background:#f0f3f7}
-footer{max-width:760px;margin:0 auto;padding:0 16px 30px;color:var(--sub);font-size:12px}
+.hero{display:flex;flex-wrap:wrap;gap:10px}
+.hero .m{flex:1 1 30%;min-width:100px;text-align:center;padding:10px 6px;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+.hero .m b{display:block;font-size:22px;line-height:1.3}
+.hero .m small{color:var(--sub);font-size:12px}
+.cont{display:block;padding:13px 15px;border:1px solid var(--acc);border-radius:10px;background:var(--acc-bg);
+  text-decoration:none;color:var(--ink);margin:10px 0}
+.cont b{display:block;font-size:16px;color:var(--acc)}
+.cont small{color:var(--sub)}
+.quick{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.quick a{flex:1 1 auto;text-align:center;padding:11px 12px;border:1px solid var(--line);border-radius:10px;
+  background:var(--card);text-decoration:none;color:var(--ink);font-size:14px;min-width:120px}
+.quick a:hover{background:var(--acc-bg)}
 </style>
 </head>
 <body>
 <header><div class="hin">
   <h1>一級建築士 学科 学習ノート</h1>
-  <div class="sub">目標: 2027年7月 学科試験 ／ 最終更新: <span id="upd">2026-09-13</span></div>
+  <span class="sub">目標 2027年7月 学科試験</span>
 </div></header>
 <main>
 
-<div class="note">各ステップは <b>A 前提知識 → B 解法手順 → C 例題 → D 白紙演習 → E 確認テスト</b> の順。穴埋めの○×と確認テストの点数は、この端末のブラウザに保存されます。</div>
+<div class="card">
+  <div class="hero">
+    <div class="m"><b id="dleft">–</b><small>本番まで（日）</small></div>
+    <div class="m"><b id="strk">–</b><small>連続学習（日）</small></div>
+    <div class="m"><b id="allp">–</b><small>穴埋め達成</small></div>
+  </div>
+  <a class="cont" id="cont" href="structure/mechanics/S00.html"><b>続きから</b><small id="contsub">Step 0 準備 ― 力学の土台</small></a>
+  <div class="quick">
+    <a href="formulas.html">公式カード</a>
+    <a href="past-exams.html">過去問リンク</a>
+    <a href="#backup">進捗の保存</a>
+  </div>
+  <div id="gr"></div>
+</div>
+
+<div class="note">各ステップは <b>A 前提知識 → B 解法手順 → C 例題 → D 白紙演習 → E 確認テスト → F 4択</b> の順です。5分しか無い日は「×だけ復習」だけ回してください。</div>
 
 <h2>学科IV 構造 ― 力学</h2>
 <ul class="steps" id="mech"></ul>
 
 <h2>これから作る分野</h2>
 <div class="card">
-<table>
-<tr><th>順</th><th>分野</th><th>状態</th></tr>
-<tr><td>1</td><td>構造 ― 荷重・外力／各種構造(S・RC・木・基礎・耐震)／材料</td><td>力学のあとに作成</td></tr>
-<tr><td>2</td><td>法規</td><td>未着手</td></tr>
-<tr><td>3</td><td>環境・設備</td><td>未着手</td></tr>
-<tr><td>4</td><td>計画</td><td>未着手</td></tr>
-<tr><td>5</td><td>施工</td><td>未着手</td></tr>
-</table>
+<div class="scroll"><table>
+<tr><th style="width:3em">順</th><th>分野</th><th style="width:9em">形式</th><th style="width:6em">状態</th></tr>
+<tr><td>1</td><td>構造　荷重・外力／S造・RC造・木造・基礎／耐震／材料</td><td>穴埋め＋4択</td><td>力学の次</td></tr>
+<tr><td>2</td><td>法規</td><td>法令集を引く訓練</td><td>未着手</td></tr>
+<tr><td>3</td><td>環境・設備</td><td>穴埋め＋計算</td><td>未着手</td></tr>
+<tr><td>4</td><td>計画</td><td>一問一答</td><td>未着手</td></tr>
+<tr><td>5</td><td>施工</td><td>一問一答</td><td>未着手</td></tr>
+</table></div>
+<p class="note">科目によって覚え方が違うので、形式も変えます。法規は条文を引く速さが本体なので穴埋めにしません。計画と施工は暗記中心なので一問一答が向きます。</p>
 </div>
 
 <h2>1日1時間の回し方</h2>
 <div class="card">
 <ol>
-<li>1日目: A・B(解説を読んで穴埋め)</li>
-<li>2日目: C 例題の数値穴埋め</li>
-<li>3日目: D 白紙演習 ＋ E 確認テスト(4/5 で合格)</li>
-<li>4日目: 「全て隠す」で白紙から解き直し。合格していれば次のステップへ</li>
+<li>1日目　A と B を読んで穴埋め</li>
+<li>2日目　C 例題の数値穴埋め</li>
+<li>3日目　D 白紙演習と E 確認テスト。4/5 で合格</li>
+<li>4日目　×だけ復習を回し、F 4択で本番形式に慣れる</li>
+</ol>
+<p class="note"><b>学科に電卓は持ち込めません。</b>演習でも使わないでください。手計算のコツは Step 0 の A-7 にあります。</p>
+</div>
+
+<h2 id="backup">進捗の保存と引き継ぎ</h2>
+<div class="card">
+<p>○×とテストの点数は、この端末のブラウザに保存されます。ブラウザのデータを消したり機種を変えたりすると失われます。月に一度、下のテキストをコピーしてメモアプリなどに貼っておいてください。</p>
+<div class="tools">
+  <button id="bkout" class="pri">書き出す</button>
+  <button id="bkcopy">コピー</button>
+  <button id="bkin">読み込む</button>
+</div>
+<textarea id="bktxt" placeholder="「書き出す」を押すとここに進捗が出ます。別の端末では、この文字列を貼り付けてから「読み込む」を押します。"></textarea>
+<p id="bkmsg" class="note" hidden></p>
+</div>
+
+<h2>スマホでの使い方</h2>
+<div class="card">
+<ol>
+<li>Safari でこのページを開き、共有ボタンから<b>ホーム画面に追加</b>。アプリのように開けて、保存データも消えにくくなります</li>
+<li>一度開けば<b>オフラインでも動きます</b>。地下や電波の悪い場所でも使えます</li>
+<li>右上の 🌓 で画面の明暗を切り替えられます</li>
 </ol>
 </div>
 
 </main>
-<footer>教材はオリジナルの類題で構成しています。進捗はブラウザ保存のため、同じURL・同じブラウザで開いてください。</footer>
+<footer>教材はオリジナルの類題で構成しています。過去問は公式サイトのPDFへリンクしています。</footer>
 
+<script src="assets/app.js"></script>
 <script>
 (function(){
-const steps=[
- {id:'S00',n:'0',t:'準備 ― 力学の土台',s:'単位・つり合い・モーメント・支点・荷重・判別式',h:'structure/mechanics/S00.html',ok:true},
- {id:'S01',n:'1',t:'静定梁の応力',s:'反力 → N図・Q図・M図'},
- {id:'S02',n:'2',t:'静定ラーメン・3ヒンジ',s:'ラーメンのM図、3ヒンジ構造'},
- {id:'S03',n:'3',t:'トラス',s:'節点法・切断法・ゼロ部材'},
- {id:'S04',n:'4',t:'断面の性質と応力度',s:'断面二次モーメント・応力度・コア'},
- {id:'S05',n:'5',t:'変形',s:'たわみ・たわみ角の公式'},
- {id:'S06',n:'6',t:'不静定(1) 剛性と分担',s:'剛比・分配率・水平剛性'},
- {id:'S07',n:'7',t:'不静定(2) 解法',s:'重ね合わせ・たわみ角法・分配法'},
- {id:'S08',n:'8',t:'全塑性モーメント・崩壊荷重',s:'Mp・崩壊メカニズム・仮想仕事'},
- {id:'S09',n:'9',t:'座屈',s:'オイラー座屈・座屈長さ'},
- {id:'S10',n:'10',t:'振動',s:'1質点系の固有周期'},
- {id:'S11',n:'11',t:'総合演習',s:'年度セットで時間を測る'}
-];
-const ul=document.getElementById('mech');
-steps.forEach(st=>{
-  let d={}; try{d=JSON.parse(localStorage.getItem('ikkyu_'+st.id)||'{}')||{};}catch(e){}
-  const li=document.createElement('li');
-  if(!st.ok) li.className='off';
-  let status='準備中';
-  if(st.ok){
-    const done=d.done||0,total=d.total||0,pct=total?Math.round(done/total*100):0;
-    status=(total?('穴埋め ○ '+done+'/'+total):'未着手')+(d.score!=null?'<br>テスト <span class="'+(d.score>=4?'ok':'')+'">'+d.score+'/5</span>':'')+
+var K=window.IKKYU;
+K.applyTheme();
+K.header({});
+K.initSW('');
+
+/* 上部の数値 */
+var d=K.daysLeft();
+document.getElementById('dleft').textContent = d>0? d : '—';
+document.getElementById('strk').textContent = K.streak();
+
+/* ステップ一覧 */
+var ul=document.getElementById('mech'), gdone=0, gtot=0, firstUnfinished=null;
+K.STEPS.forEach(function(st){
+  var dd=K.rd('ikkyu_'+st.id);
+  var li=document.createElement('li');
+  if(!st.ready) li.className='off';
+  var status='準備中';
+  if(st.ready){
+    var done=dd.done||0, total=dd.total||0, pct= total? Math.round(done/total*100):0;
+    gdone+=done; gtot+=total;
+    if(!firstUnfinished && (dd.score==null || dd.score<4)) firstUnfinished=st;
+    status=(total? ('穴埋め ○ '+done+'/'+total) : '未着手')+
+      (dd.score!=null? ('<br>テスト <span class="'+(dd.score>=4?'ok':'')+'">'+dd.score+'/'+(dd.qn||5)+'</span>') : '')+
       '<div class="bar"><i style="width:'+pct+'%"></i></div>';
   }
-  const inner='<span class="num">Step '+st.n+'</span><span class="ttl"><b>'+st.t+'</b><small>'+st.s+'</small></span><span class="st">'+status+'</span>';
-  li.innerHTML=st.ok?('<a href="'+st.h+'">'+inner+'</a>'):inner;
+  var inner='<span class="num">Step '+st.n+'</span><span class="ttl"><b>'+st.t+'</b><small>'+st.s+'</small></span><span class="st">'+status+'</span>';
+  li.innerHTML = st.ready? ('<a href="'+st.h+'">'+inner+'</a>') : inner;
   ul.appendChild(li);
+});
+document.getElementById('allp').textContent = gtot? (Math.round(gdone/gtot*100)+'%') : '0%';
+
+/* 続きから */
+var last=K.app().last, cont=document.getElementById('cont'), sub=document.getElementById('contsub');
+if(last && last.step){
+  var s=K.STEPS.filter(function(x){return x.id===last.step;})[0];
+  if(s){ cont.href=s.h; sub.textContent='Step '+s.n+'　'+s.t; }
+} else if(firstUnfinished){
+  cont.href=firstUnfinished.h;
+  sub.textContent='Step '+firstUnfinished.n+'　'+firstUnfinished.t;
+}
+/* いま開いているステップに印 */
+if(last && last.step){
+  var idx=K.STEPS.map(function(x){return x.id;}).indexOf(last.step);
+  if(idx>=0 && ul.children[idx]) ul.children[idx].classList.add('cur');
+}
+
+/* 全ステップ横断の ×だけ復習 */
+var xs=[];
+K.STEPS.forEach(function(st){
+  var dd=K.rd('ikkyu_'+st.id), c=dd.xctx||{};
+  Object.keys(c).forEach(function(k){ xs.push({step:st, id:k, a:c[k].a, c:c[k].c, h:st.h}); });
+});
+if(xs.length){
+  var box=document.getElementById('gr');
+  box.innerHTML='<div class="tools"><button class="pri" id="gorev">×だけ復習（全ステップ '+xs.length+' 件）</button></div>';
+  document.getElementById('gorev').addEventListener('click',function(){ runGlobal(xs); });
+}
+function runGlobal(list){
+  var i=0;
+  var ovl=document.createElement('div'); ovl.className='ovl';
+  ovl.innerHTML='<div class="box"><div class="hd"><b></b><button class="cl">閉じる</button></div><div class="ctx"></div><div class="act"></div></div>';
+  document.body.appendChild(ovl);
+  var hd=ovl.querySelector('.hd b'), ctx=ovl.querySelector('.ctx'), act=ovl.querySelector('.act');
+  ovl.querySelector('.cl').addEventListener('click',close);
+  ovl.addEventListener('click',function(e){ if(e.target===ovl) close(); });
+  function close(){ ovl.remove(); location.reload(); }
+  function draw(){
+    if(i>=list.length){
+      hd.textContent='復習おわり';
+      ctx.innerHTML='<p>'+list.length+' 件を見直しました。</p>';
+      act.innerHTML='<button class="pri">閉じる</button>';
+      act.querySelector('button').addEventListener('click',close);
+      return;
+    }
+    var it=list[i];
+    hd.textContent='×だけ復習　'+(i+1)+' / '+list.length+'　Step '+it.step.n;
+    ctx.textContent=it.c;
+    act.innerHTML='<button class="pri">答えを見る</button>';
+    act.querySelector('button').addEventListener('click',function(){
+      ctx.innerHTML=it.c.replace('［ ？ ］','<span class="rev">'+it.a+'</span>');
+      act.innerHTML='<button class="ok">できた ○</button><button class="ng">まだ ×</button>';
+      act.querySelector('.ok').addEventListener('click',function(){
+        var s=K.rd('ikkyu_'+it.step.id);
+        s[it.id]='o'; if(s.xctx) delete s.xctx[it.id];
+        s.done=(s.done||0)+1; K.wr('ikkyu_'+it.step.id,s);
+        i++; draw();
+      });
+      act.querySelector('.ng').addEventListener('click',function(){ i++; draw(); });
+    });
+  }
+  draw();
+}
+
+/* バックアップ */
+var ta=document.getElementById('bktxt'), msg=document.getElementById('bkmsg');
+function say(t){ msg.textContent=t; msg.hidden=false; }
+document.getElementById('bkout').addEventListener('click',function(){
+  ta.value=K.exportAll(); say('書き出しました。このテキストを全部コピーして保管してください。');
+});
+document.getElementById('bkcopy').addEventListener('click',function(){
+  if(!ta.value){ ta.value=K.exportAll(); }
+  ta.select(); ta.setSelectionRange(0,999999);
+  var ok=false;
+  try{ ok=document.execCommand('copy'); }catch(e){}
+  if(!ok && navigator.clipboard){ navigator.clipboard.writeText(ta.value).then(function(){ say('コピーしました。'); }); return; }
+  say(ok? 'コピーしました。' : 'コピーできませんでした。手で選択してコピーしてください。');
+});
+document.getElementById('bkin').addEventListener('click',function(){
+  if(!ta.value.trim()){ say('先に、保管しておいたテキストを貼り付けてください。'); return; }
+  if(!confirm('いまの進捗を、貼り付けた内容で上書きします。よろしいですか？')) return;
+  var r=K.importAll(ta.value);
+  say(r.msg);
+  if(r.ok) setTimeout(function(){ location.reload(); },800);
 });
 })();
 </script>

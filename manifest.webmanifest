@@ -1,0 +1,16 @@
+{
+  "name": "一級建築士 学科 学習ノート",
+  "short_name": "学科ノート",
+  "description": "一級建築士 学科試験の自習教材。穴埋めと演習で構造力学から進めます。",
+  "lang": "ja",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f6f7f9",
+  "theme_color": "#1d5fa8",
+  "icons": [
+    { "src": "assets/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}

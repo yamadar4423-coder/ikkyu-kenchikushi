@@ -4,88 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Step 0 準備 ｜ 一級建築士 構造力学</title>
-<style>
-:root{
-  --bg:#f6f7f9; --card:#ffffff; --ink:#1f2933; --sub:#5b6875; --line:#d9dee5;
-  --acc:#1d5fa8; --acc-bg:#e8f0fb; --ok:#1d8f4e; --ok-bg:#e4f5ea; --ng:#c43d3d; --ng-bg:#fbe7e7;
-  --warn-bg:#fff6dc; --warn:#8a6100;
-}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI","Yu Gothic UI","Meiryo",system-ui,sans-serif;font-size:16px;line-height:1.75}
-header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}
-.hin{max-width:960px;margin:0 auto;padding:10px 16px;display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px}
-.hin h1{font-size:18px;margin:0}
-.hin .sub{color:var(--sub);font-size:13px}
-nav a{display:inline-block;padding:3px 10px;border:1px solid var(--line);border-radius:14px;color:var(--ink);text-decoration:none;font-size:13px;margin-right:4px;background:#fff}
-nav a:hover{background:var(--acc-bg)}
-.prog{margin-left:auto;font-size:13px;color:var(--sub);white-space:nowrap}
-main{max-width:960px;margin:0 auto;padding:16px}
-section.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px 22px;margin:0 0 18px}
-section.card>h2{margin:0 0 6px;font-size:20px;display:flex;flex-wrap:wrap;align-items:center;gap:10px}
-section.card>h2 .cnt{font-size:13px;color:var(--sub);font-weight:normal}
-.tools{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 10px}
-button{font:inherit;font-size:13px;padding:4px 10px;border:1px solid var(--line);border-radius:6px;background:#fff;cursor:pointer;color:var(--ink)}
-button:hover{background:var(--acc-bg)}
-h3{font-size:17px;margin:22px 0 6px;padding-left:10px;border-left:4px solid var(--acc)}
-p{margin:6px 0}
-.note{background:var(--acc-bg);border-radius:8px;padding:10px 14px;margin:8px 0;font-size:15px}
-.warn{background:var(--warn-bg);border-radius:8px;padding:10px 14px;margin:8px 0;font-size:15px;color:var(--warn)}
-ul,ol{padding-left:24px;margin:6px 0}
-li{margin:3px 0}
-table{border-collapse:collapse;width:100%;margin:8px 0;font-size:15px}
-th,td{border:1px solid var(--line);padding:6px 10px;vertical-align:top;text-align:left}
-th{background:#f0f3f7;font-weight:600}
-/* 穴埋め */
-.bl{display:inline-block;cursor:pointer;user-select:none;vertical-align:baseline;margin:0 2px}
-.bl .q{display:inline-block;min-width:3.2em;text-align:center;border-bottom:2px solid var(--acc);color:var(--acc);padding:0 4px;font-weight:600}
-.bl .a{display:none;color:var(--acc);font-weight:700;background:var(--acc-bg);border-radius:4px;padding:0 6px}
-.bl .mk{display:none;margin-left:2px;font-size:12px;vertical-align:middle}
-.bl .mk b{display:inline-block;width:20px;height:20px;line-height:18px;text-align:center;border:1px solid var(--line);border-radius:50%;margin-left:2px;font-weight:normal;background:#fff}
-.bl.open .q{display:none}
-.bl.open .a,.bl.open .mk{display:inline-block}
-.bl.o .a{background:var(--ok-bg);color:var(--ok)}
-.bl.x .a{background:var(--ng-bg);color:var(--ng)}
-.bl.o .mk b.o{background:var(--ok);color:#fff;border-color:var(--ok)}
-.bl.x .mk b.x{background:var(--ng);color:#fff;border-color:var(--ng)}
-/* 図 */
-svg.fig{display:block;max-width:100%;height:auto;margin:8px auto}
-.fig .bm{stroke:#1f2933;stroke-width:4;stroke-linecap:round}
-.fig .sp{fill:#fff;stroke:#1f2933;stroke-width:1.6}
-.fig .gr{stroke:#1f2933;stroke-width:1.2}
-.fig .ld{stroke:#c43d3d;stroke-width:2;fill:none}
-.fig .lt{fill:#c43d3d;font-size:13px;font-weight:600}
-.fig .dm{stroke:#5b6875;stroke-width:1}
-.fig .dt{fill:#5b6875;font-size:12px}
-.fig .nm{fill:#1f2933;font-size:13px;font-weight:600}
-.fig .rc{stroke:#1d5fa8;stroke-width:2;fill:none}
-.fig .rt{fill:#1d5fa8;font-size:12px;font-weight:600}
-.figrow{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
-.figrow figure{margin:0;text-align:center;font-size:13px;color:var(--sub)}
-/* 例題 */
-.ex{border:1px solid var(--line);border-radius:8px;padding:12px 16px;margin:10px 0;background:#fcfcfd}
-.ex .ttl{font-weight:600;color:var(--acc)}
-.calc{font-family:Consolas,"Courier New",monospace;font-size:15px;background:#f3f5f8;border-radius:6px;padding:8px 12px;margin:6px 0;line-height:2}
-details{margin:8px 0}
-summary{cursor:pointer;color:var(--acc);font-weight:600}
-details>div{border-left:3px solid var(--line);padding:6px 14px;margin-top:6px}
-/* テスト */
-.qz{border:1px solid var(--line);border-radius:8px;padding:12px 16px;margin:10px 0}
-.qz input{font:inherit;width:6em;padding:3px 6px;border:1px solid var(--line);border-radius:6px;text-align:right}
-.qz .res{margin-left:8px;font-weight:700}
-.qz .res.o{color:var(--ok)} .qz .res.x{color:var(--ng)}
-.score{font-size:18px;font-weight:700;margin:10px 0}
-sup{font-size:11px}
-footer{max-width:960px;margin:0 auto;padding:10px 16px 40px;color:var(--sub);font-size:14px}
-@media (max-width:600px){.hin{padding:8px 12px;gap:4px 10px}.hin .sub{display:none}.prog{margin-left:0;width:100%}nav a{padding:2px 8px;font-size:12px;margin-right:2px}main{padding:10px}section.card{padding:14px 12px}}
-@media print{header{position:static}.tools,.mk{display:none!important}body{background:#fff}section.card{break-inside:avoid;border:none;padding:0}}
-</style>
+<link rel="manifest" href="../../manifest.webmanifest">
+<meta name="theme-color" content="#1d5fa8">
+<link rel="apple-touch-icon" href="../../assets/icon-180.png">
+<link rel="stylesheet" href="../../assets/app.css">
 </head>
 <body>
 <header><div class="hin">
   <h1>Step 0 準備 ― 力学の土台</h1>
-  <span class="sub">一級建築士 学科IV 構造 ／ 目安 3〜4日(1日1時間)</span>
-  <nav>
-    <a href="../../index.html">目次</a><a href="#intro">進め方</a><a href="#A">A 前提知識</a><a href="#B">B 解法手順</a><a href="#C">C 例題</a><a href="#D">D 白紙演習</a><a href="#E">E 確認テスト</a>
+  <span class="sub">学科IV 構造 ／ 目安 3〜4日</span>
+  <nav class="tabs">
+    <a href="../../index.html">目次</a><a href="#intro">進め方</a><a href="#A">A 知識</a><a href="#B">B 手順</a><a href="#C">C 例題</a><a href="#D">D 演習</a><a href="#E">E テスト</a><a href="#F">F 4択</a>
   </nav>
   <span class="prog" id="gprog"></span>
 </div></header>
@@ -95,188 +24,225 @@ footer{max-width:960px;margin:0 auto;padding:10px 16px 40px;color:var(--sub);fon
 <!-- ===================== 進め方 ===================== -->
 <section class="card" id="intro">
 <h2>このステップの進め方</h2>
-<p>Step 0 は、力学の問題を解くために「必ず使う道具」を揃える回です。ここで扱うのは、単位・つり合い・モーメント・支点・荷重・静定/不静定の6つ。以降の全ステップで毎回使います。</p>
+<p>Step 0 は、力学の問題を解くために必ず使う道具を揃える回です。単位、つり合い、モーメント、支点、荷重、静定と不静定の判別。この6つは以降の全ステップで毎回使います。</p>
 <div class="note">
 <b>穴埋めのルール</b><br>
-① 青い下線の「［ 番号 ］」をクリックする前に、<b>ノートに自分の答えを書く</b>。<br>
-② クリックして答えを確認し、合っていたら <b>○</b>、違っていたら <b>×</b> を押す(ブラウザに保存されます)。<br>
-③ 各セクションの「○×リセット」で消して、後日もう一度やり直す。<b>2回連続で○</b>になれば合格。
+① 青い下線の「［ 番号 ］」を押す前に、<b>自分の答えを先に決める</b>。<br>
+② 押して答えを確認し、合っていたら <b>○</b>、違っていたら <b>×</b> を押す。<br>
+③ 後日「×だけ復習」を押すと、間違えた項目だけをカード形式で回せます。<b>2回続けて○</b>になれば合格。
+</div>
+<div class="warn">
+<b>学科の試験に電卓は持ち込めません。</b>公式の当日注意事項で、電卓・計算尺・計算機能のあるものは携行できないと定められています。使えるのは設計製図の試験だけです。<br>
+このため本教材の問題は、すべて手計算で割り切れる数値にしてあります。演習でも電卓を使わないでください。手計算のコツは <a href="#A7">A-7</a> にまとめました。
 </div>
 <table>
-<tr><th style="width:8em">日</th><th>内容</th><th style="width:7em">目安</th></tr>
-<tr><td>1日目</td><td>A 前提知識(解説を読む → 穴埋め) ＋ B 解法手順</td><td>60分</td></tr>
-<tr><td>2日目</td><td>C 例題の数値穴埋め(6題)。図を自分でも描きながら</td><td>60分</td></tr>
-<tr><td>3日目</td><td>D 白紙演習(5問) ＋ E 確認テスト</td><td>60分</td></tr>
-<tr><td>4日目(任意)</td><td>A・C を「全て隠す」にして白紙で解き直し。E が 4/5 未満ならここで A〜C をやり直す</td><td>30〜60分</td></tr>
+<tr><th style="width:7em">日</th><th>内容</th><th style="width:5em">目安</th></tr>
+<tr><td>1日目</td><td>A 前提知識と B 解法手順</td><td>60分</td></tr>
+<tr><td>2日目</td><td>C 例題の数値穴埋め、6題</td><td>60分</td></tr>
+<tr><td>3日目</td><td>D 白紙演習と E 確認テスト</td><td>60分</td></tr>
+<tr><td>4日目</td><td>「×だけ復習」で間違いを回し、F 4択で本番形式に慣れる</td><td>30分</td></tr>
 </table>
-<div class="warn"><b>符号の約束(本教材共通)</b>: 上向きの力を +、右向きの力を +、<b>時計回りのモーメントを +</b> とします。試験問題では図で向きが示されるので、最終的には「大きさ」と「向き(上/下、時計/反時計)」で答えられれば十分です。</div>
+<p class="note"><b>隙間時間の使い方。</b>5分なら「×だけ復習」を1本。10分なら C の例題を1題。まとまった時間が取れる日に D と E をやります。ページを離れても○×は残るので、途中で切って構いません。</p>
+<div class="warn"><b>符号の約束。</b>上向きの力を +、右向きの力を +、<b>時計回りのモーメントを +</b> とします。試験では図で向きが示されるので、最後は「大きさ」と「向き」で答えられれば十分です。</div>
 </section>
 
 <!-- ===================== A ===================== -->
 <section class="card" id="A" data-sec="A">
 <h2>A 前提知識の穴埋め <span class="cnt"></span></h2>
-<div class="tools"><button data-act="show">全て表示</button><button data-act="hide">全て隠す</button><button data-act="reset">○×リセット</button></div>
+<div class="tools">
+  <button data-act="show">全て表示</button><button data-act="hide">全て隠す</button>
+  <button data-act="review" class="pri">×だけ復習</button><button data-act="reset">○×リセット</button>
+</div>
 
 <h3>A-1 単位</h3>
-<p>力学の計算は <b>kN と m</b> で統一します。応力度(Step 4)を求めるときだけ N と mm に直します。単位の混在は失点の定番なので、最初に固めます。</p>
+<p>力学の計算は <b>kN と m</b> で統一します。応力度を求めるときだけ N と mm に直します。単位の混在は失点の定番なので、最初に固めます。</p>
 <ul>
 <li>1 kN = <span class="bl" data-a="1000">＿</span> N</li>
 <li>1 m = <span class="bl" data-a="1000">＿</span> mm</li>
-<li>1 kN·m = 1000 N × 1000 mm = <span class="bl" data-a="10⁶ (1,000,000)">＿</span> N·mm</li>
-<li>1 N/mm<sup>2</sup> = <span class="bl" data-a="1">＿</span> MPa(応力度の単位。同じもの)</li>
-<li>モーメントの単位 kN·m は「力 × <span class="bl" data-a="長さ(距離)">＿</span>」を表す</li>
-<li>等分布荷重の単位は <span class="bl" data-a="kN/m">＿</span>(長さ 1 m あたりに載る力)</li>
+<li>1 kN·m = 1000 N × 1000 mm = <span class="bl" data-a="10⁶（1,000,000）">＿</span> N·mm</li>
+<li>1 N/mm<sup>2</sup> = <span class="bl" data-a="1">＿</span> MPa。応力度の単位で、同じものです</li>
+<li>モーメントの単位 kN·m は「力 × <span class="bl" data-a="長さ（距離）">＿</span>」を表す</li>
+<li>等分布荷重の単位は <span class="bl" data-a="kN/m">＿</span>。長さ 1 m あたりに載る力です</li>
 </ul>
 
 <h3>A-2 力のつり合いの3条件</h3>
-<p>構造物が動かず静止しているとき、「上下に動かない」「左右に動かない」「回転しない」の3つが同時に成り立っています。これを式にしたものが、力学のほぼすべての問題の出発点です。</p>
+<p>構造物が静止しているとき、上下に動かない、左右に動かない、回転しない、の3つが同時に成り立っています。これを式にしたものが、力学のほぼ全ての問題の出発点です。</p>
 <ul>
-<li>水平方向: ΣX = <span class="bl" data-a="0">＿</span>　　鉛直方向: ΣY = <span class="bl" data-a="0">＿</span>　　回転: ΣM = <span class="bl" data-a="0">＿</span></li>
-<li>この3つの式で求められる未知数は最大 <span class="bl" data-a="3">＿</span> 個</li>
+<li>水平方向 ΣX = <span class="bl" data-a="0">＿</span>　　鉛直方向 ΣY = <span class="bl" data-a="0">＿</span>　　回転 ΣM = <span class="bl" data-a="0">＿</span></li>
+<li>この3式で求められる未知数は最大 <span class="bl" data-a="3">＿</span> 個</li>
 <li>反力が3個以下で、つり合い式だけで解ける構造を <span class="bl" data-a="静定">＿</span> 構造という</li>
-<li>ΣM = 0 をとる点は <span class="bl" data-a="どこでもよい(任意)">＿</span>。未知の力が集まる点でとると、その力のモーメントが <span class="bl" data-a="0">＿</span> になって式が簡単になる</li>
+<li>ΣM = 0 をとる点は <span class="bl" data-a="どこでもよい（任意）">＿</span>。未知の力が集まる点でとると、その力のモーメントが <span class="bl" data-a="0">＿</span> になり式が簡単になる</li>
 </ul>
 
 <h3>A-3 力のモーメント</h3>
-<p>モーメントとは「ある点を回そうとする力の働き」です。大きさは、力 × その点から力の作用線までの<b>垂直距離</b>。ドアを押すとき、蝶番から遠いほど軽く開くのと同じ理屈です。</p>
+<p>モーメントは、ある点を回そうとする力の働きです。大きさは、力 × その点から力の作用線までの<b>垂直距離</b>。ドアは蝶番から遠いほど軽く開く、あの感覚と同じです。</p>
 <div id="figM"></div>
 <ul>
-<li>M = P × <span class="bl" data-a="l(点から作用線までの垂直距離。腕の長さ)">＿</span></li>
+<li>M = P × <span class="bl" data-a="l（点から作用線までの垂直距離。腕の長さ）">＿</span></li>
 <li>力の作用線がその点を通るとき、モーメントは <span class="bl" data-a="0">＿</span></li>
-<li>本教材では <span class="bl" data-a="時計回り">＿</span> を正(+)、反時計回りを負(−)とする</li>
-<li>例: 点 O から右に 3 m の位置に下向き 4 kN → O 回りのモーメントは 4 × 3 = <span class="bl" data-a="12">＿</span> kN·m、向きは <span class="bl" data-a="時計回り">＿</span></li>
-<li>偶力(大きさが等しく向きが反対の平行な2力)のモーメント = P × <span class="bl" data-a="d(2力の間隔)">＿</span>。どの点回りに計算しても値は <span class="bl" data-a="同じ">＿</span></li>
+<li>本教材では <span class="bl" data-a="時計回り">＿</span> を正、反時計回りを負とする</li>
+<li>点 O から右に 3 m の位置に下向き 4 kN。O 回りのモーメントは 4 × 3 = <span class="bl" data-a="12">＿</span> kN·m、向きは <span class="bl" data-a="時計回り">＿</span></li>
+<li>偶力は、大きさが等しく向きが反対の平行な2力。そのモーメント = P × <span class="bl" data-a="d（2力の間隔）">＿</span> で、どの点回りに計算しても値は <span class="bl" data-a="同じ">＿</span></li>
 </ul>
 
 <h3>A-4 支点の種類と反力</h3>
-<p>構造物を支えている点を「支点」といい、支点が構造物に返す力を「反力」といいます。<b>支点が「止めている動き」の数 = 反力の数</b> です。この対応は絶対に暗記します。</p>
+<p>構造物を支えている点を支点、支点が構造物に返す力を反力といいます。<b>支点が止めている動きの数が、そのまま反力の数</b>です。この対応は暗記します。</p>
 <div class="figrow" id="figSup"></div>
-<table>
-<tr><th style="width:11em">支点</th><th>止めている動き</th><th style="width:10em">反力の数</th><th>反力の記号</th></tr>
-<tr><td>移動支点(ローラー)</td><td>面に垂直な方向の移動だけ。水平には <span class="bl" data-a="移動できる">＿</span>、<span class="bl" data-a="回転">＿</span> もできる</td><td><span class="bl" data-a="1">＿</span> 個</td><td>V</td></tr>
-<tr><td>回転支点(ピン)</td><td>水平・鉛直の移動。<span class="bl" data-a="回転">＿</span> だけできる</td><td><span class="bl" data-a="2">＿</span> 個</td><td>H, V</td></tr>
-<tr><td>固定支点(固定端)</td><td>移動も回転も <span class="bl" data-a="できない">＿</span></td><td><span class="bl" data-a="3">＿</span> 個</td><td>H, V, M</td></tr>
-<tr><td>中間ヒンジ</td><td>部材どうしをピンでつなぐ点。回転が自由なので、ヒンジの位置で曲げモーメントは必ず <span class="bl" data-a="0">＿</span></td><td>―</td><td>―</td></tr>
-</table>
-<p class="note">覚え方: ローラー「1」、ピン「2」、固定「3」。支点の反力の合計が 3 なら「梁1本の静定」。</p>
+<div class="scroll"><table>
+<tr><th style="width:10em">支点</th><th>止めている動き</th><th style="width:8em">反力の数</th><th>記号</th></tr>
+<tr><td>移動支点（ローラー）</td><td>面に垂直な方向の移動だけ。水平には <span class="bl" data-a="移動できる">＿</span>、<span class="bl" data-a="回転">＿</span> もできる</td><td><span class="bl" data-a="1">＿</span> 個</td><td>V</td></tr>
+<tr><td>回転支点（ピン）</td><td>水平と鉛直の移動。<span class="bl" data-a="回転">＿</span> だけできる</td><td><span class="bl" data-a="2">＿</span> 個</td><td>H, V</td></tr>
+<tr><td>固定支点（固定端）</td><td>移動も回転も <span class="bl" data-a="できない">＿</span></td><td><span class="bl" data-a="3">＿</span> 個</td><td>H, V, M</td></tr>
+<tr><td>中間ヒンジ</td><td>部材どうしをピンでつなぐ点。回転が自由なので、その位置で曲げモーメントは必ず <span class="bl" data-a="0">＿</span></td><td>―</td><td>―</td></tr>
+</table></div>
+<p class="note">覚え方はローラー1、ピン2、固定3。反力の合計が3なら梁1本の静定です。</p>
 
 <h3>A-5 荷重の種類と合力</h3>
-<p>荷重(外力)には4種類あります。反力を求めるとき、分布した荷重は「1つの集中荷重(合力)」に置き換えて扱います。合力の<b>大きさ</b>と<b>作用点</b>の2つを覚えます。</p>
+<p>荷重は4種類あります。反力を求めるとき、分布した荷重は1つの集中荷重すなわち合力に置き換えて扱います。覚えるのは合力の<b>大きさ</b>と<b>作用点</b>の2つです。</p>
 <div class="figrow" id="figLoad"></div>
-<table>
-<tr><th style="width:11em">荷重</th><th>記号・単位</th><th>合力の大きさ</th><th>合力の作用点</th></tr>
+<div class="scroll"><table>
+<tr><th style="width:10em">荷重</th><th>単位</th><th>合力の大きさ</th><th>合力の作用点</th></tr>
 <tr><td>集中荷重</td><td>P ［<span class="bl" data-a="kN">＿</span>］</td><td>P</td><td>作用点そのもの</td></tr>
-<tr><td>等分布荷重(長さ L)</td><td>w ［kN/m］</td><td><span class="bl" data-a="wL">＿</span></td><td>分布範囲の <span class="bl" data-a="中央(L/2)">＿</span></td></tr>
-<tr><td>等変分布荷重(三角形、最大 w、長さ L)</td><td>w ［kN/m］</td><td><span class="bl" data-a="wL/2 (三角形の面積)">＿</span></td><td>最大側の端から <span class="bl" data-a="L/3">＿</span>(ゼロ側の端から 2L/3)</td></tr>
-<tr><td>モーメント荷重</td><td>M ［<span class="bl" data-a="kN·m">＿</span>］</td><td>力ではなく回転。鉛直反力の合計は <span class="bl" data-a="0">＿</span> になる(反力どうしが偶力になる)</td><td>作用位置は反力の大きさに <span class="bl" data-a="影響しない">＿</span></td></tr>
-</table>
+<tr><td>等分布荷重、長さ L</td><td>w ［kN/m］</td><td><span class="bl" data-a="wL">＿</span></td><td>分布範囲の <span class="bl" data-a="中央（L/2）">＿</span></td></tr>
+<tr><td>等変分布荷重、三角形、最大 w</td><td>w ［kN/m］</td><td><span class="bl" data-a="wL/2（三角形の面積）">＿</span></td><td>最大側の端から <span class="bl" data-a="L/3">＿</span>。ゼロ側の端からは 2L/3</td></tr>
+<tr><td>モーメント荷重</td><td>M ［<span class="bl" data-a="kN·m">＿</span>］</td><td>力ではなく回転。鉛直反力の合計は <span class="bl" data-a="0">＿</span> になる</td><td>作用位置は反力の大きさに <span class="bl" data-a="影響しない">＿</span></td></tr>
+</table></div>
 
 <h3>A-6 静定・不静定の判別</h3>
-<p>「つり合いの3式だけで解けるか」を判定する式です。一級では判別式そのものを問う問題は少ないですが、Step 6〜7 の不静定構造で「何次不静定か」を数えるときに必要になります。</p>
+<p>つり合いの3式だけで解けるかを判定する式です。判別式そのものを問う問題は多くありませんが、Step 6 以降で何次不静定かを数えるときに必要になります。</p>
 <div class="calc">m = n + s + r − 2k</div>
 <ul>
 <li>n = <span class="bl" data-a="反力">＿</span> の総数</li>
-<li>s = <span class="bl" data-a="部材">＿</span> の数(節点と節点の間を1本と数える)</li>
+<li>s = <span class="bl" data-a="部材">＿</span> の数。節点と節点の間を1本と数える</li>
 <li>r = 剛節接合部材数。剛節点ごとに「集まる部材数 − <span class="bl" data-a="1">＿</span>」を数えて合計する</li>
-<li>k = <span class="bl" data-a="節点">＿</span> の数(支点・自由端・ヒンジ・部材の交点をすべて数える)</li>
-<li>m &lt; 0 → <span class="bl" data-a="不安定">＿</span>、m = 0 → <span class="bl" data-a="静定">＿</span>、m &gt; 0 → <span class="bl" data-a="m 次不静定">＿</span></li>
-<li>梁1本(部材が1本)なら簡単に「反力の総数 − <span class="bl" data-a="3">＿</span>」で判定してよい</li>
+<li>k = <span class="bl" data-a="節点">＿</span> の数。支点、自由端、ヒンジ、部材の交点をすべて数える</li>
+<li>m &lt; 0 は <span class="bl" data-a="不安定">＿</span>、m = 0 は <span class="bl" data-a="静定">＿</span>、m &gt; 0 は <span class="bl" data-a="m 次不静定">＿</span></li>
+<li>梁1本なら簡単に「反力の総数 − <span class="bl" data-a="3">＿</span>」で判定してよい</li>
 </ul>
-<table>
+<div class="scroll"><table>
 <tr><th>構造</th><th>n</th><th>s</th><th>r</th><th>k</th><th>m</th><th>判定</th></tr>
-<tr><td>単純梁(ピン＋ローラー)</td><td>3</td><td>1</td><td>0</td><td>2</td><td>3+1+0−4 = <span class="bl" data-a="0">＿</span></td><td>静定</td></tr>
-<tr><td>片持ち梁(固定端＋自由端)</td><td><span class="bl" data-a="3">＿</span></td><td>1</td><td>0</td><td>2</td><td>0</td><td>静定</td></tr>
+<tr><td>単純梁</td><td>3</td><td>1</td><td>0</td><td>2</td><td>3+1+0−4 = <span class="bl" data-a="0">＿</span></td><td>静定</td></tr>
+<tr><td>片持ち梁</td><td><span class="bl" data-a="3">＿</span></td><td>1</td><td>0</td><td>2</td><td>0</td><td>静定</td></tr>
 <tr><td>両端固定梁</td><td><span class="bl" data-a="6">＿</span></td><td>1</td><td>0</td><td>2</td><td><span class="bl" data-a="2">＿</span></td><td>2次不静定</td></tr>
-<tr><td>一端固定・他端ローラーの梁</td><td>4</td><td>1</td><td>0</td><td>2</td><td><span class="bl" data-a="1">＿</span></td><td>1次不静定</td></tr>
-</table>
+<tr><td>一端固定・他端ローラー</td><td>4</td><td>1</td><td>0</td><td>2</td><td><span class="bl" data-a="1">＿</span></td><td>1次不静定</td></tr>
+</table></div>
+
+<h3 id="A7">A-7 電卓なしで計算するコツ</h3>
+<p>学科は手計算です。力学で詰まる原因の多くは、公式ではなく計算の手間です。次の4つを身につけると、桁も時間も安定します。</p>
+<ul>
+<li><b>割り算を最後まで我慢する。</b>途中で小数にせず <span class="bl" data-a="分数（約分）">＿</span> のまま持ち回り、最後に一度だけ割る</li>
+<li><b>比で解く。</b>単純梁の集中荷重なら、反力は荷重から遠い方の距離に <span class="bl" data-a="比例">＿</span> する。6 m の梁で A から 2 m の位置なら V<sub>A</sub> : V<sub>B</sub> = 4 : <span class="bl" data-a="2">＿</span></li>
+<li><b>先に約分する。</b>72 / 6 は、72 を 6 で割る前に 72 = 6 × <span class="bl" data-a="12">＿</span> と見抜く</li>
+<li><b>桁は最後に合わせる。</b>まず 3 × 8 = 24 のように数字だけ計算し、単位と桁は <span class="bl" data-a="最後">＿</span> に付ける</li>
+<li>選択肢が数値のときは、<b>概算で桁を見て</b>明らかに違うものを先に <span class="bl" data-a="消す（除外する）">＿</span>。残り2つで精算すれば速い</li>
+</ul>
+<p class="note">π は 3.14 ではなく <b>π のまま</b>置いておくと、座屈の問題で約分できて速くなります。√2 ≒ 1.41、√3 ≒ 1.73 は覚えておきます。</p>
 </section>
 
 <!-- ===================== B ===================== -->
 <section class="card" id="B" data-sec="B">
 <h2>B 解法手順の穴埋め <span class="cnt"></span></h2>
-<div class="tools"><button data-act="show">全て表示</button><button data-act="hide">全て隠す</button><button data-act="reset">○×リセット</button></div>
-<p>力学は「手順を固定する」と安定します。以下の手順を、言葉で言えるようにします。</p>
+<div class="tools">
+  <button data-act="show">全て表示</button><button data-act="hide">全て隠す</button>
+  <button data-act="review" class="pri">×だけ復習</button><button data-act="reset">○×リセット</button>
+</div>
+<p>力学は手順を固定すると安定します。次の手順を、言葉で言えるようにします。</p>
 
-<h3>B-1 梁の反力を求める手順(単純梁・張出し梁)</h3>
+<h3>B-1 梁の反力を求める手順</h3>
 <ol>
-<li>支点の種類を見て、反力を <span class="bl" data-a="仮定(向きを決めて)">＿</span> して図に描き込む。向きは仮でよく、計算結果が負なら <span class="bl" data-a="逆向き">＿</span> だったと分かる</li>
-<li>分布荷重は <span class="bl" data-a="合力(1つの集中荷重)">＿</span> に置き換える。作用点は等分布なら中央、三角形なら最大側から L/3</li>
-<li>未知の反力が2つ以上集まる支点(ふつうはピン支点)回りで ΣM = <span class="bl" data-a="0">＿</span> を立て、もう一方の支点の鉛直反力を求める</li>
+<li>支点の種類を見て、反力を <span class="bl" data-a="仮定して（向きを決めて）">＿</span> 図に描き込む。向きは仮でよく、結果が負なら <span class="bl" data-a="逆向き">＿</span> だったと分かる</li>
+<li>分布荷重は <span class="bl" data-a="合力（1つの集中荷重）">＿</span> に置き換える。作用点は等分布なら中央、三角形なら最大側から L/3</li>
+<li>未知の反力が2つ以上集まる支点、ふつうはピン支点の回りで ΣM = <span class="bl" data-a="0">＿</span> を立て、もう一方の鉛直反力を求める</li>
 <li>ΣY = 0 で、残りの <span class="bl" data-a="鉛直">＿</span> 反力を求める</li>
 <li>ΣX = 0 で水平反力を求める。水平荷重がなければ H = <span class="bl" data-a="0">＿</span></li>
-<li>検算: <span class="bl" data-a="別の点(もう一方の支点)">＿</span> 回りで ΣM = 0 が成り立つか確かめる</li>
+<li>検算は <span class="bl" data-a="別の点（もう一方の支点）">＿</span> 回りで ΣM = 0 が成り立つか確かめる</li>
 </ol>
 
 <h3>B-2 片持ち梁の反力を求める手順</h3>
 <ol>
-<li>固定端に H、V、<span class="bl" data-a="M(固定端モーメント)">＿</span> の3つの反力を仮定する</li>
-<li>ΣY = 0 → V = 鉛直荷重の <span class="bl" data-a="合計">＿</span></li>
-<li>固定端回りの ΣM = 0 → M = Σ(各荷重 × 固定端からその荷重までの <span class="bl" data-a="距離">＿</span>)。分布荷重は合力に置き換えてから</li>
-<li>片持ち梁は支点が1つなので、ΣM をとる点は <span class="bl" data-a="固定端">＿</span> 一択</li>
+<li>固定端に H、V、<span class="bl" data-a="M（固定端モーメント）">＿</span> の3つを仮定する</li>
+<li>ΣY = 0 から、V = 鉛直荷重の <span class="bl" data-a="合計">＿</span></li>
+<li>固定端回りの ΣM = 0 から、M = Σ（各荷重 × 固定端からその荷重までの <span class="bl" data-a="距離">＿</span>）</li>
+<li>支点が1つなので、ΣM をとる点は <span class="bl" data-a="固定端">＿</span> 一択</li>
 </ol>
 
 <h3>B-3 静定・不静定を判別する手順</h3>
 <ol>
-<li>支点ごとに反力数(1・2・3)を書き込み、合計して n</li>
-<li>節点(支点・自由端・ヒンジ・交点)に印をつけて数え、k</li>
+<li>支点ごとに反力数を書き込み、合計して n</li>
+<li>節点に印をつけて数え、k</li>
 <li>節点と節点の間の部材を数えて s</li>
-<li>剛節点(部材が一体に固まっている角)ごとに「部材数 − 1」を数え、合計して r</li>
+<li>剛節点ごとに「部材数 − 1」を数え、合計して r</li>
 <li>m = n + s + r − 2k を計算し、<span class="bl" data-a="0">＿</span> なら静定、正なら不静定、負なら不安定</li>
 </ol>
 
-<h3>B-4 図を描く課題(ノートに描いてから答えを開く)</h3>
+<h3>B-4 図を描く課題</h3>
+<p>紙に描いてから答えを開いてください。以降のステップでは M図を描くので、ここで図を描く習慣をつけます。</p>
 <ol>
-<li>ローラー・ピン・固定端の支点記号を描き、それぞれに反力の矢印(H, V, M)を描き込む</li>
-<li>スパン 6 m の単純梁(左 A ピン、右 B ローラー)に、A から 2 m の点に下向き 12 kN が作用する図を描き、反力を仮定して書き込む</li>
+<li>ローラー、ピン、固定端の支点記号を描き、それぞれに反力の矢印を描き込む</li>
+<li>スパン 6 m の単純梁、左 A はピン、右 B はローラー。A から 2 m の点に下向き 12 kN。この図を描き、反力を仮定して書き込む</li>
 </ol>
 <details><summary>答えの図を見る</summary><div>
 <div class="figrow" id="figB4a"></div>
 <div id="figB4b"></div>
-<p>ピンには H<sub>A</sub>(右向き)と V<sub>A</sub>(上向き)、ローラーには V<sub>B</sub>(上向き)を仮定。水平荷重がないので H<sub>A</sub> = 0 になる。</p>
+<p>ピンには H<sub>A</sub> と V<sub>A</sub>、ローラーには V<sub>B</sub> を仮定します。水平荷重がないので H<sub>A</sub> は 0 になります。</p>
 </div></details>
+
+<h4>自分の図を採点するチェックリスト</h4>
+<p>描いた図を、次の項目で自分で採点します。M図を描き始める Step 1 以降も、毎回これで確認してください。</p>
+<ul class="chk">
+<li><label><input type="checkbox" data-ck="b4-1"><span>支点記号が3種類とも描き分けられている</span></label></li>
+<li><label><input type="checkbox" data-ck="b4-2"><span>反力の数が支点の種類と合っている。ローラー1、ピン2、固定3</span></label></li>
+<li><label><input type="checkbox" data-ck="b4-3"><span>反力の矢印に向きと記号が書いてある</span></label></li>
+<li><label><input type="checkbox" data-ck="b4-4"><span>荷重の大きさと作用位置が数値で入っている</span></label></li>
+<li><label><input type="checkbox" data-ck="b4-5"><span>寸法線が入っていて、合計がスパンと一致する</span></label></li>
+<li><label><input type="checkbox" data-ck="b4-6"><span>分布荷重を合力に置き換えた図も別に描いた</span></label></li>
+</ul>
 </section>
 
 <!-- ===================== C ===================== -->
 <section class="card" id="C" data-sec="C">
 <h2>C 例題の数値穴埋め <span class="cnt"></span></h2>
-<div class="tools"><button data-act="show">全て表示</button><button data-act="hide">全て隠す</button><button data-act="reset">○×リセット</button></div>
-<p>途中式の空欄を、自分で計算して埋めます。図は必ず自分のノートにも描き写してください(Step 1 以降、図を描けないと M図が描けません)。</p>
+<div class="tools">
+  <button data-act="show">全て表示</button><button data-act="hide">全て隠す</button>
+  <button data-act="review" class="pri">×だけ復習</button><button data-act="reset">○×リセット</button>
+</div>
+<p>途中式の空欄を、電卓を使わずに計算して埋めます。図は自分の紙にも描き写してください。</p>
 
 <div class="ex"><div class="ttl">例題1 単純梁・集中荷重</div>
-<p>スパン 6 m の単純梁(A ピン、B ローラー)。A から 2 m の点 C に下向き P = 12 kN。反力を求めよ。</p>
+<p>スパン 6 m の単純梁。A はピン、B はローラー。A から 2 m の点 C に下向き P = 12 kN。反力を求めよ。</p>
 <div id="figC1"></div>
 <div class="calc">
-① A 回りのモーメントのつり合い(時計回り +)<br>
-　ΣM<sub>A</sub> = 12 × <span class="bl" data-a="2">＿</span> − V<sub>B</sub> × 6 = 0　→　V<sub>B</sub> = 24 / 6 = <span class="bl" data-a="4">＿</span> kN(上向き)<br>
+① A 回りのモーメントのつり合い、時計回りを +<br>
+　ΣM<sub>A</sub> = 12 × <span class="bl" data-a="2">＿</span> − V<sub>B</sub> × 6 = 0　→　V<sub>B</sub> = 24 / 6 = <span class="bl" data-a="4">＿</span> kN 上向き<br>
 ② 鉛直方向のつり合い<br>
-　ΣY = V<sub>A</sub> + V<sub>B</sub> − 12 = 0　→　V<sub>A</sub> = 12 − 4 = <span class="bl" data-a="8">＿</span> kN(上向き)<br>
-③ 水平方向: 水平荷重なし　→　H<sub>A</sub> = <span class="bl" data-a="0">＿</span><br>
-④ 検算 B 回り: V<sub>A</sub> × 6 − 12 × <span class="bl" data-a="4">＿</span> = 48 − 48 = 0 ✓
+　ΣY = V<sub>A</sub> + V<sub>B</sub> − 12 = 0　→　V<sub>A</sub> = 12 − 4 = <span class="bl" data-a="8">＿</span> kN 上向き<br>
+③ 水平荷重なし　→　H<sub>A</sub> = <span class="bl" data-a="0">＿</span><br>
+④ 検算 B 回り　V<sub>A</sub> × 6 − 12 × <span class="bl" data-a="4">＿</span> = 48 − 48 = 0 ✓
 </div>
-<p class="note">荷重に近い支点ほど大きな反力を受ける(A から 2 m、B から 4 m → V<sub>A</sub> : V<sub>B</sub> = 4 : 2)。「てこ」の感覚で検算できます。</p>
+<p class="note">荷重に近い支点ほど大きく受けます。A から 2 m、B から 4 m なので V<sub>A</sub> : V<sub>B</sub> = 4 : 2。この比で暗算しても同じ答えになります。</p>
 </div>
 
 <div class="ex"><div class="ttl">例題2 単純梁・等分布荷重</div>
 <p>スパン 8 m の単純梁に、全長にわたって w = 3 kN/m。反力を求めよ。</p>
 <div id="figC2"></div>
 <div class="calc">
-① 合力に置き換える　W = w × L = 3 × 8 = <span class="bl" data-a="24">＿</span> kN、作用点は A から <span class="bl" data-a="4">＿</span> m(中央)<br>
+① 合力に置き換える　W = w × L = 3 × 8 = <span class="bl" data-a="24">＿</span> kN、作用点は A から <span class="bl" data-a="4">＿</span> m<br>
 ② ΣM<sub>A</sub> = 24 × 4 − V<sub>B</sub> × 8 = 0　→　V<sub>B</sub> = <span class="bl" data-a="12">＿</span> kN<br>
 ③ ΣY = 0　→　V<sub>A</sub> = 24 − 12 = <span class="bl" data-a="12">＿</span> kN<br>
-　(左右対称なので V<sub>A</sub> = V<sub>B</sub> = W/2 と即答してよい)
+　左右対称なので V<sub>A</sub> = V<sub>B</sub> = W/2 と即答してよい
 </div>
 </div>
 
-<div class="ex"><div class="ttl">例題3 片持ち梁・集中荷重＋等分布荷重</div>
-<p>長さ 4 m の片持ち梁(A 固定端、B 自由端)。B に下向き P = 5 kN、全長に w = 2 kN/m。固定端の反力を求めよ。</p>
+<div class="ex"><div class="ttl">例題3 片持ち梁・集中荷重と等分布荷重</div>
+<p>長さ 4 m の片持ち梁。A が固定端、B が自由端。B に下向き P = 5 kN、全長に w = 2 kN/m。固定端の反力を求めよ。</p>
 <div id="figC3"></div>
 <div class="calc">
 ① 等分布荷重の合力　W = 2 × 4 = <span class="bl" data-a="8">＿</span> kN、作用点は A から <span class="bl" data-a="2">＿</span> m<br>
-② ΣY = 0　→　V<sub>A</sub> = 5 + 8 = <span class="bl" data-a="13">＿</span> kN(上向き)<br>
+② ΣY = 0　→　V<sub>A</sub> = 5 + 8 = <span class="bl" data-a="13">＿</span> kN 上向き<br>
 ③ ΣM<sub>A</sub> = 0　→　M<sub>A</sub> = 5 × <span class="bl" data-a="4">＿</span> + 8 × 2 = 20 + 16 = <span class="bl" data-a="36">＿</span> kN·m<br>
 ④ H<sub>A</sub> = 0
 </div>
-<p class="note">固定端モーメントの向き: 荷重はすべて A 回りに反時計回り(左に固定端、右で下向き)に回そうとするので、M<sub>A</sub> は <b>時計回り</b> に抵抗する。Step 1 では「上側が引張(上に凸)」として M図に描きます。</p>
+<p class="note">固定端モーメントの向きは、荷重が A を回そうとする向きに逆らう側です。Step 1 では上側が引張として M図に描きます。</p>
 </div>
 
 <div class="ex"><div class="ttl">例題4 単純梁・三角形分布荷重</div>
@@ -287,7 +253,7 @@ footer{max-width:960px;margin:0 auto;padding:10px 16px 40px;color:var(--sub);fon
 　作用点は最大側 B から L/3 = <span class="bl" data-a="2">＿</span> m、つまり A から <span class="bl" data-a="4">＿</span> m<br>
 ② ΣM<sub>A</sub> = 18 × 4 − V<sub>B</sub> × 6 = 0　→　V<sub>B</sub> = 72 / 6 = <span class="bl" data-a="12">＿</span> kN<br>
 ③ ΣY = 0　→　V<sub>A</sub> = 18 − 12 = <span class="bl" data-a="6">＿</span> kN<br>
-　(三角形分布は最大側の支点が 2/3、ゼロ側が 1/3 を受け持つ)
+　三角形分布は最大側が 2/3、ゼロ側が 1/3 を受け持つ
 </div>
 </div>
 
@@ -295,84 +261,85 @@ footer{max-width:960px;margin:0 auto;padding:10px 16px 40px;color:var(--sub);fon
 <p>スパン 4 m の単純梁。中央 C に時計回りのモーメント荷重 M = 8 kN·m。反力を求めよ。</p>
 <div id="figC5"></div>
 <div class="calc">
-① ΣM<sub>A</sub> = 0(時計回り +)<br>
-　+8 − V<sub>B</sub> × 4 = 0　→　V<sub>B</sub> = <span class="bl" data-a="2">＿</span> kN(上向き)<br>
-② ΣY = V<sub>A</sub> + V<sub>B</sub> = 0(鉛直荷重がない)　→　V<sub>A</sub> = <span class="bl" data-a="−2">＿</span> kN、つまり <span class="bl" data-a="下向き">＿</span> 2 kN<br>
-③ 反力の対 2 kN × 4 m = <span class="bl" data-a="8">＿</span> kN·m(反時計回り)が、荷重 M = 8 kN·m(時計回り)と釣り合っている
+① ΣM<sub>A</sub> = 0、時計回りを +<br>
+　+8 − V<sub>B</sub> × 4 = 0　→　V<sub>B</sub> = <span class="bl" data-a="2">＿</span> kN 上向き<br>
+② ΣY = V<sub>A</sub> + V<sub>B</sub> = 0、鉛直荷重がない　→　V<sub>A</sub> = <span class="bl" data-a="−2">＿</span> kN、つまり <span class="bl" data-a="下向き">＿</span> 2 kN<br>
+③ 反力の対 2 kN × 4 m = <span class="bl" data-a="8">＿</span> kN·m が、荷重 8 kN·m と逆回りで釣り合っている
 </div>
-<p class="note">モーメント荷重の反力は M / L で、荷重の位置によらない。上向き・下向きの反力が偶力をつくる。</p>
+<p class="note">モーメント荷重の反力は M / L で、荷重の位置によりません。上向きと下向きの反力が偶力をつくります。</p>
 </div>
 
 <div class="ex"><div class="ttl">例題6 判別式</div>
 <p>次の構造が静定か不静定か、判別式で確かめよ。</p>
 <div class="figrow" id="figC6"></div>
 <div class="calc">
-(a) 張出し梁(A ピン、B ローラー、C 自由端)を部材1本として数える<br>
+(a) 張出し梁。A ピン、B ローラー、C 自由端。部材1本として数える<br>
 　n = <span class="bl" data-a="3">＿</span>、s = 1、r = 0、k = 2　→　m = 3 + 1 + 0 − 4 = <span class="bl" data-a="0">＿</span>　→　静定<br>
-(b) 門型ラーメン(両端ピン、角は剛節点)<br>
-　n = 2 + 2 = <span class="bl" data-a="4">＿</span>、s = 3(柱2＋梁1)、r = 1 + 1 = <span class="bl" data-a="2">＿</span>、k = 4(支点2＋角2)<br>
+(b) 門型ラーメン。両端ピン、角は剛節点<br>
+　n = 2 + 2 = <span class="bl" data-a="4">＿</span>、s = 3、r = 1 + 1 = <span class="bl" data-a="2">＿</span>、k = 4<br>
 　m = 4 + 3 + 2 − 8 = <span class="bl" data-a="1">＿</span>　→　1次不静定<br>
-(c) 3ヒンジラーメン(両端ピン、梁の中央にヒンジ)<br>
-　n = 4、s = <span class="bl" data-a="4">＿</span>(柱2＋ヒンジで分かれた梁2)、r = 2、k = <span class="bl" data-a="5">＿</span>(支点2＋角2＋ヒンジ1)<br>
-　m = 4 + 4 + 2 − 10 = <span class="bl" data-a="0">＿</span>　→　静定(ヒンジが1つ増えると不静定次数が1つ減る)
+(c) 3ヒンジラーメン。両端ピン、梁の中央にヒンジ<br>
+　n = 4、s = <span class="bl" data-a="4">＿</span>、r = 2、k = <span class="bl" data-a="5">＿</span><br>
+　m = 4 + 4 + 2 − 10 = <span class="bl" data-a="0">＿</span>　→　静定。ヒンジが1つ増えると不静定次数が1つ減る
 </div>
 </div>
 </section>
 
 <!-- ===================== D ===================== -->
-<section class="card" id="D" data-sec="D">
-<h2>D 白紙演習(5問)</h2>
-<p>穴なしで解きます。ノートに図・反力の仮定・式・答えを書いてから「解答」を開いてください。1問 5〜8 分が目安です。</p>
+<section class="card" id="D">
+<h2>D 白紙演習（5問）</h2>
+<p>穴なしで解きます。紙に図、反力の仮定、式、答えを書いてから解答を開いてください。電卓は使いません。</p>
+<div class="tools" data-timer="30"></div>
 
 <div class="ex"><div class="ttl">D-1</div>
-<p>スパン 5 m の単純梁(A ピン、B ローラー)。A から 1 m の点に下向き 10 kN、A から 4 m の点に下向き 5 kN。反力 V<sub>A</sub>、V<sub>B</sub> を求めよ。</p>
+<p>スパン 5 m の単純梁。A ピン、B ローラー。A から 1 m の点に下向き 10 kN、A から 4 m の点に下向き 5 kN。反力を求めよ。</p>
 <div id="figD1"></div>
 <details><summary>解答</summary><div>
-<div class="calc">ΣM<sub>A</sub> = 10 × 1 + 5 × 4 − V<sub>B</sub> × 5 = 0 → V<sub>B</sub> = 30 / 5 = 6 kN<br>ΣY = 0 → V<sub>A</sub> = 15 − 6 = 9 kN<br>検算 ΣM<sub>B</sub>: 9 × 5 − 10 × 4 − 5 × 1 = 45 − 45 = 0 ✓</div>
+<div class="calc">ΣM<sub>A</sub> = 10 × 1 + 5 × 4 − V<sub>B</sub> × 5 = 0 → V<sub>B</sub> = 30 / 5 = 6 kN<br>ΣY = 0 → V<sub>A</sub> = 15 − 6 = 9 kN<br>検算 ΣM<sub>B</sub> = 9 × 5 − 10 × 4 − 5 × 1 = 45 − 45 = 0 ✓</div>
 </div></details>
 </div>
 
 <div class="ex"><div class="ttl">D-2</div>
-<p>スパン 6 m の単純梁(A ピン、B ローラー)。A 側の半分(A から 3 m まで)に w = 4 kN/m の等分布荷重。反力を求めよ。</p>
+<p>スパン 6 m の単純梁。A ピン、B ローラー。A 側の半分、A から 3 m までに w = 4 kN/m の等分布荷重。反力を求めよ。</p>
 <div id="figD2"></div>
 <details><summary>解答</summary><div>
 <div class="calc">合力 W = 4 × 3 = 12 kN、作用点は A から 1.5 m<br>ΣM<sub>A</sub> = 12 × 1.5 − V<sub>B</sub> × 6 = 0 → V<sub>B</sub> = 18 / 6 = 3 kN<br>ΣY = 0 → V<sub>A</sub> = 12 − 3 = 9 kN</div>
-<p>荷重が A 側に寄っているので、A が大きく受ける(9 : 3)。</p>
+<p>荷重が A 側に寄っているので A が大きく受けます。</p>
 </div></details>
 </div>
 
 <div class="ex"><div class="ttl">D-3</div>
-<p>長さ 3 m の片持ち梁(A 固定端、B 自由端)。B に下向き 4 kN、A から 1 m の点に下向き 6 kN。固定端の反力 V<sub>A</sub>、M<sub>A</sub> を求めよ。</p>
+<p>長さ 3 m の片持ち梁。A 固定端、B 自由端。B に下向き 4 kN、A から 1 m の点に下向き 6 kN。固定端の反力を求めよ。</p>
 <div id="figD3"></div>
 <details><summary>解答</summary><div>
-<div class="calc">V<sub>A</sub> = 4 + 6 = 10 kN(上向き)<br>M<sub>A</sub> = 4 × 3 + 6 × 1 = 12 + 6 = 18 kN·m(時計回りに抵抗。上側引張)</div>
+<div class="calc">V<sub>A</sub> = 4 + 6 = 10 kN 上向き<br>M<sub>A</sub> = 4 × 3 + 6 × 1 = 12 + 6 = 18 kN·m、上側引張</div>
 </div></details>
 </div>
 
 <div class="ex"><div class="ttl">D-4</div>
-<p>張出し梁。A ピン、B ローラー、AB = 4 m。B から右に 2 m 張り出した先端 C に下向き 6 kN。反力を求めよ(向きに注意)。</p>
+<p>張出し梁。A ピン、B ローラー、AB = 4 m。B から右に 2 m 張り出した先端 C に下向き 6 kN。反力を求めよ。向きに注意。</p>
 <div id="figD4"></div>
 <details><summary>解答</summary><div>
-<div class="calc">ΣM<sub>A</sub> = 6 × 6 − V<sub>B</sub> × 4 = 0 → V<sub>B</sub> = 36 / 4 = 9 kN(上向き)<br>ΣY = V<sub>A</sub> + 9 − 6 = 0 → V<sub>A</sub> = −3 kN → <b>下向き 3 kN</b><br>検算 ΣM<sub>B</sub>(大きさで確認): A の下向き 3 kN が B 回りに 3 × 4 = 12、C の 6 kN が 6 × 2 = 12。互いに逆回りで釣り合う ✓</div>
-<p>張出し部の荷重が梁を B を支点に「てこ」のように持ち上げるので、A は梁を引き下げる方向(下向き)の反力になる。<b>負の反力が出たら向きが逆</b>、という B-1 の手順①の確認問題。</p>
+<div class="calc">ΣM<sub>A</sub> = 6 × 6 − V<sub>B</sub> × 4 = 0 → V<sub>B</sub> = 36 / 4 = 9 kN 上向き<br>ΣY = V<sub>A</sub> + 9 − 6 = 0 → V<sub>A</sub> = −3 kN、つまり<b>下向き 3 kN</b><br>検算を大きさで確認　A の 3 kN が B 回りに 3 × 4 = 12、C の 6 kN が 6 × 2 = 12。逆回りで釣り合う ✓</div>
+<p>張出し部の荷重が B を支点に梁を持ち上げるので、A は梁を引き下げる向きになります。負が出たら向きが逆、という手順①の確認問題です。</p>
 </div></details>
 </div>
 
 <div class="ex"><div class="ttl">D-5</div>
-<p>次の構造の不静定次数 m を判別式で求めよ。<br>(a) 一端固定・他端ローラーの梁　(b) 両端固定の門型ラーメン(角は剛節点)　(c) 2スパン連続梁(A ピン、B・C ローラー)</p>
+<p>次の不静定次数 m を判別式で求めよ。(a) 一端固定・他端ローラーの梁　(b) 両端固定の門型ラーメン　(c) 2スパン連続梁</p>
 <div class="figrow" id="figD5"></div>
 <details><summary>解答</summary><div>
-<div class="calc">(a) n = 3 + 1 = 4、s = 1、r = 0、k = 2 → m = 4 + 1 + 0 − 4 = 1 → 1次不静定<br>(b) n = 3 + 3 = 6、s = 3、r = 2、k = 4 → m = 6 + 3 + 2 − 8 = 3 → 3次不静定<br>(c) 部材2本で数える: n = 2 + 1 + 1 = 4、s = 2、r = 1(B で梁が連続 = 剛接合 2 − 1)、k = 3 → m = 4 + 2 + 1 − 6 = 1 → 1次不静定<br>　(部材1本で数えても: n = 4、s = 1、r = 0、k = 2 → 4 + 1 − 4 = 1。同じ)</div>
+<div class="calc">(a) n = 3 + 1 = 4、s = 1、r = 0、k = 2 → m = 1、1次不静定<br>(b) n = 3 + 3 = 6、s = 3、r = 2、k = 4 → m = 3、3次不静定<br>(c) 部材2本で数える。n = 2 + 1 + 1 = 4、s = 2、r = 1、k = 3 → m = 1、1次不静定<br>　部材1本で数えても n = 4、s = 1、r = 0、k = 2 → m = 1。同じ</div>
 </div></details>
 </div>
 </section>
 
 <!-- ===================== E ===================== -->
-<section class="card" id="E" data-sec="E">
-<h2>E 確認テスト(5問)</h2>
-<p>数値を入力して「採点」を押してください。合格ラインは <b>4/5</b>。未達なら A〜C に戻り、翌日にもう一度。</p>
+<section class="card" id="E">
+<h2>E 確認テスト（5問）</h2>
+<p>数値を入れて採点を押します。合格ラインは 4/5。届かなければ A から C に戻り、翌日もう一度。</p>
 
-<div class="qz"><b>E-1</b> スパン 8 m の単純梁(A ピン、B ローラー)。A から 5 m の点に下向き 16 kN。V<sub>B</sub> は何 kN か。<br>
+<div class="qz"><b>E-1</b> スパン 8 m の単純梁。A ピン、B ローラー。A から 5 m の点に下向き 16 kN。V<sub>B</sub> は何 kN か。
 <div id="figE1"></div>
 V<sub>B</sub> = <input type="number" step="any" data-a="10"> kN <span class="res"></span></div>
 
@@ -382,207 +349,132 @@ V<sub>A</sub> = <input type="number" step="any" data-a="15"> kN <span class="res
 <div class="qz"><b>E-3</b> 長さ 2 m の片持ち梁に全長 w = 6 kN/m。固定端モーメント M<sub>A</sub> は何 kN·m か。<br>
 M<sub>A</sub> = <input type="number" step="any" data-a="12"> kN·m <span class="res"></span></div>
 
-<div class="qz"><b>E-4</b> スパン 9 m の単純梁(A ピン、B ローラー)。A で 0、B で最大 4 kN/m の三角形分布荷重。V<sub>B</sub> は何 kN か。<br>
+<div class="qz"><b>E-4</b> スパン 9 m の単純梁。A で 0、B で最大 4 kN/m の三角形分布荷重。V<sub>B</sub> は何 kN か。
 <div id="figE4"></div>
 V<sub>B</sub> = <input type="number" step="any" data-a="12"> kN <span class="res"></span></div>
 
-<div class="qz"><b>E-5</b> 両端固定の門型ラーメン(角は剛節点)の不静定次数 m はいくつか。<br>
+<div class="qz"><b>E-5</b> 両端固定の門型ラーメン、角は剛節点。不静定次数 m はいくつか。<br>
 m = <input type="number" step="any" data-a="3"> <span class="res"></span></div>
 
-<div class="tools"><button id="grade">採点</button><button id="gclear">入力をクリア</button></div>
+<div class="tools"><button id="grade" class="pri">採点</button><button id="gclear">入力をクリア</button></div>
 <div class="score" id="score"></div>
 <details><summary>解説</summary><div>
-<div class="calc">E-1: ΣM<sub>A</sub> = 16 × 5 − V<sub>B</sub> × 8 = 0 → V<sub>B</sub> = 10 kN(V<sub>A</sub> = 6 kN)<br>
-E-2: W = 30 kN、対称なので V<sub>A</sub> = 15 kN<br>
-E-3: W = 12 kN、作用点は固定端から 1 m → M<sub>A</sub> = 12 × 1 = 12 kN·m<br>
-E-4: W = 4 × 9 / 2 = 18 kN、作用点は A から 6 m → V<sub>B</sub> = 18 × 6 / 9 = 12 kN(V<sub>A</sub> = 6 kN)<br>
-E-5: n = 6、s = 3、r = 2、k = 4 → m = 3</div>
+<div class="calc">E-1　ΣM<sub>A</sub> = 16 × 5 − V<sub>B</sub> × 8 = 0 → V<sub>B</sub> = 10 kN。V<sub>A</sub> = 6 kN<br>
+E-2　W = 30 kN、対称なので V<sub>A</sub> = 15 kN<br>
+E-3　W = 12 kN、作用点は固定端から 1 m → M<sub>A</sub> = 12 kN·m<br>
+E-4　W = 4 × 9 / 2 = 18 kN、作用点は A から 6 m → V<sub>B</sub> = 18 × 6 / 9 = 12 kN<br>
+E-5　n = 6、s = 3、r = 2、k = 4 → m = 3</div>
 </div></details>
+</section>
+
+<!-- ===================== F ===================== -->
+<section class="card" id="F">
+<h2>F 本番形式（4択）</h2>
+<p>本番は四肢択一です。数値を出し切らずに、選択肢を使って絞る練習をします。選ぶとすぐ正誤が出ます。</p>
+
+<div class="mc" data-a="2">
+<p><b>F-1</b> スパン 6 m の単純梁。A ピン、B ローラー。A から 4 m の点に下向き 9 kN が作用している。A の鉛直反力 V<sub>A</sub> として正しいものはどれか。</p>
+<div id="figF1"></div>
+<ul class="opts">
+<li><label><input type="radio"><span>1.　2 kN</span></label></li>
+<li><label><input type="radio"><span>2.　3 kN</span></label></li>
+<li><label><input type="radio"><span>3.　6 kN</span></label></li>
+<li><label><input type="radio"><span>4.　9 kN</span></label></li>
+</ul>
+<details><summary>解説</summary><div>
+<p>荷重は B 寄りなので V<sub>A</sub> は半分の 4.5 kN より小さい。この時点で 6 kN と 9 kN は消えます。残る 2 kN と 3 kN のうち、比で V<sub>A</sub> : V<sub>B</sub> = 2 : 4 = 1 : 2 なので V<sub>A</sub> = 9 × 1/3 = 3 kN。正解は 3 kN です。</p>
+<p>計算し切らずに、まず大小関係で2つ消すのが本番の速度につながります。</p>
+</div></details>
+</div>
+
+<div class="mc" data-a="1">
+<p><b>F-2</b> 支点と反力の数の組合せとして、<b>誤っている</b>ものはどれか。</p>
+<ul class="opts">
+<li><label><input type="radio"><span>1.　移動支点（ローラー）の反力は 1 個である</span></label></li>
+<li><label><input type="radio"><span>2.　回転支点（ピン）の反力は 3 個である</span></label></li>
+<li><label><input type="radio"><span>3.　固定支点の反力は 3 個である</span></label></li>
+<li><label><input type="radio"><span>4.　中間ヒンジの位置では曲げモーメントが 0 になる</span></label></li>
+</ul>
+<details><summary>解説</summary><div>
+<p>ピンは水平と鉛直の移動を止め、回転は自由なので反力は 2 個です。よって 2 が誤り。<b>誤っているものを選ぶ問題</b>は一級で頻出なので、設問の末尾を必ず読んでください。</p>
+</div></details>
+</div>
+
+<div class="mc" data-a="3">
+<p><b>F-3</b> 長さ 4 m の片持ち梁に、全長にわたり w = 3 kN/m の等分布荷重が作用している。固定端の曲げモーメント M<sub>A</sub> の大きさとして正しいものはどれか。</p>
+<div id="figF3"></div>
+<ul class="opts">
+<li><label><input type="radio"><span>1.　6 kN·m</span></label></li>
+<li><label><input type="radio"><span>2.　12 kN·m</span></label></li>
+<li><label><input type="radio"><span>3.　24 kN·m</span></label></li>
+<li><label><input type="radio"><span>4.　48 kN·m</span></label></li>
+</ul>
+<details><summary>解説</summary><div>
+<p>合力 W = 3 × 4 = 12 kN、作用点は固定端から 2 m。M<sub>A</sub> = 12 × 2 = 24 kN·m。</p>
+<p>公式 wL²/2 = 3 × 16 / 2 = 24 でも同じです。選択肢の 48 は wL² を、12 は合力そのものを答えてしまった場合の値で、いずれも典型的なひっかけです。</p>
+</div></details>
+</div>
 </section>
 
 </main>
 <footer>
-<p><b>次のステップ</b>: Step 1 静定梁の応力(反力 → N図・Q図・M図)。Step 0 の「反力を求める手順」がそのまま最初の1手になります。</p>
-<p>進捗は 01_進捗表.md にも完了日と E の点数を控えてください。</p>
+<p><b>次のステップ</b>　Step 1 静定梁の応力。反力から N図、Q図、M図を描きます。ここで固めた反力の手順が、そのまま最初の1手になります。</p>
 </footer>
 
+<script src="../../assets/app.js"></script>
 <script>
 (function(){
-/* ---------- 保存 ---------- */
-const KEY='ikkyu_S00';
-let st={};
-try{st=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){st={};}
-function save(){try{localStorage.setItem(KEY,JSON.stringify(st));}catch(e){}}
+  var K=window.IKKYU, beam=K.beam, frame=K.frame, fig=K.fig, figc=K.figc, supFig=K.supFig, DEFS=K.DEFS;
 
-/* ---------- 穴埋め ---------- */
-const secs=document.querySelectorAll('section[data-sec]');
-secs.forEach(sec=>{
-  const id=sec.dataset.sec;
-  sec.querySelectorAll('.bl').forEach((el,i)=>{
-    const bid=id+'-'+(i+1); el.dataset.id=bid;
-    const a=el.dataset.a;
-    el.innerHTML='<span class="q">［ '+(i+1)+' ］</span><span class="a"></span><span class="mk"><b class="o">○</b><b class="x">×</b></span>';
-    el.querySelector('.a').textContent=a;
-    const m=st[bid]; if(m==='o'||m==='x'){el.classList.add(m);}
-    el.addEventListener('click',e=>{
-      const t=e.target;
-      if(t.classList.contains('o')||t.classList.contains('x')){
-        const v=t.classList.contains('o')?'o':'x';
-        el.classList.remove('o','x'); el.classList.add(v); st[bid]=v; save(); refresh(); return;
-      }
-      el.classList.toggle('open');
-    });
-  });
-  sec.querySelectorAll('.tools button[data-act]').forEach(b=>{
-    b.addEventListener('click',()=>{
-      const act=b.dataset.act, bls=sec.querySelectorAll('.bl');
-      if(act==='show') bls.forEach(x=>x.classList.add('open'));
-      if(act==='hide') bls.forEach(x=>x.classList.remove('open'));
-      if(act==='reset'){ if(confirm(id+' セクションの○×を消しますか?')){ bls.forEach(x=>{x.classList.remove('o','x','open'); delete st[x.dataset.id];}); save(); refresh(); } }
-    });
-  });
-});
-function refresh(){
-  let go=0,gt=0;
-  secs.forEach(sec=>{
-    const bls=sec.querySelectorAll('.bl'); let o=0,x=0;
-    bls.forEach(b=>{ if(b.classList.contains('o'))o++; else if(b.classList.contains('x'))x++; });
-    const c=sec.querySelector('.cnt'); if(c) c.textContent='○ '+o+' ／ × '+x+' ／ 全 '+bls.length;
-    go+=o; gt+=bls.length;
-  });
-  const sc=st.score!=null?('　確認テスト '+st.score+'/5'):'';
-  document.getElementById('gprog').textContent='穴埋め ○ '+go+'/'+gt+sc;
-  st.done=go; st.total=gt; save();
-}
+  fig('figM','<svg class="fig" viewBox="0 0 420 120" width="420">'+DEFS+
+    '<circle cx="60" cy="60" r="5" fill="currentColor"/><text x="40" y="52" class="nm">O</text>'+
+    '<line x1="60" y1="60" x2="300" y2="60" class="bm"/>'+
+    '<g class="ld" color="var(--ng)"><line x1="300" y1="14" x2="300" y2="56" marker-end="url(#ah)"/></g>'+
+    '<text x="306" y="30" class="lt">P = 4 kN</text>'+
+    '<g class="dm" color="var(--sub)"><line x1="62" y1="90" x2="298" y2="90" marker-start="url(#ag)" marker-end="url(#ag)"/></g>'+
+    '<text x="160" y="106" class="dt">l = 3 m</text>'+
+    '<g class="rc" color="var(--acc)"><path d="M 30 80 A 30 30 0 0 1 70 100" marker-end="url(#ab)"/></g>'+
+    '<text x="6" y="115" class="rt">M = P × l = 12 kN·m 時計回り</text></svg>');
 
-/* ---------- 確認テスト ---------- */
-const qin=document.querySelectorAll('.qz input');
-qin.forEach((inp,i)=>{ if(st['e'+i]!=null) inp.value=st['e'+i]; });
-document.getElementById('grade').addEventListener('click',()=>{
-  let n=0;
-  qin.forEach((inp,i)=>{
-    const r=inp.parentElement.querySelector('.res');
-    const v=parseFloat(inp.value), a=parseFloat(inp.dataset.a);
-    st['e'+i]=inp.value;
-    if(inp.value!==''&&Math.abs(v-a)<0.01){n++; r.textContent='○'; r.className='res o';}
-    else{ r.textContent='×'; r.className='res x'; }
-  });
-  st.score=n; save();
-  document.getElementById('score').textContent='得点 '+n+' / 5'+(n>=4?'　合格。Step 1 へ進めます。':'　A〜C に戻って復習しましょう。');
-  refresh();
-});
-document.getElementById('gclear').addEventListener('click',()=>{
-  qin.forEach((inp,i)=>{inp.value=''; inp.parentElement.querySelector('.res').textContent=''; delete st['e'+i];});
-  delete st.score; save(); document.getElementById('score').textContent=''; refresh();
-});
-if(st.score!=null) document.getElementById('score').textContent='前回の得点 '+st.score+' / 5';
+  fig('figSup', figc('移動支点 反力1',supFig('roller'))+figc('回転支点 反力2',supFig('pin'))+figc('固定支点 反力3',supFig('fixL')));
 
-/* ---------- 図の生成 ---------- */
-const DEFS='<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#c43d3d"/></marker><marker id="ab" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1d5fa8"/></marker><marker id="ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#5b6875"/></marker></defs>';
-function hatch(x1,x2,y,dir){
-  let s='<line x1="'+x1+'" y1="'+y+'" x2="'+x2+'" y2="'+y+'" class="gr"/>';
-  for(let x=x1;x<x2;x+=6) s+='<line x1="'+x+'" y1="'+y+'" x2="'+(x-5)+'" y2="'+(y+6*dir)+'" class="gr"/>';
-  return s;
-}
-function support(t,x,y){
-  if(t==='pin') return '<polygon points="'+x+','+y+' '+(x-11)+','+(y+18)+' '+(x+11)+','+(y+18)+'" class="sp"/>'+hatch(x-18,x+18,y+18,1);
-  if(t==='roller') return '<polygon points="'+x+','+y+' '+(x-11)+','+(y+16)+' '+(x+11)+','+(y+16)+'" class="sp"/><circle cx="'+(x-6)+'" cy="'+(y+20)+'" r="3.5" class="sp"/><circle cx="'+(x+6)+'" cy="'+(y+20)+'" r="3.5" class="sp"/>'+hatch(x-18,x+18,y+24,1);
-  if(t==='fixL'){ let s='<line x1="'+x+'" y1="'+(y-26)+'" x2="'+x+'" y2="'+(y+26)+'" class="gr" style="stroke-width:2"/>'; for(let yy=y-24;yy<=y+24;yy+=8) s+='<line x1="'+x+'" y1="'+yy+'" x2="'+(x-8)+'" y2="'+(yy+8)+'" class="gr"/>'; return s; }
-  if(t==='fixR'){ let s='<line x1="'+x+'" y1="'+(y-26)+'" x2="'+x+'" y2="'+(y+26)+'" class="gr" style="stroke-width:2"/>'; for(let yy=y-24;yy<=y+24;yy+=8) s+='<line x1="'+x+'" y1="'+yy+'" x2="'+(x+8)+'" y2="'+(yy+8)+'" class="gr"/>'; return s; }
-  if(t==='fixB'){ return '<line x1="'+(x-16)+'" y1="'+y+'" x2="'+(x+16)+'" y2="'+y+'" class="gr" style="stroke-width:2.5"/>'+hatch(x-16,x+16,y,1); }
-  if(t==='hinge') return '<circle cx="'+x+'" cy="'+y+'" r="5" class="sp"/>';
-  return '';
-}
-function beam(o){
-  const W=o.W||480,H=170,X0=50,X1=W-50,Y=88;
-  const sx=x=>X0+(X1-X0)*x/o.L;
-  let s='<svg class="fig" viewBox="0 0 '+W+' '+H+'" width="'+W+'">'+DEFS;
-  s+='<line x1="'+X0+'" y1="'+Y+'" x2="'+X1+'" y2="'+Y+'" class="bm"/>';
-  (o.sup||[]).forEach(p=>{ s+=support(p.t,sx(p.x),Y); if(p.n) s+='<text x="'+(sx(p.x)+(p.t==='fixL'?-22:p.t==='fixR'?12:-5))+'" y="'+(Y+(p.t.startsWith('fix')?-30:44))+'" class="nm">'+p.n+'</text>'; });
-  (o.pts||[]).forEach(p=>{ s+='<text x="'+(sx(p.x)-5)+'" y="'+(Y+20)+'" class="nm">'+p.n+'</text>'; });
-  (o.loads||[]).forEach(l=>{
-    if(l.t==='P'){ const x=sx(l.x); s+='<line x1="'+x+'" y1="'+(Y-52)+'" x2="'+x+'" y2="'+(Y-4)+'" class="ld" marker-end="url(#ah)"/><text x="'+(x+6)+'" y="'+(Y-40)+'" class="lt">'+l.l+'</text>'; }
-    if(l.t==='w'){ const a=sx(l.x1),b=sx(l.x2); s+='<line x1="'+a+'" y1="'+(Y-34)+'" x2="'+b+'" y2="'+(Y-34)+'" class="ld"/>'; const n=Math.max(2,Math.round((b-a)/22)); for(let i=0;i<=n;i++){const x=a+(b-a)*i/n; s+='<line x1="'+x+'" y1="'+(Y-34)+'" x2="'+x+'" y2="'+(Y-4)+'" class="ld" marker-end="url(#ah)"/>';} s+='<text x="'+((a+b)/2-28)+'" y="'+(Y-42)+'" class="lt">'+l.l+'</text>'; }
-    if(l.t==='tri'){ const a=sx(l.x1),b=sx(l.x2),h=44; s+='<line x1="'+a+'" y1="'+(Y-4)+'" x2="'+b+'" y2="'+(Y-4-h)+'" class="ld"/>'; const n=Math.max(2,Math.round((b-a)/22)); for(let i=1;i<=n;i++){const x=a+(b-a)*i/n; const hh=h*i/n; if(hh>10) s+='<line x1="'+x+'" y1="'+(Y-4-hh)+'" x2="'+x+'" y2="'+(Y-4)+'" class="ld" marker-end="url(#ah)"/>';} s+='<text x="'+(b-40)+'" y="'+(Y-54)+'" class="lt">'+l.l+'</text>'; }
-    if(l.t==='M'){ const x=sx(l.x); s+='<path d="M '+(x-14)+' '+(Y-16)+' A 16 16 0 1 1 '+(x+14)+' '+(Y-16)+'" class="ld" marker-end="url(#ah)"/><text x="'+(x+18)+'" y="'+(Y-30)+'" class="lt">'+l.l+'</text>'; }
-  });
-  (o.react||[]).forEach(r=>{
-    const x=sx(r.x);
-    if(r.t==='V'){ s+='<line x1="'+x+'" y1="'+(Y+58)+'" x2="'+x+'" y2="'+(Y+30)+'" class="rc" marker-end="url(#ab)"/><text x="'+(x+6)+'" y="'+(Y+60)+'" class="rt">'+r.l+'</text>'; }
-    if(r.t==='H'){ s+='<line x1="'+(x-40)+'" y1="'+(Y+8)+'" x2="'+(x-10)+'" y2="'+(Y+8)+'" class="rc" marker-end="url(#ab)"/><text x="'+(x-46)+'" y="'+(Y+24)+'" class="rt">'+r.l+'</text>'; }
-  });
-  (o.dims||[]).forEach(d=>{
-    const a=sx(d[0]),b=sx(d[1]),y=Y+(d[3]||62);
-    s+='<line x1="'+a+'" y1="'+(y-6)+'" x2="'+a+'" y2="'+(y+6)+'" class="dm"/><line x1="'+b+'" y1="'+(y-6)+'" x2="'+b+'" y2="'+(y+6)+'" class="dm"/><line x1="'+(a+2)+'" y1="'+y+'" x2="'+(b-2)+'" y2="'+y+'" class="dm" marker-start="url(#ag)" marker-end="url(#ag)"/><text x="'+((a+b)/2-12)+'" y="'+(y-4)+'" class="dt">'+d[2]+'</text>';
-  });
-  return s+'</svg>';
-}
-function frame(o){
-  const W=200,H=150,x0=50,x1=150,yt=36,yb=112;
-  let s='<svg class="fig" viewBox="0 0 '+W+' '+H+'" width="'+W+'">'+DEFS;
-  s+='<polyline points="'+x0+','+yb+' '+x0+','+yt+' '+x1+','+yt+' '+x1+','+yb+'" fill="none" class="bm"/>';
-  s+=support(o.t==='fix'?'fixB':'pin',x0,yb)+support(o.t==='fix'?'fixB':'pin',x1,yb);
-  if(o.hinge) s+=support('hinge',(x0+x1)/2,yt);
-  s+='<circle cx="'+x0+'" cy="'+yt+'" r="3" fill="#1f2933"/><circle cx="'+x1+'" cy="'+yt+'" r="3" fill="#1f2933"/>';
-  return s+'</svg>';
-}
-function fig(id,html){ const el=document.getElementById(id); if(el) el.innerHTML=html; }
-function figc(cap,html){ return '<figure>'+html+'<figcaption>'+cap+'</figcaption></figure>'; }
-function supFig(t){
-  const isF=t==='fixL', bx0=isF?40:30, cx=isF?40:80;
-  let s='<svg class="fig" viewBox="0 0 160 110" width="160">'+DEFS+'<line x1="'+bx0+'" y1="40" x2="'+(bx0+100)+'" y2="40" class="bm"/>'+support(t,cx,40);
-  if(t==='roller') s+='<line x1="80" y1="100" x2="80" y2="72" class="rc" marker-end="url(#ab)"/><text x="88" y="100" class="rt">V</text>';
-  if(t==='pin') s+='<line x1="80" y1="100" x2="80" y2="68" class="rc" marker-end="url(#ab)"/><text x="88" y="100" class="rt">V</text><line x1="20" y1="52" x2="60" y2="52" class="rc" marker-end="url(#ab)"/><text x="18" y="70" class="rt">H</text>';
-  if(isF) s+='<line x1="60" y1="100" x2="60" y2="52" class="rc" marker-end="url(#ab)"/><text x="66" y="100" class="rt">V</text><line x1="6" y1="14" x2="46" y2="14" class="rc" marker-end="url(#ab)"/><text x="6" y="10" class="rt">H</text><path d="M 86 24 A 16 16 0 1 1 114 24" class="rc" marker-end="url(#ab)"/><text x="118" y="22" class="rt">M</text>';
-  return s+'</svg>';
-}
+  fig('figLoad',
+    figc('集中荷重 P',beam({W:200,L:4,sup:[{x:0,t:'pin'},{x:4,t:'roller'}],loads:[{t:'P',x:2,l:'P'}]}))+
+    figc('等分布荷重 合力 wL は中央',beam({W:230,L:4,sup:[{x:0,t:'pin'},{x:4,t:'roller'}],loads:[{t:'w',x1:0,x2:4,l:'w'}],dims:[[0,4,'L']]}))+
+    figc('等変分布荷重 合力 wL/2 は最大側から L/3',beam({W:230,L:4,sup:[{x:0,t:'pin'},{x:4,t:'roller'}],loads:[{t:'tri',x1:0,x2:4,l:'w'}],dims:[[0,4,'L']]}))+
+    figc('モーメント荷重 M',beam({W:200,L:4,sup:[{x:0,t:'pin'},{x:4,t:'roller'}],loads:[{t:'M',x:2,l:'M'}]})));
 
-// A-3 モーメントの図
-fig('figM','<svg class="fig" viewBox="0 0 420 120" width="420">'+DEFS+'<circle cx="60" cy="60" r="5" fill="#1f2933"/><text x="40" y="52" class="nm">O</text><line x1="60" y1="60" x2="300" y2="60" class="bm"/><line x1="300" y1="14" x2="300" y2="56" class="ld" marker-end="url(#ah)"/><text x="308" y="30" class="lt">P = 4 kN</text><line x1="62" y1="90" x2="298" y2="90" class="dm" marker-start="url(#ag)" marker-end="url(#ag)"/><text x="160" y="106" class="dt">l = 3 m</text><path d="M 30 80 A 30 30 0 0 1 70 100" class="rc" marker-end="url(#ab)"/><text x="10" y="115" class="rt">M = P × l = 12 kN·m(時計回り)</text></svg>');
+  fig('figB4a', figc('ローラー',supFig('roller'))+figc('ピン',supFig('pin'))+figc('固定端',supFig('fixL')));
+  fig('figB4b',beam({L:6,sup:[{x:0,t:'pin',n:'A'},{x:6,t:'roller',n:'B'}],pts:[{x:2,n:'C'}],
+    loads:[{t:'P',x:2,l:'12 kN'}],react:[{t:'V',x:0,l:'V_A'},{t:'H',x:0,l:'H_A'},{t:'V',x:6,l:'V_B'}],
+    dims:[[0,2,'2 m',80],[2,6,'4 m',80]]}));
 
-// A-4 支点記号
-fig('figSup', figc('移動支点(ローラー) 反力 1',supFig('roller'))+figc('回転支点(ピン) 反力 2',supFig('pin'))+figc('固定支点(固定端) 反力 3',supFig('fixL')));
+  fig('figC1',beam({L:6,sup:[{x:0,t:'pin',n:'A'},{x:6,t:'roller',n:'B'}],pts:[{x:2,n:'C'}],loads:[{t:'P',x:2,l:'P = 12 kN'}],dims:[[0,2,'2 m'],[2,6,'4 m']]}));
+  fig('figC2',beam({L:8,sup:[{x:0,t:'pin',n:'A'},{x:8,t:'roller',n:'B'}],loads:[{t:'w',x1:0,x2:8,l:'w = 3 kN/m'}],dims:[[0,8,'8 m']]}));
+  fig('figC3',beam({L:4,sup:[{x:0,t:'fixL',n:'A'}],pts:[{x:4,n:'B'}],loads:[{t:'w',x1:0,x2:4,l:'w = 2 kN/m'},{t:'P',x:4,l:'P = 5 kN'}],dims:[[0,4,'4 m']]}));
+  fig('figC4',beam({L:6,sup:[{x:0,t:'pin',n:'A'},{x:6,t:'roller',n:'B'}],loads:[{t:'tri',x1:0,x2:6,l:'w = 6 kN/m'}],dims:[[0,6,'6 m']]}));
+  fig('figC5',beam({L:4,sup:[{x:0,t:'pin',n:'A'},{x:4,t:'roller',n:'B'}],pts:[{x:2,n:'C'}],loads:[{t:'M',x:2,l:'M = 8 kN·m'}],dims:[[0,2,'2 m'],[2,4,'2 m']]}));
+  fig('figC6',
+    figc('(a) 張出し梁',beam({W:260,L:6,sup:[{x:0,t:'pin',n:'A'},{x:4,t:'roller',n:'B'}],pts:[{x:6,n:'C'}]}))+
+    figc('(b) 門型ラーメン 両端ピン',frame({t:'pin'}))+
+    figc('(c) 3ヒンジラーメン',frame({t:'pin',hinge:true})));
 
-// A-5 荷重の種類
-fig('figLoad',
-  figc('集中荷重 P',beam({W:200,L:4,sup:[{x:0,t:'pin'},{x:4,t:'roller'}],loads:[{t:'P',x:2,l:'P'}]}))+
-  figc('等分布荷重 w → 合力 wL(中央)',beam({W:230,L:4,sup:[{x:0,t:'pin'},{x:4,t:'roller'}],loads:[{t:'w',x1:0,x2:4,l:'w'}],dims:[[0,4,'L']]}))+
-  figc('等変分布荷重 → 合力 wL/2(最大側から L/3)',beam({W:230,L:4,sup:[{x:0,t:'pin'},{x:4,t:'roller'}],loads:[{t:'tri',x1:0,x2:4,l:'w'}],dims:[[0,4,'L']]}))+
-  figc('モーメント荷重 M',beam({W:200,L:4,sup:[{x:0,t:'pin'},{x:4,t:'roller'}],loads:[{t:'M',x:2,l:'M'}]}))
-);
+  fig('figD1',beam({L:5,sup:[{x:0,t:'pin',n:'A'},{x:5,t:'roller',n:'B'}],loads:[{t:'P',x:1,l:'10 kN'},{t:'P',x:4,l:'5 kN'}],dims:[[0,1,'1 m'],[1,4,'3 m'],[4,5,'1 m']]}));
+  fig('figD2',beam({L:6,sup:[{x:0,t:'pin',n:'A'},{x:6,t:'roller',n:'B'}],loads:[{t:'w',x1:0,x2:3,l:'w = 4 kN/m'}],dims:[[0,3,'3 m'],[3,6,'3 m']]}));
+  fig('figD3',beam({L:3,sup:[{x:0,t:'fixL',n:'A'}],pts:[{x:3,n:'B'}],loads:[{t:'P',x:1,l:'6 kN'},{t:'P',x:3,l:'4 kN'}],dims:[[0,1,'1 m'],[1,3,'2 m']]}));
+  fig('figD4',beam({L:6,sup:[{x:0,t:'pin',n:'A'},{x:4,t:'roller',n:'B'}],pts:[{x:6,n:'C'}],loads:[{t:'P',x:6,l:'6 kN'}],dims:[[0,4,'4 m'],[4,6,'2 m']]}));
+  fig('figD5',
+    figc('(a) 一端固定・他端ローラー',beam({W:240,L:4,sup:[{x:0,t:'fixL',n:'A'},{x:4,t:'roller',n:'B'}]}))+
+    figc('(b) 門型ラーメン 両端固定',frame({t:'fix'}))+
+    figc('(c) 2スパン連続梁',beam({W:280,L:8,sup:[{x:0,t:'pin',n:'A'},{x:4,t:'roller',n:'B'},{x:8,t:'roller',n:'C'}]})));
 
-// B-4 答え
-fig('figB4a', figc('ローラー',supFig('roller'))+figc('ピン',supFig('pin'))+figc('固定端',supFig('fixL')));
-fig('figB4b',beam({L:6,sup:[{x:0,t:'pin',n:'A'},{x:6,t:'roller',n:'B'}],pts:[{x:2,n:'C'}],loads:[{t:'P',x:2,l:'12 kN'}],react:[{t:'V',x:0,l:'V_A'},{t:'H',x:0,l:'H_A'},{t:'V',x:6,l:'V_B'}],dims:[[0,2,'2 m',80],[2,6,'4 m',80]]}));
+  fig('figE1',beam({L:8,sup:[{x:0,t:'pin',n:'A'},{x:8,t:'roller',n:'B'}],loads:[{t:'P',x:5,l:'16 kN'}],dims:[[0,5,'5 m'],[5,8,'3 m']]}));
+  fig('figE4',beam({L:9,sup:[{x:0,t:'pin',n:'A'},{x:9,t:'roller',n:'B'}],loads:[{t:'tri',x1:0,x2:9,l:'4 kN/m'}],dims:[[0,9,'9 m']]}));
 
-// C
-fig('figC1',beam({L:6,sup:[{x:0,t:'pin',n:'A'},{x:6,t:'roller',n:'B'}],pts:[{x:2,n:'C'}],loads:[{t:'P',x:2,l:'P = 12 kN'}],dims:[[0,2,'2 m'],[2,6,'4 m']]}));
-fig('figC2',beam({L:8,sup:[{x:0,t:'pin',n:'A'},{x:8,t:'roller',n:'B'}],loads:[{t:'w',x1:0,x2:8,l:'w = 3 kN/m'}],dims:[[0,8,'8 m']]}));
-fig('figC3',beam({L:4,sup:[{x:0,t:'fixL',n:'A'}],pts:[{x:4,n:'B'}],loads:[{t:'w',x1:0,x2:4,l:'w = 2 kN/m'},{t:'P',x:4,l:'P = 5 kN'}],dims:[[0,4,'4 m']]}));
-fig('figC4',beam({L:6,sup:[{x:0,t:'pin',n:'A'},{x:6,t:'roller',n:'B'}],loads:[{t:'tri',x1:0,x2:6,l:'w = 6 kN/m'}],dims:[[0,6,'6 m']]}));
-fig('figC5',beam({L:4,sup:[{x:0,t:'pin',n:'A'},{x:4,t:'roller',n:'B'}],pts:[{x:2,n:'C'}],loads:[{t:'M',x:2,l:'M = 8 kN·m'}],dims:[[0,2,'2 m'],[2,4,'2 m']]}));
-fig('figC6',
-  figc('(a) 張出し梁',beam({W:260,L:6,sup:[{x:0,t:'pin',n:'A'},{x:4,t:'roller',n:'B'}],pts:[{x:6,n:'C'}]}))+
-  figc('(b) 門型ラーメン 両端ピン',frame({t:'pin'}))+
-  figc('(c) 3ヒンジラーメン',frame({t:'pin',hinge:true}))
-);
+  fig('figF1',beam({L:6,sup:[{x:0,t:'pin',n:'A'},{x:6,t:'roller',n:'B'}],loads:[{t:'P',x:4,l:'9 kN'}],dims:[[0,4,'4 m'],[4,6,'2 m']]}));
+  fig('figF3',beam({L:4,sup:[{x:0,t:'fixL',n:'A'}],pts:[{x:4,n:'B'}],loads:[{t:'w',x1:0,x2:4,l:'w = 3 kN/m'}],dims:[[0,4,'4 m']]}));
 
-// D
-fig('figD1',beam({L:5,sup:[{x:0,t:'pin',n:'A'},{x:5,t:'roller',n:'B'}],loads:[{t:'P',x:1,l:'10 kN'},{t:'P',x:4,l:'5 kN'}],dims:[[0,1,'1 m'],[1,4,'3 m'],[4,5,'1 m']]}));
-fig('figD2',beam({L:6,sup:[{x:0,t:'pin',n:'A'},{x:6,t:'roller',n:'B'}],loads:[{t:'w',x1:0,x2:3,l:'w = 4 kN/m'}],dims:[[0,3,'3 m'],[3,6,'3 m']]}));
-fig('figD3',beam({L:3,sup:[{x:0,t:'fixL',n:'A'}],pts:[{x:3,n:'B'}],loads:[{t:'P',x:1,l:'6 kN'},{t:'P',x:3,l:'4 kN'}],dims:[[0,1,'1 m'],[1,3,'2 m']]}));
-fig('figD4',beam({L:6,sup:[{x:0,t:'pin',n:'A'},{x:4,t:'roller',n:'B'}],pts:[{x:6,n:'C'}],loads:[{t:'P',x:6,l:'6 kN'}],dims:[[0,4,'4 m'],[4,6,'2 m']]}));
-fig('figD5',
-  figc('(a) 一端固定・他端ローラー',beam({W:240,L:4,sup:[{x:0,t:'fixL',n:'A'},{x:4,t:'roller',n:'B'}]}))+
-  figc('(b) 門型ラーメン 両端固定',frame({t:'fix'}))+
-  figc('(c) 2スパン連続梁',beam({W:280,L:8,sup:[{x:0,t:'pin',n:'A'},{x:4,t:'roller',n:'B'},{x:8,t:'roller',n:'C'}]}))
-);
-
-// E
-fig('figE1',beam({L:8,sup:[{x:0,t:'pin',n:'A'},{x:8,t:'roller',n:'B'}],loads:[{t:'P',x:5,l:'16 kN'}],dims:[[0,5,'5 m'],[5,8,'3 m']]}));
-fig('figE4',beam({L:9,sup:[{x:0,t:'pin',n:'A'},{x:9,t:'roller',n:'B'}],loads:[{t:'tri',x1:0,x2:9,l:'4 kN/m'}],dims:[[0,9,'9 m']]}));
-
-refresh();
+  K.initStep('S00',{base:'../../'});
 })();
 </script>
 </body>

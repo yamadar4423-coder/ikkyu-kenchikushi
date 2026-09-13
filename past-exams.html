@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>過去問リンク ｜ 一級建築士 学科</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#1d5fa8">
+<link rel="apple-touch-icon" href="assets/icon-180.png">
+<link rel="stylesheet" href="assets/app.css">
+<style>
+td.y{white-space:nowrap;font-weight:600}
+td.l a{display:inline-block;margin:2px 6px 2px 0;padding:4px 9px;border:1px solid var(--line);
+  border-radius:6px;text-decoration:none;font-size:13px;background:var(--card)}
+td.l a:hover{background:var(--acc-bg)}
+.logtbl input{font:inherit;font-size:14px;width:100%;padding:5px 7px;border:1px solid var(--line);
+  border-radius:6px;background:var(--card);color:var(--ink)}
+.logtbl td{padding:4px 6px}
+</style>
+</head>
+<body>
+<header><div class="hin">
+  <h1>過去問リンク</h1>
+  <span class="sub">公式PDF 10年分</span>
+  <nav class="tabs"><a href="index.html">目次</a><a href="#log">記録</a></nav>
+</div></header>
+<main>
+
+<div class="note">
+公益財団法人 建築技術教育普及センターが、<b>平成29年から令和8年までの学科試験問題と合格基準を無料で公開</b>しています。下のボタンは公式PDFへの直リンクです。問題集を買わなくても10年分が揃います。<br>
+正答肢は各年度の合格基準のPDFに載っています。
+</div>
+<div class="tools">
+  <a href="https://www.jaeic.or.jp/shiken/1k/1k-mondai.html" target="_blank" rel="noopener"><button class="pri">公式の過去問ページを開く</button></a>
+</div>
+
+<h2>年度別ダウンロード</h2>
+<div class="card scroll">
+<table id="yt">
+<tr><th style="width:7em">年度</th><th>学科の試験問題（PDF）</th></tr>
+</table>
+<p class="note">学科IV 構造 と 学科V 施工 は1つのPDFにまとまっています。力学の演習に使うのは <b>学科IV・V</b> です。</p>
+</div>
+
+<h2>使い方</h2>
+<div class="card">
+<ol>
+<li>1つのステップを終えたら、<b>そのステップの範囲に当たる問題だけ</b>を過去問から探して解きます</li>
+<li>力学は例年 <b>学科IV の最初の6問</b>に出ます。ページをめくって、図が載っている計算問題を探してください</li>
+<li>解いた問題の番号と主題を、下の表に記録します。次にどの年度を解けばよいかが見えるようになります</li>
+<li>Step 11 の総合演習では、年度をまるごと1セット、時間を測って解きます。力学6問で25分が目安です</li>
+</ol>
+<p class="warn"><b>電卓は使わないでください。</b>本番の学科では持ち込めません。過去問を解く段階から手計算に慣れておきます。</p>
+</div>
+
+<h2 id="log">解いた記録</h2>
+<div class="card">
+<p>年度ごとに、力学の問題が何番でどの単元だったかを書き込みます。入力はこの端末に保存されます。</p>
+<div class="scroll"><table class="logtbl" id="lt">
+<tr><th style="width:7em">年度</th><th>力学の問題番号と単元、できなかった点</th></tr>
+</table></div>
+<div class="tools"><button id="save" class="pri">保存</button><span id="msg" style="align-self:center;color:var(--sub);font-size:13px"></span></div>
+</div>
+
+</main>
+<footer>リンク先は公益財団法人 建築技術教育普及センターの公式PDFです。問題の本文は本教材には転載していません。</footer>
+
+<script src="assets/app.js"></script>
+<script>
+(function(){
+var K=window.IKKYU; K.applyTheme(); K.header({}); K.initSW('');
+
+var YEARS=[
+ {y:2026, j:'令和8',  base:'https://www.jaeic.or.jp/.assets/'},
+ {y:2025, j:'令和7'}, {y:2024, j:'令和6'}, {y:2023, j:'令和5'}, {y:2022, j:'令和4'},
+ {y:2021, j:'令和3'}, {y:2020, j:'令和2'}, {y:2019, j:'令和元'},
+ {y:2018, j:'平成30'}, {y:2017, j:'平成29'}
+];
+var OLD='https://www.jaeic.or.jp/assets/pdf/shiken/1k/1k-mondai/';
+
+var yt=document.getElementById('yt');
+YEARS.forEach(function(o){
+  var b=o.base||OLD;
+  var g12 = (o.y===2021) ? '1k-2021-1st-gakka1_2-r.pdf' : '1k-'+o.y+'-1st-gakka1_2.pdf';
+  var tr=document.createElement('tr');
+  tr.innerHTML='<td class="y">'+o.j+'年<br><small style="color:var(--sub);font-weight:400">'+o.y+'</small></td>'+
+    '<td class="l">'+
+      '<a href="'+b+'1k-'+o.y+'-1st-gakka4_5.pdf" target="_blank" rel="noopener">IV 構造・V 施工</a>'+
+      '<a href="'+b+'1k-'+o.y+'-1st-gakka3.pdf" target="_blank" rel="noopener">III 法規</a>'+
+      '<a href="'+b+g12+'" target="_blank" rel="noopener">I 計画・II 環境設備</a>'+
+      '<a href="'+b+'1k-'+o.y+'-1st-gokakukijun.pdf" target="_blank" rel="noopener">合格基準・正答</a>'+
+    '</td>';
+  yt.appendChild(tr);
+});
+
+var lt=document.getElementById('lt'), st=K.rd('ikkyu_pastexam');
+YEARS.forEach(function(o){
+  var tr=document.createElement('tr');
+  tr.innerHTML='<td class="y">'+o.j+'年</td><td><input type="text" data-y="'+o.y+'" placeholder="例　No.1 断面 ○ ／ No.3 トラス ×"></td>';
+  lt.appendChild(tr);
+  var inp=tr.querySelector('input');
+  if(st['y'+o.y]) inp.value=st['y'+o.y];
+});
+document.getElementById('save').addEventListener('click',function(){
+  var s={};
+  Array.prototype.forEach.call(lt.querySelectorAll('input'),function(i){
+    if(i.value.trim()) s['y'+i.getAttribute('data-y')]=i.value.trim();
+  });
+  K.wr('ikkyu_pastexam',s);
+  var m=document.getElementById('msg'); m.textContent='保存しました';
+  setTimeout(function(){ m.textContent=''; },2000);
+});
+})();
+</script>
+</body>
+</html>

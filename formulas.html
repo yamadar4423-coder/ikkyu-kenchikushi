@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>公式カード ｜ 一級建築士 構造力学</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#1d5fa8">
+<link rel="apple-touch-icon" href="assets/icon-180.png">
+<link rel="stylesheet" href="assets/app.css">
+<style>
+.fx{border:1px solid var(--line);border-radius:10px;margin:8px 0;background:var(--card);overflow:hidden}
+.fx>summary{padding:11px 14px;background:var(--mute);font-size:15px}
+.fx>div{padding:4px 14px 12px;border:none}
+.f{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 10px;padding:8px 0;border-bottom:1px dashed var(--line)}
+.f:last-child{border-bottom:none}
+.f .n{flex:1 1 42%;min-width:130px;font-size:14px}
+.f .e{flex:1 1 46%;min-width:150px;font-family:Consolas,"Courier New",monospace;font-weight:700;
+  font-size:15px;color:var(--acc);background:var(--acc-bg);border-radius:6px;padding:4px 9px}
+.f small{flex:1 1 100%;color:var(--sub);font-size:12px;margin-top:-2px}
+.hide .e{visibility:hidden}
+</style>
+</head>
+<body>
+<header><div class="hin">
+  <h1>公式カード</h1>
+  <span class="sub">力学 Step 0〜11</span>
+  <nav class="tabs"><a href="index.html">目次</a></nav>
+</div></header>
+<main>
+
+<div class="note">隙間時間の5分用です。<b>式を隠す</b>を押すと右側が消えるので、名前を見て式を思い出す練習ができます。単位は kN と m で統一。学科に電卓は持ち込めません。</div>
+<div class="tools">
+  <button id="tg" class="pri">式を隠す</button>
+  <button id="op">全部ひらく</button>
+  <button id="cl">全部たたむ</button>
+</div>
+
+<details class="fx" open><summary>0 土台</summary><div>
+<div class="f"><span class="n">つり合いの3条件</span><span class="e">ΣX=0　ΣY=0　ΣM=0</span></div>
+<div class="f"><span class="n">力のモーメント</span><span class="e">M = P × l</span><small>l は点から作用線までの垂直距離</small></div>
+<div class="f"><span class="n">偶力のモーメント</span><span class="e">M = P × d</span><small>どの点回りでも同じ値</small></div>
+<div class="f"><span class="n">反力の数</span><span class="e">ローラー1　ピン2　固定3</span></div>
+<div class="f"><span class="n">静定・不静定の判別</span><span class="e">m = n + s + r − 2k</span><small>0 で静定、正で m 次不静定、負で不安定</small></div>
+<div class="f"><span class="n">等分布荷重の合力</span><span class="e">W = wL　作用点は中央</span></div>
+<div class="f"><span class="n">三角形分布の合力</span><span class="e">W = wL/2　最大側から L/3</span></div>
+<div class="f"><span class="n">モーメント荷重の反力</span><span class="e">V = M / L</span><small>荷重の位置によらない。上下逆向きの偶力</small></div>
+</div></details>
+
+<details class="fx"><summary>1 静定梁の応力</summary><div>
+<div class="f"><span class="n">単純梁 中央集中 P　最大 M</span><span class="e">PL/4</span></div>
+<div class="f"><span class="n">単純梁 等分布 w　最大 M</span><span class="e">wL²/8</span></div>
+<div class="f"><span class="n">単純梁 三角形分布　最大 M</span><span class="e">wL²/9√3 ≒ 0.064 wL²</span></div>
+<div class="f"><span class="n">片持ち梁 先端 P　固定端 M</span><span class="e">PL</span></div>
+<div class="f"><span class="n">片持ち梁 等分布 w　固定端 M</span><span class="e">wL²/2</span></div>
+<div class="f"><span class="n">Q図と M図の関係</span><span class="e">M の傾き = Q</span><small>Q = 0 の位置で M が最大</small></div>
+<div class="f"><span class="n">M図の描き方</span><span class="e">引張側に描く</span><small>ヒンジ位置は必ず M = 0</small></div>
+</div></details>
+
+<details class="fx"><summary>2 ラーメン・3ヒンジ</summary><div>
+<div class="f"><span class="n">節点でのつり合い</span><span class="e">ΣM = 0（節点に集まる M の和）</span></div>
+<div class="f"><span class="n">3ヒンジの解き方</span><span class="e">ヒンジで M = 0 の式を1本追加</span></div>
+<div class="f"><span class="n">3ヒンジラーメン 水平反力</span><span class="e">H = M<sub>中央</sub> / h</span><small>中央ヒンジ回りの半片でつり合いをとる</small></div>
+</div></details>
+
+<details class="fx"><summary>3 トラス</summary><div>
+<div class="f"><span class="n">節点法</span><span class="e">各節点で ΣX=0, ΣY=0</span><small>未知が2本以下の節点から始める</small></div>
+<div class="f"><span class="n">切断法</span><span class="e">求めたい材を含めて3本以内で切る</span></div>
+<div class="f"><span class="n">ゼロ部材 その1</span><span class="e">2部材の節点で荷重なし → 両方 0</span></div>
+<div class="f"><span class="n">ゼロ部材 その2</span><span class="e">3部材で2本が一直線 → 残り1本が 0</span></div>
+<div class="f"><span class="n">符号</span><span class="e">引張を +、圧縮を −</span></div>
+</div></details>
+
+<details class="fx"><summary>4 断面の性質と応力度</summary><div>
+<div class="f"><span class="n">長方形の断面二次モーメント</span><span class="e">I = bh³/12</span></div>
+<div class="f"><span class="n">円形の断面二次モーメント</span><span class="e">I = πd⁴/64</span></div>
+<div class="f"><span class="n">平行軸の定理</span><span class="e">I = I₀ + A·y²</span></div>
+<div class="f"><span class="n">断面係数</span><span class="e">Z = I / y　長方形は bh²/6</span></div>
+<div class="f"><span class="n">曲げ応力度</span><span class="e">σ = M / Z</span></div>
+<div class="f"><span class="n">垂直応力度</span><span class="e">σ = N / A</span></div>
+<div class="f"><span class="n">最大せん断応力度 長方形</span><span class="e">τ = 1.5 Q / A</span></div>
+<div class="f"><span class="n">最大せん断応力度 円形</span><span class="e">τ = 4Q / 3A</span></div>
+<div class="f"><span class="n">組合せ応力度</span><span class="e">σ = N/A ± M/Z</span></div>
+<div class="f"><span class="n">断面の核 長方形</span><span class="e">中心から h/6</span><small>全断面を圧縮に保てる範囲</small></div>
+</div></details>
+
+<details class="fx"><summary>5 変形</summary><div>
+<div class="f"><span class="n">片持ち 先端 P　先端たわみ</span><span class="e">PL³/3EI</span></div>
+<div class="f"><span class="n">片持ち 等分布 w　先端たわみ</span><span class="e">wL⁴/8EI</span></div>
+<div class="f"><span class="n">単純梁 中央 P　中央たわみ</span><span class="e">PL³/48EI</span></div>
+<div class="f"><span class="n">単純梁 等分布 w　中央たわみ</span><span class="e">5wL⁴/384EI</span></div>
+<div class="f"><span class="n">片持ち 先端 P　先端たわみ角</span><span class="e">PL²/2EI</span></div>
+<div class="f"><span class="n">単純梁 中央 P　端部たわみ角</span><span class="e">PL²/16EI</span></div>
+<div class="f"><span class="n">比の問題の勘所</span><span class="e">δ ∝ L³ または L⁴、∝ 1/EI</span><small>L が2倍なら集中荷重で8倍、等分布で16倍</small></div>
+</div></details>
+
+<details class="fx"><summary>6 剛性と分担</summary><div>
+<div class="f"><span class="n">剛度</span><span class="e">K = I / L</span></div>
+<div class="f"><span class="n">剛比</span><span class="e">k = K / K₀</span></div>
+<div class="f"><span class="n">分配率</span><span class="e">DF = k / Σk</span></div>
+<div class="f"><span class="n">柱の水平剛性 両端固定</span><span class="e">12EI/h³</span></div>
+<div class="f"><span class="n">柱の水平剛性 一端ピン</span><span class="e">3EI/h³</span></div>
+<div class="f"><span class="n">層のせん断力分担</span><span class="e">Qi = Q × ki / Σk</span><small>剛性に比例して配分される</small></div>
+<div class="f"><span class="n">固定端モーメント 等分布</span><span class="e">wL²/12</span></div>
+<div class="f"><span class="n">固定端モーメント 中央集中</span><span class="e">PL/8</span></div>
+<div class="f"><span class="n">反曲点</span><span class="e">M = 0 の位置</span><small>両端固定の柱では中央</small></div>
+</div></details>
+
+<details class="fx"><summary>7 不静定の解法</summary><div>
+<div class="f"><span class="n">重ね合わせ</span><span class="e">余分な支点を外し、変形を元に戻す力を求める</span></div>
+<div class="f"><span class="n">一端固定・他端ピン 等分布</span><span class="e">固定端 M = wL²/8</span></div>
+<div class="f"><span class="n">両端固定 等分布</span><span class="e">固定端 wL²/12、中央 wL²/24</span></div>
+<div class="f"><span class="n">両端固定 中央集中</span><span class="e">固定端 PL/8、中央 PL/8</span></div>
+<div class="f"><span class="n">到達モーメント</span><span class="e">分配した M の 1/2 が他端へ伝わる</span></div>
+</div></details>
+
+<details class="fx"><summary>8 全塑性モーメント・崩壊荷重</summary><div>
+<div class="f"><span class="n">全塑性モーメント</span><span class="e">Mp = Zp · σy</span></div>
+<div class="f"><span class="n">塑性断面係数 長方形</span><span class="e">Zp = bh²/4</span></div>
+<div class="f"><span class="n">形状係数 長方形</span><span class="e">Zp / Z = 1.5</span></div>
+<div class="f"><span class="n">崩壊機構の条件</span><span class="e">ヒンジ数 = 不静定次数 + 1</span></div>
+<div class="f"><span class="n">仮想仕事法</span><span class="e">外力のする仕事 = ΣMp·θ</span></div>
+</div></details>
+
+<details class="fx"><summary>9 座屈</summary><div>
+<div class="f"><span class="n">オイラー座屈荷重</span><span class="e">Pk = π²EI / Lk²</span></div>
+<div class="f"><span class="n">座屈長さ 両端ピン</span><span class="e">Lk = 1.0 L</span></div>
+<div class="f"><span class="n">座屈長さ 両端固定</span><span class="e">Lk = 0.5 L</span></div>
+<div class="f"><span class="n">座屈長さ 一端固定・他端ピン</span><span class="e">Lk = 0.7 L</span></div>
+<div class="f"><span class="n">座屈長さ 一端固定・他端自由</span><span class="e">Lk = 2.0 L</span></div>
+<div class="f"><span class="n">細長比</span><span class="e">λ = Lk / i　　i = √(I/A)</span></div>
+<div class="f"><span class="n">比の問題の勘所</span><span class="e">Pk ∝ I、∝ 1/Lk²</span><small>π と E は約分で消えることが多い</small></div>
+</div></details>
+
+<details class="fx"><summary>10 振動</summary><div>
+<div class="f"><span class="n">固有周期</span><span class="e">T = 2π √(m/k)</span></div>
+<div class="f"><span class="n">固有円振動数</span><span class="e">ω = √(k/m)</span></div>
+<div class="f"><span class="n">比の問題の勘所</span><span class="e">T ∝ √m、∝ 1/√k</span><small>質量4倍で周期2倍、剛性4倍で周期半分</small></div>
+</div></details>
+
+<details class="fx"><summary>手計算のコツ</summary><div>
+<div class="f"><span class="n">割り算は最後に一度だけ</span><span class="e">分数のまま持ち回る</span></div>
+<div class="f"><span class="n">単純梁の反力</span><span class="e">遠い側の距離に比例</span><small>比で暗算できる</small></div>
+<div class="f"><span class="n">π と √ は残す</span><span class="e">約分で消えることが多い</span><small>√2 ≒ 1.41　√3 ≒ 1.73</small></div>
+<div class="f"><span class="n">4択の絞り方</span><span class="e">概算で桁を見て2つ消す</span></div>
+</div></details>
+
+</main>
+<footer>数値は手計算で扱える形にしてあります。式の暗記は、名前を見て式が書けるところまでが目標です。</footer>
+
+<script src="assets/app.js"></script>
+<script>
+(function(){
+var K=window.IKKYU; K.applyTheme(); K.header({}); K.initSW('');
+var main=document.querySelector('main'), hidden=false;
+document.getElementById('tg').addEventListener('click',function(){
+  hidden=!hidden;
+  main.classList.toggle('hide',hidden);
+  this.textContent=hidden?'式を表示':'式を隠す';
+});
+document.getElementById('op').addEventListener('click',function(){
+  Array.prototype.forEach.call(document.querySelectorAll('.fx'),function(d){ d.open=true; });
+});
+document.getElementById('cl').addEventListener('click',function(){
+  Array.prototype.forEach.call(document.querySelectorAll('.fx'),function(d){ d.open=false; });
+});
+})();
+</script>
+</body>
+</html>
