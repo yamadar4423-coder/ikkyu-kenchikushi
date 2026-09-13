@@ -233,7 +233,8 @@ function initMC(stepId){
   if(!mcs.length) return;
   var st=rd('ikkyu_'+stepId); st.mc=st.mc||{};
   Array.prototype.forEach.call(mcs,function(mc,qi){
-    var ans=parseInt(mc.getAttribute('data-a'),10);
+    /* data-a は画面の選択肢番号と同じ 1 始まりで書く */
+    var ans=parseInt(mc.getAttribute('data-a'),10)-1;
     var lis=mc.querySelectorAll('.opts li');
     Array.prototype.forEach.call(lis,function(li,oi){
       var inp=li.querySelector('input');
