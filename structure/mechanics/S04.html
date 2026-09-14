@@ -417,7 +417,7 @@ function sec(o){
     s+='<circle cx="'+lx+'" cy="'+ly+'" r="5" fill="var(--ng)"/>'+
        '<line x1="'+px((minx+maxx)/2)+'" y1="'+ly+'" x2="'+lx+'" y2="'+ly+'" stroke="var(--ng)" stroke-width="1.2"/>'+
        '<circle cx="'+px((minx+maxx)/2)+'" cy="'+py((miny+maxy)/2)+'" r="3" fill="var(--figink)"/>';
-    if(o.loadLabel) s+='<text x="'+(lx+8)+'" y="'+(ly-6)+'" style="font-size:12px;font-weight:700;fill:var(--ng)">'+o.loadLabel+'</text>';
+    if(o.loadLabel) s+='<text x="'+(px(maxx)+8)+'" y="'+(ly+4)+'" style="font-size:12px;font-weight:700;fill:var(--ng)">'+o.loadLabel+'</text>';
   }
   function dimH(x1,x2,y,label){
     return '<g class="dm" color="var(--sub)"><line x1="'+x1+'" y1="'+(y-5)+'" x2="'+x1+'" y2="'+(y+5)+'"/><line x1="'+x2+'" y1="'+(y-5)+'" x2="'+x2+'" y2="'+(y+5)+'"/>'+
