@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Step 6 不静定(1) 剛性と分担 ｜ 一級建築士 構造力学</title>
+<link rel="manifest" href="../../manifest.webmanifest">
+<meta name="theme-color" content="#1d5fa8">
+<link rel="apple-touch-icon" href="../../assets/icon-180.png">
+<link rel="stylesheet" href="../../assets/app.css">
+</head>
+<body>
+<header><div class="hin">
+  <h1>Step 6 不静定(1) 剛性と分担</h1>
+  <span class="sub">学科IV 構造 ／ 目安 4日</span>
+  <nav class="tabs">
+    <a href="../../index.html">目次</a><a href="#intro">進め方</a><a href="#A">A 知識</a><a href="#B">B 手順</a><a href="#C">C 例題</a><a href="#D">D 演習</a><a href="#E">E テスト</a><a href="#F">F 4択</a>
+  </nav>
+  <span class="prog" id="gprog"></span>
+</div></header>
+
+<main>
+
+<!-- ===================== 進め方 ===================== -->
+<section class="card" id="intro">
+<h2>このステップの進め方</h2>
+<p>不静定構造では、力は<b>かたい部材ほど多く流れます</b>。このステップでは、その「かたさ」を数値にした剛比と水平剛性を使って、節点のモーメントや地震の水平力を部材どうしで分け合う計算をします。</p>
+<div class="warn">
+<b>核になるのは「剛性に比例して分担する」の一文です。</b>柱の水平剛性は両端固定なら 12EI/h³、柱脚ピンなら 3EI/h³。高さの3乗が分母にあるので、<b>短い柱ほど桁違いに多くの力を受けます</b>。これは地震で短柱が壊れやすい理由そのものです。
+</div>
+<table>
+<tr><th style="width:7em">日</th><th>内容</th><th style="width:5em">目安</th></tr>
+<tr><td>1日目</td><td>A 前提知識。剛比、分配率、水平剛性、反曲点</td><td>60分</td></tr>
+<tr><td>2日目</td><td>B 解法手順と C 例題 1〜3</td><td>60分</td></tr>
+<tr><td>3日目</td><td>C 例題 4〜6 と D 白紙演習</td><td>60分</td></tr>
+<tr><td>4日目</td><td>E 確認テスト、×だけ復習、F 4択</td><td>45分</td></tr>
+</table>
+<p class="note">このステップの計算は、ほとんどが比と足し算です。共通の EI は比の計算で消えるので、書かずに進めて構いません。学科に電卓は持ち込めません。</p>
+</section>
+
+<!-- ===================== A ===================== -->
+<section class="card" id="A" data-sec="A">
+<h2>A 前提知識の穴埋め <span class="cnt"></span></h2>
+<div class="tools">
+  <button data-act="show">全て表示</button><button data-act="hide">全て隠す</button>
+  <button data-act="review" class="pri">×だけ復習</button><button data-act="reset">○×リセット</button>
+</div>
+
+<h3>A-1 剛度と剛比</h3>
+<ul>
+<li>剛度 K = I ÷ <span class="bl" data-a="L（部材の長さ）">＿</span></li>
+<li>剛比 k = K ÷ <span class="bl" data-a="基準の剛度 K₀">＿</span></li>
+<li>剛比が大きい部材ほど、節点が回転しようとするときに多くの曲げモーメントを <span class="bl" data-a="負担する">＿</span></li>
+<li>I が同じなら、長さが半分の部材の剛比は <span class="bl" data-a="2">＿</span> 倍</li>
+</ul>
+
+<h3>A-2 分配率と到達率</h3>
+<div id="figJoint"></div>
+<ul>
+<li>節点にモーメントが加わると、そこに集まる部材が <span class="bl" data-a="剛比">＿</span> に比例して分担する</li>
+<li>分配率 DF = k ÷ <span class="bl" data-a="Σk（節点に集まる剛比の合計）">＿</span>。同じ節点の分配率を全部足すと <span class="bl" data-a="1">＿</span></li>
+<li>分配されたモーメントは、他端が固定なら <span class="bl" data-a="1/2">＿</span> が他端へ伝わる。この割合を到達率という</li>
+<li>他端がピンの部材は、剛比を <span class="bl" data-a="3/4">＿</span> 倍にした有効剛比で分配し、他端への到達モーメントは <span class="bl" data-a="0">＿</span></li>
+</ul>
+
+<h3>A-3 柱の水平剛性</h3>
+<p>柱の頭を水平に 1 だけ動かすのに必要な力です。柱頭は剛な梁に固定されているとします。</p>
+<div class="figrow" id="figCol"></div>
+<div class="scroll"><table>
+<tr><th style="width:11em">柱の支持条件</th><th style="width:8em">水平剛性</th><th>柱の曲げモーメント</th></tr>
+<tr><td>両端固定</td><td><span class="bl" data-a="12EI/h³">＿</span></td><td>柱頭・柱脚とも Q × <span class="bl" data-a="h/2">＿</span></td></tr>
+<tr><td>柱脚ピン・柱頭固定</td><td><span class="bl" data-a="3EI/h³">＿</span></td><td>柱頭で Q × <span class="bl" data-a="h">＿</span>、柱脚で 0</td></tr>
+</table></div>
+<ul>
+<li>同じ EI と h なら、両端固定の柱は柱脚ピンの柱の <span class="bl" data-a="4">＿</span> 倍かたい</li>
+<li>柱の高さが2倍になると水平剛性は <span class="bl" data-a="1/8">＿</span> になる</li>
+<li>I が2倍になると水平剛性は <span class="bl" data-a="2">＿</span> 倍</li>
+<li>両端固定の柱の反曲点は、柱の <span class="bl" data-a="中央（高さ h/2）">＿</span> にある。反曲点では M = <span class="bl" data-a="0">＿</span></li>
+</ul>
+
+<h3>A-4 水平力の分担と層間変位</h3>
+<ul>
+<li>剛な梁でつながれた柱は、柱頭が <span class="bl" data-a="同じ量だけ">＿</span> 水平に動く</li>
+<li>だから各柱の負担は <span class="bl" data-a="水平剛性">＿</span> に比例する。Qᵢ = Q × Kᵢ ÷ <span class="bl" data-a="ΣK">＿</span></li>
+<li>層間変位 δ = 層せん断力 ÷ <span class="bl" data-a="その層の水平剛性の合計 ΣK">＿</span></li>
+<li>ある層の層せん断力は、その層より <span class="bl" data-a="上">＿</span> にある水平力をすべて足したもの。だから下の層ほど大きい</li>
+<li>屋上の水平変位は、各層の層間変位の <span class="bl" data-a="和">＿</span></li>
+<li>柱を並べるのは <span class="bl" data-a="並列">＿</span> ばね、層を積み重ねるのは <span class="bl" data-a="直列">＿</span> ばねと同じ</li>
+</ul>
+</section>
+
+<!-- ===================== B ===================== -->
+<section class="card" id="B" data-sec="B">
+<h2>B 解法手順の穴埋め <span class="cnt"></span></h2>
+<div class="tools">
+  <button data-act="show">全て表示</button><button data-act="hide">全て隠す</button>
+  <button data-act="review" class="pri">×だけ復習</button><button data-act="reset">○×リセット</button>
+</div>
+
+<h3>B-1 水平力を柱に分ける手順</h3>
+<ol>
+<li>各柱の支持条件を見て、係数 <span class="bl" data-a="12 か 3">＿</span> を決める</li>
+<li>水平剛性を係数 × I ÷ h³ で書く。全柱に共通の E は <span class="bl" data-a="比では消える">＿</span></li>
+<li>剛性の比を簡単な整数にする</li>
+<li>層せん断力をその比で分ける</li>
+<li>柱ごとに M を出す。両端固定は <span class="bl" data-a="Q × h/2">＿</span>、柱脚ピンは柱頭で <span class="bl" data-a="Q × h">＿</span></li>
+</ol>
+
+<h3>B-2 節点モーメントを分配する手順</h3>
+<ol>
+<li>節点に集まる部材の剛比 k を出す。他端ピンの部材は <span class="bl" data-a="3/4">＿</span> 倍する</li>
+<li>分配率 DF = k ÷ Σk を出す</li>
+<li>節点のモーメントに分配率を掛けて、各部材の <span class="bl" data-a="分配モーメント">＿</span> を出す</li>
+<li>他端が固定の部材は、その <span class="bl" data-a="1/2">＿</span> を他端に書き込む</li>
+</ol>
+
+<h3>B-3 層間変位の手順</h3>
+<ol>
+<li>最上階から順に水平力を <span class="bl" data-a="足し合わせて">＿</span>、各層の層せん断力を出す</li>
+<li>各層で δ = Q ÷ ΣK</li>
+<li>屋上の変位は各層の δ を <span class="bl" data-a="足す">＿</span></li>
+</ol>
+
+<h3 id="B4">B-4 図を描く課題</h3>
+<p>剛な梁でつながれた両端固定の柱が2本ある。左の柱は高さ 3 m、右の柱は高さ 6 m、EI は同じ。梁の高さに右向き 90 kN。各柱の負担せん断力と、柱の M図を紙に描いてください。</p>
+<details><summary>答えの図を見る</summary><div>
+<div id="figB4"></div>
+<p>剛性の比は 1/27 : 1/216 = 8 : 1 なので、左の短い柱が 80 kN、右の長い柱が 10 kN を受けます。柱の M は短い柱が 80 × 1.5 = 120 kN·m、長い柱が 10 × 3 = 30 kN·m。どちらも中央に反曲点があり、柱脚と柱頭で逆側が引張になります。</p>
+</div></details>
+
+<h4>自分の図を採点するチェックリスト</h4>
+<ul class="chk">
+<li><label><input type="checkbox" data-ck="s6-1"><span>水平剛性を h³ に反比例として比べた</span></label></li>
+<li><label><input type="checkbox" data-ck="s6-2"><span>負担せん断力の合計が水平力と一致している</span></label></li>
+<li><label><input type="checkbox" data-ck="s6-3"><span>両端固定の柱で、M図が中央で 0 を通っている</span></label></li>
+<li><label><input type="checkbox" data-ck="s6-4"><span>柱脚と柱頭で、引張側が逆になっている</span></label></li>
+<li><label><input type="checkbox" data-ck="s6-5"><span>柱脚ピンの柱なら、柱脚の M を 0 にした</span></label></li>
+<li><label><input type="checkbox" data-ck="s6-6"><span>M の値に単位を書いた</span></label></li>
+</ul>
+</section>
+
+<!-- ===================== C ===================== -->
+<section class="card" id="C" data-sec="C">
+<h2>C 例題の数値穴埋め <span class="cnt"></span></h2>
+<div class="tools">
+  <button data-act="show">全て表示</button><button data-act="hide">全て隠す</button>
+  <button data-act="review" class="pri">×だけ復習</button><button data-act="reset">○×リセット</button>
+</div>
+
+<div class="ex"><div class="ttl">例題1 剛比</div>
+<p>次の3部材の剛比を求めよ。基準の剛度は K₀ = I₀/4 m とする。<br>梁：I = 2I₀、長さ 8 m　柱1：I = I₀、長さ 4 m　柱2：I = I₀、長さ 2 m</p>
+<div class="calc">
+① 梁の剛度 K = 2I₀ / 8 = <span class="bl" data-a="I₀/4">＿</span><br>
+② 柱1の剛度 K = <span class="bl" data-a="I₀/4">＿</span><br>
+③ 柱2の剛度 K = <span class="bl" data-a="I₀/2">＿</span><br>
+④ 剛比 k は、梁 <span class="bl" data-a="1">＿</span>、柱1 <span class="bl" data-a="1">＿</span>、柱2 <span class="bl" data-a="2">＿</span>
+</div>
+<p class="note">梁は I が2倍でも長さも2倍なので、剛比は柱1と同じになります。「太い部材がかたい」とは限りません。</p>
+</div>
+
+<div class="ex"><div class="ttl">例題2 モーメントの分配と到達</div>
+<p>節点 O に剛比 1、1、2 の3部材が集まり、他端はすべて固定されている。節点 O に 40 kN·m のモーメントが作用するとき、各部材の分配モーメントと到達モーメントを求めよ。</p>
+<div id="figC2"></div>
+<div class="calc">
+① 剛比の合計 Σk = <span class="bl" data-a="4">＿</span><br>
+② 分配率は <span class="bl" data-a="1/4">＿</span>、<span class="bl" data-a="1/4">＿</span>、<span class="bl" data-a="1/2">＿</span><br>
+③ 分配モーメントは 40 × 分配率で <span class="bl" data-a="10">＿</span>、<span class="bl" data-a="10">＿</span>、<span class="bl" data-a="20">＿</span> kN·m<br>
+④ 他端は固定なので到達率 1/2。到達モーメントは <span class="bl" data-a="5">＿</span>、<span class="bl" data-a="5">＿</span>、<span class="bl" data-a="10">＿</span> kN·m
+</div>
+</div>
+
+<div class="ex"><div class="ttl">例題3 高さの違う柱の分担</div>
+<p>剛な梁でつながれた両端固定の柱2本。EI は同じで、高さは 3 m と 6 m。梁の高さに水平力 90 kN。各柱の負担せん断力を求めよ。</p>
+<div id="figC3"></div>
+<div class="calc">
+① 水平剛性は 12EI/h³。共通の 12EI を除くと 1/3³ : 1/6³ = 1/27 : <span class="bl" data-a="1/216">＿</span><br>
+② 整数比にすると <span class="bl" data-a="8">＿</span> : 1<br>
+③ 短い柱の負担 90 × 8/9 = <span class="bl" data-a="80">＿</span> kN<br>
+④ 長い柱の負担 90 × 1/9 = <span class="bl" data-a="10">＿</span> kN<br>
+⑤ 2本の柱頭の水平変位は <span class="bl" data-a="等しい">＿</span>。剛な梁でつながっているから
+</div>
+<p class="note">高さが半分なだけで、負担は8倍です。腰壁やたれ壁で柱の実質的な高さが短くなると、その柱に地震力が集中して壊れます。</p>
+</div>
+
+<div class="ex"><div class="ttl">例題4 柱の曲げモーメントと反曲点</div>
+<p>例題3の2本の柱について、柱頭と柱脚の曲げモーメントを求めよ。</p>
+<div id="figC4"></div>
+<div class="calc">
+① 両端固定の柱の反曲点は <span class="bl" data-a="柱の中央">＿</span><br>
+② 反曲点から柱頭・柱脚までの距離は <span class="bl" data-a="h/2">＿</span><br>
+③ 短い柱 M = 80 × 1.5 = <span class="bl" data-a="120">＿</span> kN·m<br>
+④ 長い柱 M = 10 × 3 = <span class="bl" data-a="30">＿</span> kN·m<br>
+⑤ 柱脚と柱頭では、引張になる側が <span class="bl" data-a="逆">＿</span> になる
+</div>
+</div>
+
+<div class="ex"><div class="ttl">例題5 両端固定と柱脚ピンの混在</div>
+<p>剛な梁でつながれた柱 A と柱 B。高さはどちらも 4 m、EI は同じ。柱 A は両端固定、柱 B は柱脚ピン。水平力 100 kN の分担と、各柱の最大曲げモーメントを求めよ。</p>
+<div id="figC5"></div>
+<div class="calc">
+① 水平剛性の比　12EI/h³ : 3EI/h³ = <span class="bl" data-a="4">＿</span> : 1<br>
+② 柱 A の負担 <span class="bl" data-a="80">＿</span> kN、柱 B の負担 <span class="bl" data-a="20">＿</span> kN<br>
+③ 柱 A の M = 80 × 4/2 = <span class="bl" data-a="160">＿</span> kN·m（柱頭・柱脚とも）<br>
+④ 柱 B の柱頭 M = 20 × <span class="bl" data-a="4">＿</span> = 80 kN·m、柱脚は <span class="bl" data-a="0">＿</span>
+</div>
+</div>
+
+<div class="ex"><div class="ttl">例題6 2層の層間変位</div>
+<p>2層の骨組で、各層の水平剛性の合計はどちらも 20 kN/mm。屋上に 40 kN、2階床に 60 kN の水平力。各層の層間変位と屋上の水平変位を求めよ。</p>
+<div id="figC6"></div>
+<div class="calc">
+① 2層目の層せん断力 Q₂ = <span class="bl" data-a="40">＿</span> kN（屋上の力だけ）<br>
+② 1層目の層せん断力 Q₁ = 40 + 60 = <span class="bl" data-a="100">＿</span> kN<br>
+③ 2層目の層間変位 δ₂ = 40 / 20 = <span class="bl" data-a="2">＿</span> mm<br>
+④ 1層目の層間変位 δ₁ = 100 / 20 = <span class="bl" data-a="5">＿</span> mm<br>
+⑤ 屋上の水平変位 = 5 + 2 = <span class="bl" data-a="7">＿</span> mm
+</div>
+<p class="note">同じ剛性の層でも、下の層ほど層せん断力が大きいので大きく変形します。下の層ほど柱を太くする理由です。</p>
+</div>
+</section>
+
+<!-- ===================== D ===================== -->
+<section class="card" id="D">
+<h2>D 白紙演習（4問）</h2>
+<p>剛性の比を整数にするところから紙に書いてください。電卓は使いません。</p>
+<div class="tools" data-timer="30"></div>
+
+<div class="ex"><div class="ttl">D-1</div>
+<p>剛な梁でつながれた両端固定の柱3本。高さは同じで、断面二次モーメントは I、2I、3I。水平力 120 kN の分担を求めよ。</p>
+<details><summary>解答</summary><div>
+<div class="calc">水平剛性は I に比例 → 1 : 2 : 3<br>120 × 1/6 = 20、120 × 2/6 = 40、120 × 3/6 = 60 kN</div>
+</div></details>
+</div>
+
+<div class="ex"><div class="ttl">D-2</div>
+<p>高さ 3 m の両端固定の柱が 60 kN のせん断力を負担している。柱頭の曲げモーメントを求めよ。</p>
+<details><summary>解答</summary><div>
+<div class="calc">反曲点は中央 → M = 60 × 1.5 = 90 kN·m</div>
+</div></details>
+</div>
+
+<div class="ex"><div class="ttl">D-3</div>
+<p>剛な梁でつながれた柱 A と柱 B。EI は同じ。柱 A は両端固定で高さ 6 m、柱 B は柱脚ピンで高さ 3 m。水平力 60 kN の分担と、各柱の最大曲げモーメントを求めよ。</p>
+<div id="figD3"></div>
+<details><summary>解答</summary><div>
+<div class="calc">柱 A 12/6³ = 12/216 = 1/18　柱 B 3/3³ = 3/27 = 1/9　→ 1 : 2<br>柱 A 20 kN、柱 B 40 kN<br>柱 A の M = 20 × 6/2 = 60 kN·m<br>柱 B の柱頭 M = 40 × 3 = 120 kN·m</div>
+<p>支持条件では A が4倍かたくても、高さの差 2³ = 8 倍で逆転します。係数と高さの両方を掛けて比べます。</p>
+</div></details>
+</div>
+
+<div class="ex"><div class="ttl">D-4</div>
+<p>3層の骨組で、各層の水平剛性の合計はすべて 10 kN/mm。屋上、3階床、2階床にそれぞれ 20 kN の水平力。屋上の水平変位を求めよ。</p>
+<details><summary>解答</summary><div>
+<div class="calc">層せん断力　3層目 20、2層目 40、1層目 60 kN<br>層間変位　2、4、6 mm<br>屋上 2 + 4 + 6 = 12 mm</div>
+</div></details>
+</div>
+</section>
+
+<!-- ===================== E ===================== -->
+<section class="card" id="E">
+<h2>E 確認テスト（5問）</h2>
+<p>合格ラインは 4/5。倍率は小数で入力します。</p>
+
+<div class="qz"><b>E-1</b> 両端固定の柱の高さを2倍にすると、水平剛性は何倍になるか。<br>
+<input type="number" step="any" data-a="0.125"> 倍 <span class="res"></span></div>
+
+<div class="qz"><b>E-2</b> 同じ EI、同じ高さの柱で、両端固定の柱の水平剛性は、柱脚ピン・柱頭固定の柱の何倍か。<br>
+<input type="number" step="any" data-a="4"> 倍 <span class="res"></span></div>
+
+<div class="qz"><b>E-3</b> 剛な梁でつながれた同じ高さの両端固定の柱2本。断面二次モーメントは I と 3I。水平力 80 kN のうち、I の柱の負担は何 kN か。<br>
+<input type="number" step="any" data-a="20"> kN <span class="res"></span></div>
+
+<div class="qz"><b>E-4</b> 高さ 4 m の両端固定の柱が 30 kN のせん断力を負担している。柱頭の曲げモーメントは何 kN·m か。<br>
+<input type="number" step="any" data-a="60"> kN·m <span class="res"></span></div>
+
+<div class="qz"><b>E-5</b> 2層の骨組で、各層の水平剛性の合計はどちらも 25 kN/mm。屋上に 50 kN、2階床に 50 kN。屋上の水平変位は何 mm か。<br>
+<input type="number" step="any" data-a="6"> mm <span class="res"></span></div>
+
+<div class="tools"><button id="grade" class="pri">採点</button><button id="gclear">入力をクリア</button></div>
+<div class="score" id="score"></div>
+<details><summary>解説</summary><div>
+<div class="calc">E-1　1/h³ → 1/8 = 0.125<br>
+E-2　12 ÷ 3 = 4<br>
+E-3　1 : 3 → 80 × 1/4 = 20<br>
+E-4　30 × 2 = 60<br>
+E-5　2層目 50/25 = 2、1層目 100/25 = 4 → 6</div>
+</div></details>
+</section>
+
+<!-- ===================== F ===================== -->
+<section class="card" id="F">
+<h2>F 本番形式（4択）</h2>
+
+<div class="mc" data-a="4">
+<p><b>F-1</b> 柱の水平剛性と水平力の分担に関する次の記述のうち、<b>誤っている</b>ものはどれか。</p>
+<ul class="opts">
+<li><label><input type="radio"><span>1.　両端固定の柱の水平剛性は 12EI/h³ である</span></label></li>
+<li><label><input type="radio"><span>2.　柱の高さが2倍になると、水平剛性は 1/8 になる</span></label></li>
+<li><label><input type="radio"><span>3.　剛な梁でつながれた柱は、水平剛性に比例して層せん断力を分担する</span></label></li>
+<li><label><input type="radio"><span>4.　両端固定の柱の反曲点は、柱脚から柱の高さの 1/3 の位置にある</span></label></li>
+</ul>
+<details><summary>解説</summary><div>
+<p>両端固定の柱の反曲点は中央、つまり h/2 の位置です。4 が誤りです。柱頭と柱脚の条件が等しいので、曲げは上下対称になります。</p>
+</div></details>
+</div>
+
+<div class="mc" data-a="3">
+<p><b>F-2</b> 剛な梁でつながれた柱 A と柱 B に水平力 Q が作用する。柱 A は両端固定で高さ h、柱 B は柱脚ピン・柱頭固定で高さ h/2。EI は同じ。柱 B が負担するせん断力は Q の何倍か。</p>
+<div id="figF2"></div>
+<ul class="opts">
+<li><label><input type="radio"><span>1.　1/3</span></label></li>
+<li><label><input type="radio"><span>2.　1/2</span></label></li>
+<li><label><input type="radio"><span>3.　2/3</span></label></li>
+<li><label><input type="radio"><span>4.　4/5</span></label></li>
+</ul>
+<details><summary>解説</summary><div>
+<p>柱 A は 12EI/h³。柱 B は 3EI/(h/2)³ = 24EI/h³。比は 1 : 2 なので、柱 B は 2/3 を負担します。</p>
+<p>支持条件だけ見ると A が4倍かたいので 1/5 と考えがちですが、高さが半分で 8 倍かたくなる効果のほうが大きく勝ちます。</p>
+</div></details>
+</div>
+
+<div class="mc" data-a="2">
+<p><b>F-3</b> ある節点に3部材が集まり、剛比はそれぞれ 2、3、5 である。他端はすべて固定。剛比 3 の部材の分配率として正しいものはどれか。</p>
+<ul class="opts">
+<li><label><input type="radio"><span>1.　0.2</span></label></li>
+<li><label><input type="radio"><span>2.　0.3</span></label></li>
+<li><label><input type="radio"><span>3.　0.5</span></label></li>
+<li><label><input type="radio"><span>4.　0.6</span></label></li>
+</ul>
+<details><summary>解説</summary><div>
+<p>分配率 = 3 ÷ (2 + 3 + 5) = 0.3。</p>
+</div></details>
+</div>
+</section>
+
+</main>
+<footer>
+<p><b>次のステップ</b>　Step 7 不静定(2) 解法。重ね合わせ法とモーメント分配法で、不静定梁の反力と M図を求めます。</p>
+</footer>
+
+<script src="../../assets/app.js"></script>
+<script>
+(function(){
+var K=window.IKKYU, fig=K.fig, figc=K.figc, F=K.frameFig, DEFS=K.DEFS;
+
+/* 剛な梁でつながれた柱。cols: [{x, h, base:'fix'|'pin', M, label}]。梁の高さ top */
+function cols(o){
+  var top=o.top, nodes={}, members=[], sup=[], M=[], labels=[];
+  o.cols.forEach(function(c,i){
+    var b='B'+i, t='T'+i;
+    nodes[b]=[c.x, top-c.h]; nodes[t]=[c.x, top];
+    members.push([b,t]); sup.push({n:b, t:c.base});
+    if(c.M!=null){
+      var marks=[{t:1,v:-c.M,l:c.M+'',dx:6,dy:14}];
+      if(c.base==='fix') marks.push({t:0,v:c.M,l:c.M+'',dx:-26,dy:-4});
+      M.push({m:members.length-1, pts: c.base==='fix'? [[0,c.M],[0.5,0],[1,-c.M]] : [[0,0],[1,-c.M]], marks:marks});
+    }
+    if(c.label) labels.push({at:[c.x, top-c.h/2], l:c.label, dx:10, dy:4});
+  });
+  for(var i=0;i<o.cols.length-1;i++) members.push(['T'+i,'T'+(i+1)]);
+  return F({W:o.W||420, maxH:o.maxH||170, nodes:nodes, members:members, sup:sup, M:M, labels:labels.concat(o.labels||[]),
+    loads:[{t:'P',at:[o.cols[0].x, top], d:'right', l:o.P}], mScale:o.mScale||30, padR:o.padR||90, padB:o.padB||40, padT:o.padT||40});
+}
+
+/* A-2 節点 */
+fig('figJoint','<svg class="fig" viewBox="0 0 420 180" width="420">'+DEFS+
+  '<line x1="210" y1="90" x2="70" y2="90" class="bm"/><line x1="210" y1="90" x2="350" y2="90" class="bm"/><line x1="210" y1="90" x2="210" y2="165" class="bm"/>'+
+  '<g class="gr">'+[70,350].map(function(x){ var s=''; for(var y=66;y<=112;y+=8) s+='<line x1="'+x+'" y1="'+y+'" x2="'+(x+(x<210?-8:8))+'" y2="'+(y+8)+'"/>'; return s+'<line x1="'+x+'" y1="64" x2="'+x+'" y2="116" style="stroke-width:2"/>'; }).join('')+
+  '<line x1="186" y1="165" x2="234" y2="165" style="stroke-width:2"/></g>'+
+  '<circle cx="210" cy="90" r="5" fill="currentColor"/><text x="218" y="84" class="nm">O</text>'+
+  '<g class="rc" color="var(--acc)"><path d="M 190 52 A 22 22 0 1 1 230 52" marker-end="url(#ab)"/></g><text x="238" y="44" class="rt">節点のモーメント M</text>'+
+  '<text x="112" y="112" class="dt">剛比 k₁</text><text x="276" y="112" class="dt">剛比 k₂</text><text x="218" y="140" class="dt">剛比 k₃</text>'+
+  '<text x="60" y="176" class="dt">部材 i の分担 = M × kᵢ / (k₁ + k₂ + k₃)</text></svg>');
+
+/* A-3 柱の水平剛性 */
+fig('figCol',
+  figc('両端固定　12EI/h³', cols({W:220,top:4,P:'Q',cols:[{x:0,h:4,base:'fix',M:1}],mScale:26,padR:60,labels:[]}).replace(/>1</g,'>Qh/2<'))+
+  figc('柱脚ピン　3EI/h³', cols({W:220,top:4,P:'Q',cols:[{x:0,h:4,base:'pin',M:1}],mScale:26,padR:60,labels:[]}).replace(/>1</g,'>Qh<')));
+
+/* B-4 と 例題3・4 */
+var C34={top:6,P:'90 kN',cols:[{x:0,h:3,base:'fix',M:120,label:'h = 3 m'},{x:6,h:6,base:'fix',M:30,label:'h = 6 m'}],padR:70};
+fig('figB4',cols(C34));
+fig('figC4',cols(C34));
+fig('figC3',cols({top:6,P:'90 kN',cols:[{x:0,h:3,base:'fix',label:'h = 3 m'},{x:6,h:6,base:'fix',label:'h = 6 m'}],padR:70}));
+
+/* 例題2 */
+fig('figC2','<svg class="fig" viewBox="0 0 420 180" width="420">'+DEFS+
+  '<line x1="210" y1="90" x2="70" y2="90" class="bm"/><line x1="210" y1="90" x2="350" y2="90" class="bm"/><line x1="210" y1="90" x2="210" y2="165" class="bm"/>'+
+  '<circle cx="210" cy="90" r="5" fill="currentColor"/><text x="218" y="84" class="nm">O</text>'+
+  '<g class="rc" color="var(--acc)"><path d="M 190 52 A 22 22 0 1 1 230 52" marker-end="url(#ab)"/></g><text x="238" y="44" class="rt">40 kN·m</text>'+
+  '<text x="112" y="112" class="dt">k = 1</text><text x="276" y="112" class="dt">k = 1</text><text x="218" y="140" class="dt">k = 2</text>'+
+  '<text x="40" y="176" class="dt">他端はすべて固定</text></svg>');
+
+/* 例題5 */
+fig('figC5',cols({top:4,P:'100 kN',cols:[{x:0,h:4,base:'fix',M:160,label:'A'},{x:6,h:4,base:'pin',M:80,label:'B'}],padR:70}));
+
+/* 例題6 2層 */
+fig('figC6',F({W:400,maxH:170,padR:90,padT:30,padB:36,
+  nodes:{A:[0,0],B:[0,3],C:[0,6],D:[6,0],E:[6,3],G:[6,6]},
+  members:[['A','B'],['B','C'],['D','E'],['E','G'],['B','E'],['C','G']],
+  sup:[{n:'A',t:'fix'},{n:'D',t:'fix'}],
+  loads:[{t:'P',at:[0,6],d:'right',l:'40 kN'},{t:'P',at:[0,3],d:'right',l:'60 kN'}],
+  labels:[{at:[6,4.5],l:'2層 ΣK = 20 kN/mm',dx:10,dy:4},{at:[6,1.5],l:'1層 ΣK = 20 kN/mm',dx:10,dy:4}]}));
+
+/* D-3 */
+fig('figD3',cols({top:6,P:'60 kN',cols:[{x:0,h:6,base:'fix',label:'A'},{x:6,h:3,base:'pin',label:'B'}],padR:60}));
+/* F-2 */
+fig('figF2',cols({top:4,P:'Q',cols:[{x:0,h:4,base:'fix',label:'A　h'},{x:6,h:2,base:'pin',label:'B　h/2'}],padR:70}));
+
+K.initStep('S06',{base:'../../'});
+})();
+</script>
+</body>
+</html>
