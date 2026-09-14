@@ -54,7 +54,7 @@ var STEPS=[
  {id:'S01',n:'1', t:'静定梁の応力',            s:'反力 → Q図・M図の描き方',          h:'structure/mechanics/S01.html', ready:true},
  {id:'S02',n:'2', t:'静定ラーメン・3ヒンジ',   s:'ラーメンのM図、3ヒンジ構造',      h:'structure/mechanics/S02.html', ready:true},
  {id:'S03',n:'3', t:'トラス',                  s:'節点法・切断法・ゼロ部材',        h:'structure/mechanics/S03.html', ready:true},
- {id:'S04',n:'4', t:'断面の性質と応力度',      s:'断面二次モーメント・応力度・コア', h:'structure/mechanics/S04.html'},
+ {id:'S04',n:'4', t:'断面の性質と応力度',      s:'断面二次モーメント・応力度・コア', h:'structure/mechanics/S04.html', ready:true},
  {id:'S05',n:'5', t:'変形',                    s:'たわみ・たわみ角の公式',          h:'structure/mechanics/S05.html'},
  {id:'S06',n:'6', t:'不静定(1) 剛性と分担',    s:'剛比・分配率・水平剛性',          h:'structure/mechanics/S06.html'},
  {id:'S07',n:'7', t:'不静定(2) 解法',          s:'重ね合わせ・たわみ角法・分配法',  h:'structure/mechanics/S07.html'},

@@ -12,6 +12,7 @@ var ASSETS = [
   './structure/mechanics/S01.html',
   './structure/mechanics/S02.html',
   './structure/mechanics/S03.html',
+  './structure/mechanics/S04.html',
   './assets/app.css',
   './assets/app.js',
   './assets/icon-192.png',
