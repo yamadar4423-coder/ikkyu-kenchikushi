@@ -53,7 +53,7 @@ var STEPS=[
  {id:'S00',n:'0', t:'準備 ― 力学の土台',      s:'単位・つり合い・モーメント・支点・荷重・判別式', h:'structure/mechanics/S00.html', ready:true},
  {id:'S01',n:'1', t:'静定梁の応力',            s:'反力 → Q図・M図の描き方',          h:'structure/mechanics/S01.html', ready:true},
  {id:'S02',n:'2', t:'静定ラーメン・3ヒンジ',   s:'ラーメンのM図、3ヒンジ構造',      h:'structure/mechanics/S02.html', ready:true},
- {id:'S03',n:'3', t:'トラス',                  s:'節点法・切断法・ゼロ部材',        h:'structure/mechanics/S03.html'},
+ {id:'S03',n:'3', t:'トラス',                  s:'節点法・切断法・ゼロ部材',        h:'structure/mechanics/S03.html', ready:true},
  {id:'S04',n:'4', t:'断面の性質と応力度',      s:'断面二次モーメント・応力度・コア', h:'structure/mechanics/S04.html'},
  {id:'S05',n:'5', t:'変形',                    s:'たわみ・たわみ角の公式',          h:'structure/mechanics/S05.html'},
  {id:'S06',n:'6', t:'不静定(1) 剛性と分担',    s:'剛比・分配率・水平剛性',          h:'structure/mechanics/S06.html'},
@@ -565,6 +565,86 @@ function frameFig(o){
   return s+'</svg>';
 }
 
+/* トラスの図。
+   nodes: {A:[x,y],...}（模型座標、y は上が正）  members: [['A','B'],...]
+   sup: [{n:'A',t:'pin'|'roller'}]  wall: {x, y1, y2}（片持ちトラスの壁）
+   loads: [{n:'C',d:'down'|'up'|'left'|'right',l:'8 kN',below:true}]
+   force: {部材の添字: 値}  値が + は引張で青、− は圧縮で赤、0 は灰色の破線
+   hi: [強調する部材の添字]  cut: [[x,y],[x,y]] 切断線  labels / mlabels: 節点名と部材名 */
+function trussFig(o){
+  var W=o.W||460, nodes=o.nodes, mem=o.members, key, xs=[], ys=[];
+  for(key in nodes){ xs.push(nodes[key][0]); ys.push(nodes[key][1]); }
+  var minx=Math.min.apply(null,xs), maxx=Math.max.apply(null,xs);
+  var miny=Math.min.apply(null,ys), maxy=Math.max.apply(null,ys);
+  var mw=Math.max(0.001,maxx-minx), mh=Math.max(0.001,maxy-miny);
+  var padL=o.padL||56, padR=o.padR||56, padT=o.padT||60, padB=o.padB||58;
+  var k=Math.min((W-padL-padR)/mw,(o.maxH||170)/mh);
+  var H=mh*k+padT+padB;
+  function px(x){ return padL+(x-minx)*k; }
+  function py(y){ return padT+(maxy-y)*k; }
+  function P(n){ var p=(typeof n==='string')?nodes[n]:n; return [px(p[0]),py(p[1])]; }
+  var s='<svg class="fig" viewBox="0 0 '+W+' '+Math.round(H)+'" width="'+W+'">'+DEFS;
+
+  if(o.wall){
+    var wx=px(o.wall.x)-8, wy1=py(o.wall.y2)-16, wy2=py(o.wall.y1)+16;
+    s+='<line x1="'+wx+'" y1="'+wy1+'" x2="'+wx+'" y2="'+wy2+'" class="gr" style="stroke-width:2.4"/>';
+    for(var yy=wy1; yy<wy2; yy+=8) s+='<line x1="'+wx+'" y1="'+yy+'" x2="'+(wx-8)+'" y2="'+(yy+8)+'" class="gr"/>';
+  }
+  mem.forEach(function(m,i){
+    var A=P(m[0]), B=P(m[1]), col='var(--figink)', w=3, dash='';
+    if(o.force && Object.prototype.hasOwnProperty.call(o.force,i)){
+      var f=o.force[i];
+      if(Math.abs(f)<1e-9){ col='var(--sub)'; w=2.2; dash=' stroke-dasharray="5 4"'; }
+      else if(f>0){ col='var(--acc)'; w=4.2; }
+      else { col='var(--ng)'; w=4.2; }
+    }
+    if(o.hi && o.hi.indexOf(i)>=0) w=6.5;
+    s+='<line x1="'+A[0]+'" y1="'+A[1]+'" x2="'+B[0]+'" y2="'+B[1]+'" stroke="'+col+'" stroke-width="'+w+'" stroke-linecap="round"'+dash+'/>';
+  });
+  if(o.cut){
+    var c1=P(o.cut[0]), c2=P(o.cut[1]);
+    s+='<line x1="'+c1[0]+'" y1="'+c1[1]+'" x2="'+c2[0]+'" y2="'+c2[1]+'" stroke="var(--warn)" stroke-width="2.4" stroke-dasharray="7 5"/>';
+    if(o.cutLabel) s+='<text x="'+(c1[0]+6)+'" y="'+(c1[1]+2)+'" style="font-size:12px;font-weight:700;fill:var(--warn)">'+o.cutLabel+'</text>';
+  }
+  (o.sup||[]).forEach(function(p){ var A=P(p.n); s+=support(p.t,A[0],A[1]+4); });
+  for(key in nodes){ var N=P(key); s+='<circle cx="'+N[0]+'" cy="'+N[1]+'" r="4.6" class="sp"/>'; }
+  (o.mlabels||[]).forEach(function(t){
+    var m=mem[t.m], A=P(m[0]), B=P(m[1]);
+    s+='<text x="'+((A[0]+B[0])/2+(t.dx==null?5:t.dx))+'" y="'+((A[1]+B[1])/2+(t.dy==null?-6:t.dy))+'" style="font-size:12px;font-weight:700;fill:'+(t.c||'var(--figink)')+'">'+t.l+'</text>';
+  });
+  (o.labels||[]).forEach(function(t){
+    var A=P(t.n);
+    s+='<text x="'+(A[0]+(t.dx==null?-7:t.dx))+'" y="'+(A[1]+(t.dy==null?-10:t.dy))+'" class="nm">'+t.l+'</text>';
+  });
+  (o.loads||[]).forEach(function(l){
+    var A=P(l.n), x1, y1, x2, y2, tx, ty;
+    if(l.d==='down' && l.below){ x1=A[0]; y1=A[1]+8; x2=A[0]; y2=A[1]+46; tx=A[0]+6; ty=A[1]+40; }
+    else if(l.d==='down'){ x1=A[0]; y1=A[1]-50; x2=A[0]; y2=A[1]-8; tx=A[0]+6; ty=A[1]-38; }
+    else if(l.d==='up'){ x1=A[0]; y1=A[1]+50; x2=A[0]; y2=A[1]+8; tx=A[0]+6; ty=A[1]+40; }
+    else if(l.d==='right'){ x1=A[0]-52; y1=A[1]; x2=A[0]-8; y2=A[1]; tx=A[0]-58; ty=A[1]-9; }
+    else { x1=A[0]+52; y1=A[1]; x2=A[0]+8; y2=A[1]; tx=A[0]+14; ty=A[1]-9; }
+    s+='<g class="ld" color="var(--ng)"><line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" marker-end="url(#ah)"/></g>'+
+       '<text x="'+tx+'" y="'+ty+'" class="lt">'+l.l+'</text>';
+  });
+  (o.dimX||[]).forEach(function(d){
+    var a=px(d[0]), b=px(d[1]), y=py(miny)+(d[3]||40);
+    s+='<g class="dm" color="var(--sub)"><line x1="'+a+'" y1="'+(y-6)+'" x2="'+a+'" y2="'+(y+6)+'"/><line x1="'+b+'" y1="'+(y-6)+'" x2="'+b+'" y2="'+(y+6)+'"/>'+
+       '<line x1="'+(a+2)+'" y1="'+y+'" x2="'+(b-2)+'" y2="'+y+'" marker-start="url(#ag)" marker-end="url(#ag)"/></g>'+
+       '<text x="'+((a+b)/2-12)+'" y="'+(y-4)+'" class="dt">'+d[2]+'</text>';
+  });
+  (o.dimY||[]).forEach(function(d){
+    var x=px(o.dimYx==null?minx:o.dimYx)-(d[3]||34), a=py(d[0]), b=py(d[1]);
+    s+='<g class="dm" color="var(--sub)"><line x1="'+(x-6)+'" y1="'+a+'" x2="'+(x+6)+'" y2="'+a+'"/><line x1="'+(x-6)+'" y1="'+b+'" x2="'+(x+6)+'" y2="'+b+'"/>'+
+       '<line x1="'+x+'" y1="'+(a-2)+'" x2="'+x+'" y2="'+(b+2)+'" marker-start="url(#ag)" marker-end="url(#ag)"/></g>'+
+       '<text x="'+(x-26)+'" y="'+((a+b)/2+4)+'" class="dt">'+d[2]+'</text>';
+  });
+  if(o.legend){
+    s+='<text x="8" y="'+(Math.round(H)-8)+'" style="font-size:12px;font-weight:600">'+
+       '<tspan fill="var(--acc)">━ 引張</tspan>　<tspan fill="var(--ng)">━ 圧縮</tspan>　<tspan fill="var(--sub)">┅ 0</tspan></text>';
+  }
+  return s+'</svg>';
+}
+
 function fig(id,html){ var el=document.getElementById(id); if(el) el.innerHTML=html; }
 function figc(cap,html){ return '<figure>'+html+'<figcaption>'+cap+'</figcaption></figure>'; }
 function supFig(t){
@@ -607,6 +687,6 @@ global.IKKYU={
   initMC:initMC, initChecklist:initChecklist, initTimer:initTimer,
   startReview:startReview, exportAll:exportAll, importAll:importAll,
   initSW:initSW, refresh:refresh,
-  beam:beam, beamSet:beamSet, beamLayer:beamLayer, frame:frame, frameFig:frameFig, support:support, fig:fig, figc:figc, supFig:supFig, DEFS:DEFS
+  beam:beam, beamSet:beamSet, beamLayer:beamLayer, frame:frame, frameFig:frameFig, trussFig:trussFig, support:support, fig:fig, figc:figc, supFig:supFig, DEFS:DEFS
 };
 })(window);

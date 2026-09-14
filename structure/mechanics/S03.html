@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Step 3 トラス ｜ 一級建築士 構造力学</title>
+<link rel="manifest" href="../../manifest.webmanifest">
+<meta name="theme-color" content="#1d5fa8">
+<link rel="apple-touch-icon" href="../../assets/icon-180.png">
+<link rel="stylesheet" href="../../assets/app.css">
+</head>
+<body>
+<header><div class="hin">
+  <h1>Step 3 トラス</h1>
+  <span class="sub">学科IV 構造 ／ 目安 4日</span>
+  <nav class="tabs">
+    <a href="../../index.html">目次</a><a href="#intro">進め方</a><a href="#A">A 知識</a><a href="#B">B 手順</a><a href="#C">C 例題</a><a href="#D">D 演習</a><a href="#E">E テスト</a><a href="#F">F 4択</a>
+  </nav>
+  <span class="prog" id="gprog"></span>
+</div></header>
+
+<main>
+
+<!-- ===================== 進め方 ===================== -->
+<section class="card" id="intro">
+<h2>このステップの進め方</h2>
+<p>部材を三角形に組んだ骨組をトラスといいます。梁やラーメンと違い、部材には<b>引張か圧縮の軸方向力しか生じません</b>。曲げを考えなくてよいぶん、つり合い式だけで機械的に解けるので、力学の中では得点源にしやすい単元です。</p>
+<div class="warn">
+<b>解き方は2つだけです。</b>節点で力を足し合わせる<b>節点法</b>と、トラスを切ってモーメントをとる<b>切断法</b>。試験では「特定の1本の軸力」を問われることが多く、その場合は切断法のほうが圧倒的に速くなります。
+</div>
+<table>
+<tr><th style="width:7em">日</th><th>内容</th><th style="width:5em">目安</th></tr>
+<tr><td>1日目</td><td>A 前提知識。符号、斜材の分力、ゼロ部材</td><td>60分</td></tr>
+<tr><td>2日目</td><td>B 解法手順と C 例題 1〜3</td><td>60分</td></tr>
+<tr><td>3日目</td><td>C 例題 4〜6 と D 白紙演習</td><td>60分</td></tr>
+<tr><td>4日目</td><td>E 確認テスト、×だけ復習、F 4択</td><td>45分</td></tr>
+</table>
+<p class="note"><b>斜材は √2 と √3 が出ます。</b>45°なら 1 : 1 : √2、30°なら √3 : 1 : 2。答えは √ を残した形で出し、4択の数値と比べるときだけ √2 ≒ 1.41、√3 ≒ 1.73 を使います。学科に電卓は持ち込めません。</p>
+</section>
+
+<!-- ===================== A ===================== -->
+<section class="card" id="A" data-sec="A">
+<h2>A 前提知識の穴埋め <span class="cnt"></span></h2>
+<div class="tools">
+  <button data-act="show">全て表示</button><button data-act="hide">全て隠す</button>
+  <button data-act="review" class="pri">×だけ復習</button><button data-act="reset">○×リセット</button>
+</div>
+
+<h3>A-1 トラスとは</h3>
+<p>下の図は、上下の弦材を鉛直材と斜材でつないだ平行弦トラスです。本ステップの例題の多くはこの形で考えます。</p>
+<div id="figTruss"></div>
+<ul>
+<li>トラスは部材を <span class="bl" data-a="三角形">＿</span> に組んだ骨組</li>
+<li>節点は <span class="bl" data-a="ピン（回転自由）">＿</span> で接合されていると仮定する</li>
+<li>荷重は <span class="bl" data-a="節点">＿</span> にだけ作用すると仮定する</li>
+<li>この2つの仮定から、部材に生じるのは <span class="bl" data-a="軸方向力">＿</span> だけで、曲げモーメントは <span class="bl" data-a="生じない（0）">＿</span></li>
+<li>したがって各部材は <span class="bl" data-a="引張">＿</span> か <span class="bl" data-a="圧縮">＿</span> のどちらかになる</li>
+</ul>
+
+<h3>A-2 符号と矢印の向き</h3>
+<div id="figSign"></div>
+<ul>
+<li>軸方向力は引張を <span class="bl" data-a="＋">＿</span>、圧縮を <span class="bl" data-a="−">＿</span> とする</li>
+<li>部材に働く力で見ると、引張は部材の両端を <span class="bl" data-a="外向き（引き離す向き）">＿</span> に引く</li>
+<li>節点に働く力で見ると、引張材は節点を <span class="bl" data-a="部材の方へ引く（節点から離れる向き）">＿</span>、圧縮材は節点を <span class="bl" data-a="押す（節点に向かう向き）">＿</span></li>
+<li>未知の軸力は、はじめ全部 <span class="bl" data-a="引張">＿</span> と仮定して式を立てる。結果が負なら <span class="bl" data-a="圧縮">＿</span> と読み替える</li>
+</ul>
+
+<h3>A-3 斜材の分力</h3>
+<p>斜材の力は水平成分と鉛直成分に分けてつり合いを考えます。辺の比を覚えておけば三角関数は要りません。</p>
+<div id="figRatio"></div>
+<div class="scroll"><table>
+<tr><th style="width:7em">斜材の角度</th><th>水平成分 : 鉛直成分 : 斜材</th></tr>
+<tr><td>45°</td><td>1 : 1 : <span class="bl" data-a="√2">＿</span></td></tr>
+<tr><td>30°（水平から）</td><td><span class="bl" data-a="√3">＿</span> : 1 : <span class="bl" data-a="2">＿</span></td></tr>
+</table></div>
+<ul>
+<li>45°の斜材で鉛直成分が 4 kN なら、斜材の軸力は <span class="bl" data-a="4√2">＿</span> kN</li>
+<li>30°の斜材で鉛直成分が 5 kN なら、斜材は <span class="bl" data-a="10">＿</span> kN、水平成分は <span class="bl" data-a="5√3">＿</span> kN</li>
+<li>√2 ≒ <span class="bl" data-a="1.41">＿</span>、√3 ≒ <span class="bl" data-a="1.73">＿</span></li>
+</ul>
+
+<h3>A-4 節点法</h3>
+<ul>
+<li>1つの節点で使えるつり合い式は ΣX = 0 と ΣY = 0 の <span class="bl" data-a="2">＿</span> 本</li>
+<li>だから、未知の部材が <span class="bl" data-a="2本以下">＿</span> の節点から解き始める</li>
+<li>支点のある節点は、反力を <span class="bl" data-a="先に">＿</span> 求めてから使う</li>
+<li>節点ではモーメントのつり合いは使えない。すべての力が <span class="bl" data-a="1点">＿</span> に集まっているから</li>
+</ul>
+
+<h3>A-5 切断法</h3>
+<ul>
+<li>求めたい部材を含めて <span class="bl" data-a="3本以内">＿</span> の部材を切る</li>
+<li>残り2本の部材の <span class="bl" data-a="交点">＿</span> 回りでモーメントのつり合いをとると、求めたい1本だけが式に残る</li>
+<li>平行弦トラスの弦材の軸力の大きさ = その位置の <span class="bl" data-a="曲げモーメント M">＿</span> ÷ <span class="bl" data-a="トラスの高さ h">＿</span></li>
+<li>弦材が平行なとき、斜材の <span class="bl" data-a="鉛直成分">＿</span> はそのパネルのせん断力に等しい</li>
+<li>下向き荷重の単純支持トラスでは、上弦材は <span class="bl" data-a="圧縮">＿</span>、下弦材は <span class="bl" data-a="引張">＿</span>。梁の上側が縮み下側が伸びるのと同じ</li>
+<li>片持ちトラスでは逆になり、上弦材が <span class="bl" data-a="引張">＿</span>、下弦材が <span class="bl" data-a="圧縮">＿</span></li>
+</ul>
+
+<h3>A-6 ゼロ部材</h3>
+<p>計算しなくても軸力が 0 と分かる部材があります。試験で頻出なうえ、計算の手数も減らせます。</p>
+<div class="figrow" id="figZero"></div>
+<ul>
+<li>部材が2本だけの節点に荷重がなく、2本が一直線でないとき、2本とも軸力は <span class="bl" data-a="0">＿</span></li>
+<li>部材が3本の節点に荷重がなく、そのうち2本が一直線のとき、残り1本の軸力は <span class="bl" data-a="0">＿</span></li>
+<li>ゼロ部材は <span class="bl" data-a="荷重の位置">＿</span> によって変わる。荷重が変われば判定し直す</li>
+<li>ゼロ部材は不要な部材ではない。<span class="bl" data-a="座屈止め（変形を抑える役目）">＿</span> や、荷重が変わったときに働く</li>
+</ul>
+</section>
+
+<!-- ===================== B ===================== -->
+<section class="card" id="B" data-sec="B">
+<h2>B 解法手順の穴埋め <span class="cnt"></span></h2>
+<div class="tools">
+  <button data-act="show">全て表示</button><button data-act="hide">全て隠す</button>
+  <button data-act="review" class="pri">×だけ復習</button><button data-act="reset">○×リセット</button>
+</div>
+
+<h3>B-1 節点法の手順</h3>
+<ol>
+<li>トラス全体のつり合いで <span class="bl" data-a="反力">＿</span> を求める</li>
+<li>未知の部材が <span class="bl" data-a="2本以下">＿</span> の節点を選ぶ。多くは支点の節点</li>
+<li>未知の軸力はすべて <span class="bl" data-a="引張">＿</span> と仮定し、節点から離れる向きに矢印を描く</li>
+<li>斜材は <span class="bl" data-a="水平成分と鉛直成分">＿</span> に分けて、ΣX = 0 と ΣY = 0 を立てる</li>
+<li>求まった軸力を持って <span class="bl" data-a="隣の節点">＿</span> へ進む</li>
+<li>結果が負の部材は <span class="bl" data-a="圧縮">＿</span> と読み替える</li>
+</ol>
+
+<h3>B-2 切断法の手順</h3>
+<ol>
+<li>反力を求める。片持ちトラスなら先端側を使えば不要</li>
+<li>求めたい部材を含め <span class="bl" data-a="3本以内">＿</span> を横切る切断線を引く</li>
+<li>力の数が <span class="bl" data-a="少ない">＿</span> 側を取り出す</li>
+<li>弦材を求めるときは、残り2本の <span class="bl" data-a="交点">＿</span> 回りで ΣM = 0</li>
+<li>斜材を求めるときは、弦材が平行なので <span class="bl" data-a="ΣY = 0（鉛直方向のつり合い）">＿</span> を使う</li>
+<li>大きさは M ÷ h で出し、引張か圧縮かは <span class="bl" data-a="梁の上側か下側か">＿</span> で判断すると速い</li>
+</ol>
+
+<h3>B-3 ゼロ部材の探し方</h3>
+<ol>
+<li>荷重も支点も <span class="bl" data-a="ない">＿</span> 節点に印をつける</li>
+<li>その節点に集まる部材の <span class="bl" data-a="本数">＿</span> と、一直線に並ぶ組を確かめる</li>
+<li>2本でL字なら2本とも 0。3本でうち2本が一直線なら <span class="bl" data-a="残りの1本">＿</span> が 0</li>
+<li>ゼロ部材を取り除くと、隣の節点で規則が新たに <span class="bl" data-a="使える">＿</span> ことがある。繰り返し調べる</li>
+</ol>
+
+<h3 id="B4">B-4 図を描く課題</h3>
+<p>下の平行弦トラスの全部材について、引張・圧縮・0 を紙に書き分けてください。数値まで出せればなお良いです。</p>
+<div id="figB4q"></div>
+<details><summary>答えの図を見る</summary><div>
+<div id="figB4a"></div>
+<p>上弦材は圧縮 8 kN、下弦材は引張 6 kN、端部の斜材は圧縮 6√2 kN、中間の斜材は引張 2√2 kN、荷重のかかる節点の鉛直材は引張 4 kN です。中央の鉛直材 L2U2 は、節点 U2 に荷重がなく上弦材が一直線なので 0 になります。</p>
+</div></details>
+
+<h4>自分の答えを採点するチェックリスト</h4>
+<ul class="chk">
+<li><label><input type="checkbox" data-ck="s3-1"><span>反力を先に求めた</span></label></li>
+<li><label><input type="checkbox" data-ck="s3-2"><span>ゼロ部材を計算の前に見つけた</span></label></li>
+<li><label><input type="checkbox" data-ck="s3-3"><span>未知の軸力を全部引張と仮定して式を立てた</span></label></li>
+<li><label><input type="checkbox" data-ck="s3-4"><span>斜材を √2 や √3 の比で分解した</span></label></li>
+<li><label><input type="checkbox" data-ck="s3-5"><span>上弦材が圧縮、下弦材が引張になっている</span></label></li>
+<li><label><input type="checkbox" data-ck="s3-6"><span>左右対称の部材が同じ値になっている</span></label></li>
+<li><label><input type="checkbox" data-ck="s3-7"><span>最後にどれか1つの節点で ΣX と ΣY を検算した</span></label></li>
+</ul>
+</section>
+
+<!-- ===================== C ===================== -->
+<section class="card" id="C" data-sec="C">
+<h2>C 例題の数値穴埋め <span class="cnt"></span></h2>
+<div class="tools">
+  <button data-act="show">全て表示</button><button data-act="hide">全て隠す</button>
+  <button data-act="review" class="pri">×だけ復習</button><button data-act="reset">○×リセット</button>
+</div>
+
+<div class="ex"><div class="ttl">例題1 三角トラス ― 節点法</div>
+<p>スパン 4 m、高さ 2 m の三角トラス。A はピン、B はローラー。頂点 C に下向き 8 kN。各部材の軸力を求めよ。</p>
+<div id="figC1"></div>
+<div class="calc">
+① 左右対称なので V<sub>A</sub> = V<sub>B</sub> = <span class="bl" data-a="4">＿</span> kN<br>
+② 節点 A に集まる未知の部材は AC と AB の <span class="bl" data-a="2">＿</span> 本。ここから解ける<br>
+③ AC は 45°。ΣY = 0　4 + N<sub>AC</sub> × 1/√2 = 0　→　N<sub>AC</sub> = <span class="bl" data-a="−4√2">＿</span> kN<br>
+④ ΣX = 0　N<sub>AB</sub> + N<sub>AC</sub> × 1/√2 = 0　→　N<sub>AB</sub> = <span class="bl" data-a="4">＿</span> kN<br>
+⑤ AC は <span class="bl" data-a="圧縮">＿</span>、AB は <span class="bl" data-a="引張">＿</span><br>
+⑥ 対称なので CB も <span class="bl" data-a="−4√2">＿</span> kN
+</div>
+<div id="figC1a"></div>
+<p class="note">反力 4 kN を斜材が鉛直成分で受け、その水平成分 4 kN を下弦材が引き戻す、という力の流れで覚えてください。</p>
+</div>
+
+<div class="ex"><div class="ttl">例題2 ゼロ部材を見つける</div>
+<p>図の平行弦トラスで、節点 L2 だけに下向き 8 kN が作用している。軸力が 0 の部材をすべて挙げよ。</p>
+<div id="figC2"></div>
+<div class="calc">
+① 節点 L1 の部材は L0L1、L1L2、L1U1 の3本で、荷重は <span class="bl" data-a="ない">＿</span><br>
+② L0L1 と L1L2 は <span class="bl" data-a="一直線">＿</span>。よって L1U1 = <span class="bl" data-a="0">＿</span><br>
+③ 同じ理由で、節点 L3 から L3U3 = <span class="bl" data-a="0">＿</span><br>
+④ 節点 U2 は U1U2 と U2U3 が一直線で荷重なし。よって L2U2 = <span class="bl" data-a="0">＿</span><br>
+⑤ ゼロ部材は全部で <span class="bl" data-a="3">＿</span> 本<br>
+⑥ 荷重を L1、L2、L3 の3か所に載せると、L1U1 と L3U3 は <span class="bl" data-a="0 ではなくなる">＿</span>
+</div>
+<div id="figC2a"></div>
+<p class="note">⑥が大事です。ゼロ部材は形だけでなく荷重で決まります。B-4 のトラスと見比べて、L1U1 が 0 から 4 kN に変わることを確かめてください。</p>
+</div>
+
+<div class="ex"><div class="ttl">例題3 切断法 ― 弦材</div>
+<p>スパン 8 m、高さ 2 m の平行弦トラス。節点 L1、L2、L3 にそれぞれ下向き 4 kN。上弦材 U1U2 と下弦材 L1L2 の軸力を求めよ。</p>
+<div id="figC3"></div>
+<div class="calc">
+① 反力　V<sub>L0</sub> = V<sub>L4</sub> = 12 / 2 = <span class="bl" data-a="6">＿</span> kN<br>
+② 第2パネルを縦に切る。切られる部材は U1U2、U1L2、L1L2 の <span class="bl" data-a="3">＿</span> 本<br>
+③ 上弦材 U1U2 を求めるには、残り2本の交点 <span class="bl" data-a="L2">＿</span> 回りでつり合いをとる<br>
+　左側だけで L2 回りの曲げモーメント M = 6 × 4 − 4 × 2 = <span class="bl" data-a="16">＿</span> kN·m<br>
+④ 上弦材の軸力の大きさ = M / h = 16 / 2 = <span class="bl" data-a="8">＿</span> kN。梁の上側なので <span class="bl" data-a="圧縮">＿</span><br>
+⑤ 下弦材 L1L2 は交点 <span class="bl" data-a="U1">＿</span> 回り。M = 6 × 2 = <span class="bl" data-a="12">＿</span> kN·m<br>
+⑥ 大きさ 12 / 2 = <span class="bl" data-a="6">＿</span> kN。梁の下側なので <span class="bl" data-a="引張">＿</span>
+</div>
+<p class="note">節点法で端から順に解くと、ここまで来るのに節点を3つ通ります。切断法なら1本の式で済みます。<b>1本だけ聞かれたら切断法</b>が鉄則です。</p>
+</div>
+
+<div class="ex"><div class="ttl">例題4 切断法 ― 斜材と鉛直材</div>
+<p>例題3と同じトラス・同じ荷重で、斜材 U1L2、鉛直材 L1U1、端部の斜材 L0U1 の軸力を求めよ。</p>
+<div id="figC4"></div>
+<div class="calc">
+① 例題3と同じ切断で、U1L2 以外の2本は平行なので交点が <span class="bl" data-a="ない">＿</span>。ΣY = 0 を使う<br>
+② 左側に働く鉛直力の合計、つまりせん断力 Q = 6 − 4 = <span class="bl" data-a="2">＿</span> kN<br>
+③ U1L2 は45°なので、鉛直成分 2 kN から N = <span class="bl" data-a="2√2">＿</span> kN<br>
+④ 左側を下へ引き戻す向きに働くので <span class="bl" data-a="引張">＿</span><br>
+⑤ 鉛直材 L1U1 は節点 L1 の ΣY = 0。吊られた 4 kN を上へ引くので N = <span class="bl" data-a="4">＿</span> kN の <span class="bl" data-a="引張">＿</span><br>
+⑥ 端部の斜材 L0U1 は節点 L0 の ΣY = 0。反力 6 kN を45°の斜材が受けるので N = <span class="bl" data-a="6√2">＿</span> kN の <span class="bl" data-a="圧縮">＿</span>
+</div>
+<div id="figC4a"></div>
+</div>
+
+<div class="ex"><div class="ttl">例題5 片持ちトラス</div>
+<p>壁に A(0,0) と B(0,2) でピン接合された片持ちトラス。先端 E(4,0) に下向き 4 kN。上弦材 BD と下弦材 AC の軸力を求めよ。</p>
+<div id="figC5"></div>
+<div class="calc">
+① 片持ちなので反力を求めなくても、<span class="bl" data-a="先端（自由端）">＿</span> 側を取り出せば解ける<br>
+② 第1パネルを切る。切られる部材は BD、BC、AC の3本<br>
+③ 上弦材 BD は交点 <span class="bl" data-a="C">＿</span> 回り。右側の 4 kN による M = 4 × <span class="bl" data-a="2">＿</span> = 8 kN·m<br>
+　大きさ 8 / 2 = <span class="bl" data-a="4">＿</span> kN。片持ちは上側が伸びるので <span class="bl" data-a="引張">＿</span><br>
+④ 下弦材 AC は交点 <span class="bl" data-a="B">＿</span> 回り。M = 4 × 4 = <span class="bl" data-a="16">＿</span> kN·m<br>
+　大きさ 16 / 2 = <span class="bl" data-a="8">＿</span> kN の <span class="bl" data-a="圧縮">＿</span><br>
+⑤ 上弦と下弦で大きさが違うのは、モーメントをとる点の <span class="bl" data-a="位置（荷重までの腕の長さ）">＿</span> が違うから
+</div>
+<div id="figC5a"></div>
+<p class="note">単純支持のトラスとは引張と圧縮が逆になります。片持ち梁の M図が上側に出たのと同じ理屈です。</p>
+</div>
+
+<div class="ex"><div class="ttl">例題6 30°の斜材</div>
+<p>斜材の傾きが水平から30°の三角トラス。A はピン、B はローラー。頂点 C に下向き 10 kN。AC と AB の軸力を求めよ。</p>
+<div id="figC6"></div>
+<div class="calc">
+① 左右対称なので V<sub>A</sub> = V<sub>B</sub> = <span class="bl" data-a="5">＿</span> kN<br>
+② 30°の斜材は、鉛直成分 : 斜材 = 1 : <span class="bl" data-a="2">＿</span><br>
+③ 節点 A の ΣY = 0 で、AC の鉛直成分は 5 kN。よって AC の大きさは <span class="bl" data-a="10">＿</span> kN の <span class="bl" data-a="圧縮">＿</span><br>
+④ AC の水平成分 = <span class="bl" data-a="5√3">＿</span> kN<br>
+⑤ ΣX = 0 から AB = <span class="bl" data-a="5√3">＿</span> kN の <span class="bl" data-a="引張">＿</span>。およそ 8.66 kN
+</div>
+<p class="note">斜材の角度が浅いほど、同じ荷重でも部材の軸力は大きくなります。45°なら 5√2 ≒ 7.07 kN だったものが、30°では 10 kN になります。</p>
+</div>
+</section>
+
+<!-- ===================== D ===================== -->
+<section class="card" id="D">
+<h2>D 白紙演習（4問）</h2>
+<p>紙に節点の力の図を描いてから解答を開いてください。電卓は使いません。</p>
+<div class="tools" data-timer="30"></div>
+
+<div class="ex"><div class="ttl">D-1</div>
+<p>スパン 8 m、高さ 4 m の三角トラス。頂点に下向き 10 kN。下弦材 AB と斜材 AC の軸力を求めよ。</p>
+<div id="figD1"></div>
+<details><summary>解答</summary><div>
+<div class="calc">V<sub>A</sub> = V<sub>B</sub> = 5 kN<br>節点 A の ΣY = 0 → AC の鉛直成分 5 kN、45°なので AC = 5√2 kN の圧縮<br>ΣX = 0 → AB = 5 kN の引張</div>
+<div id="figD1a"></div>
+</div></details>
+</div>
+
+<div class="ex"><div class="ttl">D-2</div>
+<p>例題3と同じ平行弦トラスで、節点 L1、L2、L3 の荷重をそれぞれ 2 kN にした。U1U2、L1L2、U1L2 の軸力を求めよ。</p>
+<div id="figD2"></div>
+<details><summary>解答</summary><div>
+<div class="calc">反力 3 kN ずつ<br>U1U2：L2 回り M = 3 × 4 − 2 × 2 = 8 → 8 / 2 = 4 kN の圧縮<br>L1L2：U1 回り M = 3 × 2 = 6 → 6 / 2 = 3 kN の引張<br>U1L2：せん断力 Q = 3 − 2 = 1 → √2 kN の引張</div>
+<p>荷重が半分なら全部材の軸力も半分です。例題3・4と比べて確かめてください。</p>
+</div></details>
+</div>
+
+<div class="ex"><div class="ttl">D-3</div>
+<p>同じ平行弦トラスで、節点 L1 だけに下向き 4 kN。軸力が 0 になる部材を挙げよ。</p>
+<div id="figD3"></div>
+<details><summary>解答</summary><div>
+<div class="calc">節点 L3：L2L3 と L3L4 が一直線、荷重なし → L3U3 = 0<br>節点 U2：U1U2 と U2U3 が一直線、荷重なし → L2U2 = 0<br>L1U1 は荷重を吊るので 0 ではない</div>
+<div id="figD3a"></div>
+</div></details>
+</div>
+
+<div class="ex"><div class="ttl">D-4</div>
+<p>例題5と同じ片持ちトラスで、先端 E の荷重を 6 kN にした。上弦材 BD と下弦材 AC の軸力を求めよ。</p>
+<div id="figD4"></div>
+<details><summary>解答</summary><div>
+<div class="calc">BD：C 回り M = 6 × 2 = 12 → 12 / 2 = 6 kN の引張<br>AC：B 回り M = 6 × 4 = 24 → 24 / 2 = 12 kN の圧縮</div>
+<div id="figD4a"></div>
+</div></details>
+</div>
+</section>
+
+<!-- ===================== E ===================== -->
+<section class="card" id="E">
+<h2>E 確認テスト（5問）</h2>
+<p>すべて軸力の<b>大きさ</b>を答えます。合格ラインは 4/5。</p>
+
+<div class="qz"><b>E-1</b> スパン 6 m、高さ 3 m の三角トラスの頂点に下向き 12 kN。下弦材の軸力の大きさは何 kN か。
+<div id="figE1"></div>
+<input type="number" step="any" data-a="6"> kN <span class="res"></span></div>
+
+<div class="qz"><b>E-2</b> 図の平行弦トラス（スパン 8 m、高さ 2 m）の節点 L1、L2、L3 に下向き 6 kN ずつ。上弦材 U1U2 の軸力の大きさは何 kN か。
+<div id="figE2"></div>
+<input type="number" step="any" data-a="12"> kN <span class="res"></span></div>
+
+<div class="qz"><b>E-3</b> E-2 と同じトラス・荷重で、下弦材 L1L2 の軸力の大きさは何 kN か。<br>
+<input type="number" step="any" data-a="9"> kN <span class="res"></span></div>
+
+<div class="qz"><b>E-4</b> 壁に A(0,0) と B(0,2) でピン接合された三角形の片持ちトラス。先端 C(4,0) に下向き 3 kN。水平部材 AC の軸力の大きさは何 kN か。
+<div id="figE4"></div>
+<input type="number" step="any" data-a="6"> kN <span class="res"></span></div>
+
+<div class="qz"><b>E-5</b> E-2 と同じトラスで、荷重を節点 L2 の 8 kN だけにした。軸力が 0 になる部材は何本か。<br>
+<input type="number" step="any" data-a="3"> 本 <span class="res"></span></div>
+
+<div class="tools"><button id="grade" class="pri">採点</button><button id="gclear">入力をクリア</button></div>
+<div class="score" id="score"></div>
+<details><summary>解説</summary><div>
+<div class="calc">E-1　反力 6 kN。45°の斜材が鉛直 6 kN を受け、水平成分 6 kN を下弦材が引き戻す → 6<br>
+E-2　反力 9 kN。L2 回り M = 9 × 4 − 6 × 2 = 24 → 24 / 2 = 12（圧縮）<br>
+E-3　U1 回り M = 9 × 2 = 18 → 18 / 2 = 9（引張）<br>
+E-4　B 回り M = 3 × 4 = 12 → 12 / 2 = 6（圧縮）<br>
+E-5　L1U1、L3U3、L2U2 の3本</div>
+<p>E-4 は反力を出さずに、先端側のモーメントを高さで割るだけで解けます。</p>
+</div></details>
+</section>
+
+<!-- ===================== F ===================== -->
+<section class="card" id="F">
+<h2>F 本番形式（4択）</h2>
+
+<div class="mc" data-a="3">
+<p><b>F-1</b> 静定トラスの解析で用いる仮定と性質に関する次の記述のうち、<b>誤っている</b>ものはどれか。</p>
+<ul class="opts">
+<li><label><input type="radio"><span>1.　節点はピン接合とみなす</span></label></li>
+<li><label><input type="radio"><span>2.　荷重は節点に作用するものとみなす</span></label></li>
+<li><label><input type="radio"><span>3.　部材には軸方向力のほかに曲げモーメントも生じる</span></label></li>
+<li><label><input type="radio"><span>4.　各部材の応力は引張力または圧縮力のいずれかである</span></label></li>
+</ul>
+<details><summary>解説</summary><div>
+<p>節点がピンで荷重が節点にだけ載るので、部材に曲げは生じません。3 が誤りです。1 と 2 はトラスの前提そのもので、4 はその結果です。</p>
+</div></details>
+</div>
+
+<div class="mc" data-a="4">
+<p><b>F-2</b> 図の平行弦トラス（スパン 8 m、高さ 2 m）の節点 L1、L2、L3 に、下向きの荷重 8 kN がそれぞれ作用している。上弦材 U1U2 の軸方向力として正しいものはどれか。</p>
+<div id="figF2"></div>
+<ul class="opts">
+<li><label><input type="radio"><span>1.　12 kN（引張）</span></label></li>
+<li><label><input type="radio"><span>2.　12 kN（圧縮）</span></label></li>
+<li><label><input type="radio"><span>3.　16 kN（引張）</span></label></li>
+<li><label><input type="radio"><span>4.　16 kN（圧縮）</span></label></li>
+</ul>
+<details><summary>解説</summary><div>
+<p>単純支持で下向き荷重なので、上弦材は圧縮です。この時点で 1 と 3 は消えます。</p>
+<p>反力 12 kN、L2 回り M = 12 × 4 − 8 × 2 = 32、32 / 2 = 16 kN。12 kN は下弦材 L1L2 の値で、切断位置の交点を取り違えたときに出る数値です。</p>
+</div></details>
+</div>
+
+<div class="mc" data-a="2">
+<p><b>F-3</b> 図の平行弦トラスで、節点 L3 だけに下向きの荷重 4 kN が作用している。軸方向力が 0 となる部材の組合せとして正しいものはどれか。</p>
+<div id="figF3"></div>
+<ul class="opts">
+<li><label><input type="radio"><span>1.　L1U1 と L3U3</span></label></li>
+<li><label><input type="radio"><span>2.　L1U1 と L2U2</span></label></li>
+<li><label><input type="radio"><span>3.　L2U2 と L3U3</span></label></li>
+<li><label><input type="radio"><span>4.　U1U2 と L1L2</span></label></li>
+</ul>
+<details><summary>解説</summary><div>
+<p>節点 L1 は荷重がなく、下弦材が一直線なので L1U1 = 0。節点 U2 は荷重がなく、上弦材が一直線なので L2U2 = 0。L3U3 は荷重を吊るので 0 ではありません。</p>
+<p>弦材は荷重があれば必ず力を受けるので、4 は判定するまでもなく除外できます。</p>
+</div></details>
+</div>
+</section>
+
+</main>
+<footer>
+<p><b>次のステップ</b>　Step 4 断面の性質と応力度。求めた応力が、部材の中でどれだけの応力度になるかを計算します。</p>
+</footer>
+
+<script src="../../assets/app.js"></script>
+<script>
+(function(){
+var K=window.IKKYU, fig=K.fig, figc=K.figc, T=K.trussFig, DEFS=K.DEFS;
+var R2=Math.SQRT2, R3=Math.sqrt(3);
+
+/* 平行弦トラス（プラット型）。部材の添字:
+   0 L0L1 1 L1L2 2 L2L3 3 L3L4 4 U1U2 5 U2U3 6 L0U1 7 U3L4 8 L1U1 9 L2U2 10 L3U3 11 U1L2 12 L2U3 */
+function pratt(o){
+  o=o||{};
+  var b={W:440,maxH:110,padB:96,padT:44,
+    nodes:{L0:[0,0],L1:[2,0],L2:[4,0],L3:[6,0],L4:[8,0],U1:[2,2],U2:[4,2],U3:[6,2]},
+    members:[['L0','L1'],['L1','L2'],['L2','L3'],['L3','L4'],['U1','U2'],['U2','U3'],['L0','U1'],['U3','L4'],['L1','U1'],['L2','U2'],['L3','U3'],['U1','L2'],['L2','U3']],
+    sup:[{n:'L0',t:'pin'},{n:'L4',t:'roller'}],
+    labels:[{n:'L0',l:'L0',dx:-28,dy:5},{n:'L1',l:'L1',dx:-22,dy:20},{n:'L2',l:'L2',dx:-22,dy:20},{n:'L3',l:'L3',dx:-22,dy:20},
+            {n:'L4',l:'L4',dx:12,dy:5},{n:'U1',l:'U1',dx:-9,dy:-10},{n:'U2',l:'U2',dx:-9,dy:-10},{n:'U3',l:'U3',dx:-9,dy:-10}]};
+  for(var k in o) b[k]=o[k];
+  return T(b);
+}
+function lds(v,ns){ return ns.map(function(n){ return {n:n,d:'down',below:true,l:v+' kN'}; }); }
+var ALL=['L1','L2','L3'];
+
+function tri(span,h,P,force,extra){
+  var b={W:380,maxH:120,padB:62,
+    nodes:{A:[0,0],B:[span,0],C:[span/2,h]},members:[['A','C'],['C','B'],['A','B']],
+    sup:[{n:'A',t:'pin'},{n:'B',t:'roller'}],
+    labels:[{n:'A',l:'A',dx:-20,dy:5},{n:'B',l:'B',dx:12,dy:5},{n:'C',l:'C',dx:10,dy:-6}],
+    loads:[{n:'C',d:'down',l:P+' kN'}]};
+  if(force){ b.force=force; b.legend=true; b.padB=72; }
+  for(var k in (extra||{})) b[k]=extra[k];
+  return T(b);
+}
+function canti(P,force,extra){
+  var b={W:380,maxH:110,padL:92,padB:force?92:84,padT:34,
+    nodes:{A:[0,0],B:[0,2],C:[2,0],D:[2,2],E:[4,0]},
+    members:[['A','C'],['C','E'],['B','D'],['C','D'],['B','C'],['D','E']],
+    wall:{x:0,y1:0,y2:2},
+    labels:[{n:'A',l:'A',dx:8,dy:18},{n:'B',l:'B',dx:8,dy:-8},{n:'C',l:'C',dx:-4,dy:20},{n:'D',l:'D',dx:-4,dy:-10},{n:'E',l:'E',dx:10,dy:-6}],
+    loads:[{n:'E',d:'down',below:true,l:P+' kN'}]};
+  if(force){ b.force=force; b.legend=true; }
+  for(var k in (extra||{})) b[k]=extra[k];
+  return T(b);
+}
+
+/* A-1 */
+fig('figTruss',pratt({padB:70,dimX:[[0,8,'8 m（2 m × 4 パネル）',44]],dimY:[[0,2,'2 m',30]],
+  mlabels:[{m:4,l:'上弦材',dx:-20,dy:-8},{m:1,l:'下弦材',dx:-20,dy:16},{m:11,l:'斜材',dx:4,dy:4},{m:9,l:'鉛直材',dx:5,dy:10}]}));
+
+/* A-2 符号 */
+fig('figSign','<svg class="fig" viewBox="0 0 420 132" width="420">'+DEFS+
+  '<g color="var(--acc)"><line x1="130" y1="36" x2="290" y2="36" stroke="currentColor" stroke-width="5"/>'+
+  '<line x1="124" y1="36" x2="74" y2="36" stroke="currentColor" stroke-width="2.2" marker-end="url(#ab)"/>'+
+  '<line x1="296" y1="36" x2="346" y2="36" stroke="currentColor" stroke-width="2.2" marker-end="url(#ab)"/></g>'+
+  '<circle cx="130" cy="36" r="5" class="sp"/><circle cx="290" cy="36" r="5" class="sp"/>'+
+  '<text x="8" y="41" style="font-size:14px;font-weight:700;fill:var(--acc)">引張 ＋</text>'+
+  '<text x="150" y="60" class="dt">部材の両端を外へ引く。部材は伸びる</text>'+
+  '<g color="var(--ng)"><line x1="130" y1="96" x2="290" y2="96" stroke="currentColor" stroke-width="5"/>'+
+  '<line x1="72" y1="96" x2="120" y2="96" stroke="currentColor" stroke-width="2.2" marker-end="url(#ah)"/>'+
+  '<line x1="348" y1="96" x2="300" y2="96" stroke="currentColor" stroke-width="2.2" marker-end="url(#ah)"/></g>'+
+  '<circle cx="130" cy="96" r="5" class="sp"/><circle cx="290" cy="96" r="5" class="sp"/>'+
+  '<text x="8" y="101" style="font-size:14px;font-weight:700;fill:var(--ng)">圧縮 −</text>'+
+  '<text x="150" y="122" class="dt">部材の両端を内へ押す。部材は縮む</text></svg>');
+
+/* A-3 辺の比 */
+fig('figRatio','<svg class="fig" viewBox="0 0 440 150" width="440">'+
+  '<polygon points="40,120 150,120 150,10" fill="none" stroke="var(--figink)" stroke-width="2.4"/>'+
+  '<text x="88" y="140" class="nm">1</text><text x="158" y="70" class="nm">1</text>'+
+  '<text x="68" y="58" style="font-size:14px;font-weight:700;fill:var(--acc)">√2</text>'+
+  '<text x="58" y="114" class="dt">45°</text>'+
+  '<polygon points="230,120 420,120 420,10" fill="none" stroke="var(--figink)" stroke-width="2.4"/>'+
+  '<text x="312" y="140" style="font-size:14px;font-weight:700;fill:var(--acc)">√3</text><text x="428" y="70" class="nm">1</text>'+
+  '<text x="312" y="56" style="font-size:14px;font-weight:700;fill:var(--acc)">2</text>'+
+  '<text x="258" y="114" class="dt">30°</text></svg>');
+
+/* A-6 ゼロ部材の規則 */
+fig('figZero',
+  figc('規則1　2本のL字・荷重なし → 2本とも 0',
+    T({W:200,maxH:80,padT:28,padB:34,padL:40,padR:40,nodes:{O:[0,0],P:[2,0],Q:[0,1.5]},members:[['O','P'],['O','Q']],
+       force:{0:0,1:0},labels:[{n:'O',l:'O',dx:-16,dy:16}]}))+
+  figc('規則2　2本が一直線・荷重なし → 残り1本が 0',
+    T({W:240,maxH:80,padT:28,padB:34,padL:40,padR:40,nodes:{O:[0,0],L:[-2,0],R:[2,0],T:[0,1.5]},members:[['O','L'],['O','R'],['O','T']],
+       force:{2:0},labels:[{n:'O',l:'O',dx:-5,dy:20}]})));
+
+/* B-4 と C3 */
+var FC3={0:6,1:6,2:6,3:6,4:-8,5:-8,6:-6*R2,7:-6*R2,8:4,9:0,10:4,11:2*R2,12:2*R2};
+fig('figB4q',pratt({loads:lds(4,ALL),dimX:[[0,8,'8 m',66]]}));
+fig('figB4a',pratt({loads:lds(4,ALL),force:FC3,legend:true,padB:104,
+  mlabels:[{m:4,l:'−8',dx:-8,dy:-8,c:'var(--ng)'},{m:1,l:'+6',dx:-8,dy:16,c:'var(--acc)'},{m:6,l:'−6√2',dx:-40,dy:0,c:'var(--ng)'},
+           {m:11,l:'+2√2',dx:4,dy:4,c:'var(--acc)'},{m:8,l:'+4',dx:5,dy:6,c:'var(--acc)'},{m:9,l:'0',dx:5,dy:6,c:'var(--sub)'}]}));
+
+/* C1 */
+fig('figC1',tri(4,2,8,null,{dimX:[[0,4,'4 m',40]],dimY:[[0,2,'2 m',30]]}));
+fig('figC1a',tri(4,2,8,{0:-4*R2,1:-4*R2,2:4},{mlabels:[{m:0,l:'−4√2',dx:-46,dy:0,c:'var(--ng)'},{m:1,l:'−4√2',dx:8,dy:0,c:'var(--ng)'},{m:2,l:'+4',dx:-8,dy:18,c:'var(--acc)'}]}));
+
+/* C2 */
+var FC2={0:4,1:4,2:4,3:4,4:-8,5:-8,6:-4*R2,7:-4*R2,8:0,9:0,10:0,11:4*R2,12:4*R2};
+fig('figC2',pratt({loads:lds(8,['L2'])}));
+fig('figC2a',pratt({loads:lds(8,['L2']),force:FC2,legend:true,padB:104,hi:[8,9,10]}));
+
+/* C3 切断 */
+fig('figC3',pratt({loads:lds(4,ALL),cut:[[3,2.5],[3,-0.45]],cutLabel:'切断',hi:[4,1],
+  mlabels:[{m:4,l:'U1U2',dx:-16,dy:-8},{m:1,l:'L1L2',dx:-18,dy:16},{m:11,l:'U1L2',dx:6,dy:0}]}));
+/* C4 */
+fig('figC4',pratt({loads:lds(4,ALL),cut:[[3,2.5],[3,-0.45]],cutLabel:'切断',hi:[11,8,6],
+  mlabels:[{m:11,l:'U1L2',dx:6,dy:0},{m:8,l:'L1U1',dx:5,dy:6},{m:6,l:'L0U1',dx:-44,dy:0}]}));
+fig('figC4a',pratt({loads:lds(4,ALL),force:FC3,legend:true,padB:104,hi:[11,8,6],
+  mlabels:[{m:11,l:'+2√2',dx:4,dy:4,c:'var(--acc)'},{m:8,l:'+4',dx:5,dy:6,c:'var(--acc)'},{m:6,l:'−6√2',dx:-40,dy:0,c:'var(--ng)'}]}));
+
+/* C5 */
+var FC5={0:-8,1:-4,2:4,3:-4,4:4*R2,5:4*R2};
+fig('figC5',canti(4,null,{cut:[[1,2.45],[1,-0.45]],cutLabel:'切断',dimX:[[0,2,'2 m',64],[2,4,'2 m',64]],dimY:[[0,2,'2 m',50]]}));
+fig('figC5a',canti(4,FC5,{mlabels:[{m:2,l:'+4',dx:-8,dy:-8,c:'var(--acc)'},{m:0,l:'−8',dx:-8,dy:16,c:'var(--ng)'},{m:4,l:'+4√2',dx:4,dy:-2,c:'var(--acc)'}]}));
+
+/* C6 30° */
+fig('figC6',T({W:380,maxH:110,padB:40,
+  nodes:{A:[0,0],B:[2*R3,0],C:[R3,1]},members:[['A','C'],['C','B'],['A','B']],
+  sup:[{n:'A',t:'pin'},{n:'B',t:'roller'}],
+  labels:[{n:'A',l:'A',dx:-20,dy:5},{n:'B',l:'B',dx:12,dy:5},{n:'C',l:'C',dx:10,dy:-6},{n:'A',l:'30°',dx:34,dy:-5}],
+  loads:[{n:'C',d:'down',l:'10 kN'}]}));
+
+/* D */
+fig('figD1',tri(8,4,10,null,{dimX:[[0,8,'8 m',40]],dimY:[[0,4,'4 m',30]]}));
+fig('figD1a',tri(8,4,10,{0:-5*R2,1:-5*R2,2:5},{mlabels:[{m:0,l:'−5√2',dx:-46,dy:0,c:'var(--ng)'},{m:2,l:'+5',dx:-8,dy:18,c:'var(--acc)'}]}));
+fig('figD2',pratt({loads:lds(2,ALL)}));
+fig('figD3',pratt({loads:lds(4,['L1'])}));
+fig('figD3a',pratt({loads:lds(4,['L1']),force:{9:0,10:0},hi:[9,10],padB:80}));
+fig('figD4',canti(6,null));
+fig('figD4a',canti(6,{0:-12,1:-6,2:6,3:-6,4:6*R2,5:6*R2},{mlabels:[{m:2,l:'+6',dx:-8,dy:-8,c:'var(--acc)'},{m:0,l:'−12',dx:-12,dy:16,c:'var(--ng)'}]}));
+
+/* E */
+fig('figE1',tri(6,3,12,null,{dimX:[[0,6,'6 m',40]],dimY:[[0,3,'3 m',30]]}));
+fig('figE2',pratt({loads:lds(6,ALL)}));
+fig('figE4',T({W:360,maxH:100,padL:92,padB:70,padT:34,
+  nodes:{A:[0,0],B:[0,2],C:[4,0]},members:[['A','C'],['B','C']],wall:{x:0,y1:0,y2:2},
+  labels:[{n:'A',l:'A',dx:8,dy:18},{n:'B',l:'B',dx:8,dy:-8},{n:'C',l:'C',dx:10,dy:-6}],
+  loads:[{n:'C',d:'down',below:true,l:'3 kN'}],dimX:[[0,4,'4 m',56]],dimY:[[0,2,'2 m',50]]}));
+
+/* F */
+fig('figF2',pratt({loads:lds(8,ALL)}));
+fig('figF3',pratt({loads:lds(4,['L3'])}));
+
+K.initStep('S03',{base:'../../'});
+})();
+</script>
+</body>
+</html>
