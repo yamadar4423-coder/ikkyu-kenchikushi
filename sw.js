@@ -1,6 +1,6 @@
 /* 一級建築士 学習ノート オフライン用 Service Worker
    公開のたびに VERSION を上げる（tools/publish.sh が自動で上げます） */
-var VERSION = 'v6';
+var VERSION = 'v7';
 var CACHE = 'ikkyu-' + VERSION;
 
 var ASSETS = [
