@@ -20,7 +20,8 @@ main{max-width:560px}
 .sofar{background:var(--mute);border-radius:8px;padding:6px 12px;margin:0 0 10px;font-size:15px}
 .sofar b{color:var(--sub);font-weight:600;margin-right:6px}
 .qt{font-size:18px;line-height:1.6;margin:4px 0 14px;font-weight:600}
-.hint{display:block;font-size:14px;color:var(--sub);font-weight:400;margin-top:4px}
+.hbtn{margin:-6px 0 12px;font-size:14px;min-height:38px;border-radius:18px;padding:4px 14px;color:var(--acc)}
+.hint{background:var(--acc-bg);border-radius:8px;padding:6px 12px;margin:-6px 0 12px;font-size:15px}
 .ans{display:flex;flex-direction:column;gap:10px}
 .ans button{font-size:17px;min-height:54px;padding:10px 14px;text-align:left;border-radius:10px;border-width:2px}
 .ans button:disabled{cursor:default;opacity:1}
@@ -246,7 +247,8 @@ function ask(){
   h+='<div class="mhead"><span>'+title+'</span><span class="dots">'+dots+'</span></div>';
   if(q.f) h+='<div class="qfig">'+FIG[q.f]()+'</div>';
   if(q.s) h+='<div class="sofar"><b>ここまで</b>'+esc(q.s)+'</div>';
-  h+='<div class="qt">'+(c.i+1)+'. '+esc(q.q)+(q.h?'<span class="hint">'+esc(q.h)+'</span>':'')+'</div>';
+  h+='<div class="qt">'+(c.i+1)+'. '+esc(q.q)+'</div>';
+  if(q.h) h+='<button class="hbtn" id="hbtn">ヒントを見る</button><div class="hint" id="hint" hidden>ヒント：'+esc(q.h)+'</div>';
   h+='<div class="ans">';
   shuffle(q.a.map(function(t,k){ return {t:t,k:k}; })).forEach(function(x){
     h+='<button data-k="'+x.k+'">'+esc(x.t)+'</button>';
@@ -258,6 +260,8 @@ function ask(){
     b.addEventListener('click',function(){ answer(+b.getAttribute('data-k')); });
   });
   document.getElementById('quit').addEventListener('click',function(){ home(); });
+  var hb=document.getElementById('hbtn');
+  if(hb) hb.addEventListener('click',function(){ document.getElementById('hint').hidden=false; hb.remove(); });
   scrollTo(0,0);
 }
 
