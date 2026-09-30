@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>スマホ版 Step 0 ｜ 一級建築士 構造力学</title>
+<link rel="manifest" href="../../manifest.webmanifest">
+<meta name="theme-color" content="#1d5fa8">
+<link rel="apple-touch-icon" href="../../assets/icon-180.png">
+<link rel="stylesheet" href="../../assets/app.css">
+<style>
+/* スマホ版専用：1画面1問・ボタンで答える */
+main{max-width:560px}
+.mhead{display:flex;align-items:center;gap:10px;margin:0 0 10px;font-size:14px;color:var(--sub)}
+.mhead .dots{display:flex;gap:5px;margin-left:auto}
+.mhead .dots i{width:11px;height:11px;border-radius:50%;background:var(--line);display:block}
+.mhead .dots i.o{background:var(--ok)}
+.mhead .dots i.x{background:var(--ng)}
+.mhead .dots i.now{outline:2px solid var(--acc);outline-offset:1px}
+.sofar{background:var(--mute);border-radius:8px;padding:6px 12px;margin:0 0 10px;font-size:15px}
+.sofar b{color:var(--sub);font-weight:600;margin-right:6px}
+.qt{font-size:18px;line-height:1.6;margin:4px 0 14px;font-weight:600}
+.hint{display:block;font-size:14px;color:var(--sub);font-weight:400;margin-top:4px}
+.ans{display:flex;flex-direction:column;gap:10px}
+.ans button{font-size:17px;min-height:54px;padding:10px 14px;text-align:left;border-radius:10px;border-width:2px}
+.ans button:disabled{cursor:default;opacity:1}
+.ans button.o{background:var(--ok-bg);border-color:var(--ok)}
+.ans button.x{background:var(--ng-bg);border-color:var(--ng)}
+.ans button.dim{opacity:.45}
+.fb{margin:14px 0 0;padding:10px 14px;border-radius:8px;font-size:15px}
+.fb.o{background:var(--ok-bg)}
+.fb.x{background:var(--ng-bg)}
+.fb b{font-size:16px}
+.next{display:block;width:100%;margin:14px 0 0;font-size:17px;min-height:52px;border-radius:10px}
+.slist{list-style:none;padding:0;margin:0}
+.slist li{margin:0 0 8px}
+.slist button{width:100%;display:flex;align-items:center;gap:10px;text-align:left;font-size:15px;min-height:56px;padding:8px 12px;border-radius:10px}
+.slist .no{flex:0 0 2.4em;font-weight:700;color:var(--acc)}
+.slist .nm2{flex:1}
+.slist .st{font-size:13px;color:var(--sub);white-space:nowrap}
+.slist .st.ok{color:var(--ok);font-weight:600}
+.grp{font-size:14px;color:var(--sub);margin:14px 0 6px;font-weight:600}
+.big{font-size:40px;font-weight:700;text-align:center;margin:6px 0}
+.wide{display:block;width:100%;font-size:16px;min-height:50px;margin:8px 0 0;border-radius:10px}
+.qfig svg.fig{margin:0 auto 8px}
+.qfig figure{margin:0;text-align:center;font-size:13px;color:var(--sub)}
+</style>
+</head>
+<body>
+<header><div class="hin">
+  <h1>スマホ版 Step 0</h1>
+  <span class="sub">1問ずつ選んで答える ／ 紙はいりません</span>
+  <nav class="tabs"><a href="../../index.html">目次</a><a href="S00.html">机で使う版</a></nav>
+</div></header>
+
+<main>
+<div class="card" id="view"></div>
+</main>
+
+<script src="../../assets/app.js"></script>
+<script>
+(function(){
+var K=IKKYU, KEY='ikkyu_S00m';
+
+/* 図（机で使う版 S00 の C 例題と同じもの） */
+var BEAM_C1={L:6,sup:[{x:0,t:'pin',n:'A'},{x:6,t:'roller',n:'B'}],pts:[{x:2,n:'C'}],loads:[{t:'P',x:2,l:'12 kN'}],dims:[[0,2,'2 m'],[2,6,'4 m']]};
+var FIG={
+  c1:function(){ return K.beam(BEAM_C1); },
+  c2:function(){ return K.beam({L:8,sup:[{x:0,t:'pin',n:'A'},{x:8,t:'roller',n:'B'}],loads:[{t:'w',x1:0,x2:8,l:'w = 3 kN/m'}],dims:[[0,8,'8 m']]}); },
+  c3:function(){ return K.beam({L:4,sup:[{x:0,t:'fixL',n:'A'}],pts:[{x:4,n:'B'}],loads:[{t:'w',x1:0,x2:4,l:'w = 2 kN/m'},{t:'P',x:4,l:'5 kN'}],dims:[[0,4,'4 m']]}); },
+  c4:function(){ return K.beam({L:6,sup:[{x:0,t:'pin',n:'A'},{x:6,t:'roller',n:'B'}],loads:[{t:'tri',x1:0,x2:6,l:'6 kN/m'}],dims:[[0,6,'6 m']]}); },
+  c5:function(){ return K.beam({L:4,sup:[{x:0,t:'pin',n:'A'},{x:4,t:'roller',n:'B'}],pts:[{x:2,n:'C'}],loads:[{t:'M',x:2,l:'8 kN·m'}],dims:[[0,2,'2 m'],[2,4,'2 m']]}); },
+  ha:function(){ return K.figc('(a) 張出し梁',K.beam({W:300,L:6,sup:[{x:0,t:'pin',n:'A'},{x:4,t:'roller',n:'B'}],pts:[{x:6,n:'C'}]})); },
+  hb:function(){ return K.figc('(b) 門型ラーメン 両端ピン',K.frame({t:'pin'})); },
+  hc:function(){ return K.figc('(c) 3ヒンジラーメン',K.frame({t:'pin',hinge:true})); }
+};
+
+/* 問題：a[0] が正解（画面では並びを入れ替える）。s＝ここまで、f＝図、e＝1行解説 */
+var SETS=[
+{g:'A 前提知識',t:'単位',q:[
+ {q:'1 kN は何 N？',a:['1000 N','100 N','10 N'],e:'k（キロ）は 1000 倍。1 kN = 1000 N。'},
+ {q:'1 m は何 mm？',a:['1000 mm','100 mm','10 mm'],e:'1 m = 100 cm = 1000 mm。'},
+ {q:'1 kN·m は何 N·mm？',h:'ヒント：1000 N × 1000 mm',a:['10⁶ N·mm','10³ N·mm','10⁹ N·mm'],e:'1000 × 1000 = 10⁶。力と長さの両方が 1000 倍になる。'},
+ {q:'1 N/mm² と同じものは？',a:['1 MPa','1 kPa','1 GPa'],e:'1 N/mm² = 10⁶ N/m² = 1 MPa。応力度でよく使う。'},
+ {q:'等分布荷重の単位は？',a:['kN/m','kN','kN·m'],e:'「1 m あたり何 kN」なので kN/m。'}
+]},
+{g:'A 前提知識',t:'力のつり合い',q:[
+ {q:'つり合いの3式（ΣX・ΣY・ΣM）で求められる未知数は最大何個？',a:['3個','2個','6個'],e:'式が3本なので、未知数も3個まで。'},
+ {q:'つり合いの式だけで解ける構造を何という？',a:['静定','不静定','不安定'],e:'式だけで解けるのが静定。未知数が多すぎると不静定。'},
+ {q:'ΣM = 0 をとる点は？',a:['どこでもよい','支点だけ','荷重の位置だけ'],e:'つり合っていれば、どの点回りでもモーメントの合計は 0。'},
+ {q:'未知の力が集まる点で ΣM をとるとよい理由は？',a:['その力のモーメントが 0 になり、式が簡単になる','誤差が小さくなる','向きが自動で決まる'],e:'作用線が通る点では腕の長さが 0。未知数が式から消える。'},
+ {q:'モーメントの単位 kN·m が表すのは？',a:['力 × 長さ','力 ÷ 長さ','力 × 面積'],e:'モーメント = 力 × 腕の長さ。'}
+]},
+{g:'A 前提知識',t:'力のモーメント',q:[
+ {q:'M = P × ？',a:['点から力の作用線までの垂直距離','点から力の作用点までの斜めの距離','部材の長さ'],e:'腕の長さは作用線への「垂直」距離。斜めの距離ではない。'},
+ {q:'力の作用線がその点を通るとき、モーメントは？',a:['0','P','P × 部材の長さ'],e:'垂直距離が 0 なので、モーメントも 0。'},
+ {q:'この教材で「+」とする回転の向きは？',a:['時計回り','反時計回り'],e:'この教材は時計回りを +。試験では最後に大きさと向きで答えればよい。'},
+ {q:'点 O から右に 3 m の位置に、下向きに 4 kN。O 回りのモーメントの大きさは？',a:['12 kN·m','7 kN·m','1 kN·m'],e:'4 × 3 = 12 kN·m。足し算や引き算ではなく掛け算。'},
+ {q:'点 O から右に 3 m の位置に、下向きに 4 kN。O 回りに回す向きは？',a:['時計回り','反時計回り'],e:'O の右側を下に押すので、時計回り。'}
+]},
+{g:'A 前提知識',t:'支点と反力',q:[
+ {q:'ローラー（移動支点）の反力の数は？',a:['1つ','2つ','3つ'],e:'支える面に垂直な反力 1つだけ。'},
+ {q:'ピン（回転支点）の反力の数は？',a:['2つ','1つ','3つ'],e:'縦と横の 2つ。回転は自由なのでモーメントは出ない。'},
+ {q:'固定端の反力の数は？',a:['3つ','2つ','1つ'],e:'縦・横・モーメントの 3つ。'},
+ {q:'ピン支点ができる動きは？',a:['回転だけ','水平の移動だけ','何もできない'],e:'移動は止めるが、回転は自由。'},
+ {q:'中間ヒンジの位置の曲げモーメントは？',a:['必ず 0','そこで最大','反力と同じ値'],e:'ヒンジは自由に回るので、曲げモーメントを伝えない。'}
+]},
+{g:'A 前提知識',t:'荷重と合力',q:[
+ {q:'等分布荷重 w・長さ L の合力は？',a:['wL','wL/2','w/L'],e:'1 m あたり w が L m 分なので wL。'},
+ {q:'等分布荷重の合力が働く位置は？',a:['分布の中央（L/2）','端','端から L/3'],e:'長方形の重心は中央。'},
+ {q:'三角形分布（最大 w・長さ L）の合力は？',a:['wL/2','wL','wL/3'],e:'三角形の面積なので wL/2。'},
+ {q:'三角形分布の合力が働く位置は？',a:['最大側の端から L/3','中央','ゼロ側の端から L/3'],e:'三角形の重心は、大きい側から L/3。'},
+ {q:'モーメント荷重の位置は、反力の大きさに影響する？',a:['しない','する'],e:'反力は M ÷ L。梁のどこにかけても同じ。'}
+]},
+{g:'A 前提知識',t:'静定・不静定の判別式',h:'m = n + s + r − 2k',q:[
+ {q:'判別式 m = n + s + r − 2k の n は何の数？',a:['反力の総数','部材の数','節点の数'],e:'n は反力の総数。'},
+ {q:'判別式 m = n + s + r − 2k の s は何の数？',a:['部材の数','反力の総数','節点の数'],e:'s は部材の数。節点と節点の間を 1本と数える。'},
+ {q:'判別式 m = n + s + r − 2k の k は何の数？',a:['節点の数','部材の数','剛節点の数'],e:'k は節点の数。支点・自由端・ヒンジ・交点をすべて数える。'},
+ {q:'m = 0 のときは？',a:['静定','不安定','1次不静定'],e:'m = 0 が静定。'},
+ {q:'m < 0 のときは？',a:['不安定','静定','不静定'],e:'マイナスは支えが足りない＝不安定。プラスが不静定。'}
+]},
+{g:'A 前提知識',t:'判別の実例',q:[
+ {q:'梁1本なら「反力の総数 − ？」で判定できる',a:['3','2','4'],e:'つり合いの式が 3本なので、反力の総数から 3 を引く。'},
+ {q:'片持ち梁の反力の総数 n は？',a:['3','2','1'],e:'固定端 1か所で 3つ。3 − 3 = 0 で静定。'},
+ {q:'両端固定梁の反力の総数 n は？',a:['6','4','3'],e:'固定端 3つ × 2か所 = 6。'},
+ {q:'両端固定梁は何次不静定？',h:'ヒント：反力 6 − 3',a:['3次不静定','2次不静定','6次不静定'],e:'6 − 3 = 3。判別式でも 6 + 1 + 0 − 4 = 3。'},
+ {q:'一端固定・他端ローラーの梁は何次不静定？',h:'ヒント：反力 4 − 3',a:['1次不静定','2次不静定','静定'],e:'固定端 3 + ローラー 1 = 4。4 − 3 = 1。'}
+]},
+{g:'A 前提知識',t:'電卓なしで計算するコツ',q:[
+ {q:'途中の割り算はどうする？',a:['分数のまま進め、最後に一度だけ割る','毎回小数にする','四捨五入して進める'],e:'途中で割ると端数が出やすい。最後にまとめて約分する。'},
+ {q:'単純梁に集中荷重。反力は、荷重からどちらの支点までの距離に比例する？',a:['遠い方','近い方'],e:'荷重に近い支点ほど大きい。つまり反対側の距離に比例する。'},
+ {q:'6 m の単純梁で、A から 2 m に荷重。V_A : V_B は？',f:'c1',a:['4 : 2','2 : 4','1 : 1'],e:'V_A は B 側の距離 4 m、V_B は A 側の距離 2 m に比例。'},
+ {q:'72 ÷ 6 は？',h:'ヒント：72 = 6 × □',a:['12','11','14'],e:'6 × 12 = 72。'},
+ {q:'偶力のモーメントは、どの点回りに計算すると？',a:['どこでも同じ','点によって変わる'],e:'偶力は向きが逆で大きさが同じ 2力。どの点回りでも 力 × 間隔。'}
+]},
+{g:'B 解き方の手順',t:'梁の反力を求める手順',q:[
+ {q:'最初にやることは？',a:['支点を見て反力を仮定し、図に描き込む','ΣY = 0 を立てる','検算する'],e:'向きは仮に決めてよい。まず図に描く。'},
+ {q:'計算した反力が負になったら？',a:['仮定と逆向きだった','計算ミス','0 とみなす'],e:'マイナスは向きが逆という意味。大きさはそのまま。'},
+ {q:'分布荷重はどう扱う？',a:['合力（1つの集中荷重）に置き換える','そのまま計算する','無視する'],e:'合力の大きさと位置を出してから、集中荷重として扱う。'},
+ {q:'ΣM = 0 を立てるのはどこ回り？',a:['未知の反力が2つ以上集まる支点（ふつうはピン）','荷重の位置','梁の中央'],e:'未知数が消えて、式に残る未知数が 1つになる。'},
+ {q:'検算はどうする？',a:['もう一方の支点回りで ΣM = 0 を確かめる','同じ式をもう一度解く'],e:'別の式で 0 になれば正しい。同じ式では間違いに気づけない。'}
+]},
+{g:'B 解き方の手順',t:'片持ち梁の手順',q:[
+ {q:'固定端に仮定する反力は？',a:['H・V・M の3つ','H・V の2つ','V だけ'],e:'固定端は移動も回転も止めるので 3つ。'},
+ {q:'片持ち梁の V は？',a:['鉛直荷重の合計','いちばん大きい荷重','0'],e:'支点は固定端だけなので、鉛直荷重はすべてそこが受ける。'},
+ {q:'固定端の M は？',a:['Σ（荷重 × 固定端からの距離）','荷重の合計 × 梁の長さ','0'],e:'荷重ごとに、固定端からの距離を掛けて足す。'},
+ {q:'ΣM をとる点としてすすめるのは？',a:['固定端','自由端','梁の中央'],e:'固定端回りなら H と V が消え、M だけが残る。'},
+ {q:'ピン支点に仮定する反力は？',a:['H と V','V だけ','H・V・M'],e:'ピンは回転が自由なので M はない。'}
+]},
+{g:'C 例題（図つき）',t:'例題1 単純梁・集中荷重',q:[
+ {q:'A 回りのモーメントを考える。12 kN の腕の長さは？',f:'c1',a:['2 m','4 m','6 m'],e:'A から荷重までの距離は 2 m。'},
+ {q:'V_B は？',h:'A 回り：24 − V_B × 6 = 0',f:'c1',s:'12 × 2 = 24 kN·m',a:['4 kN','6 kN','3 kN'],e:'V_B = 24 ÷ 6 = 4 kN（上向き）。'},
+ {q:'V_A = 12 − 4 は？',f:'c1',s:'V_B = 4 kN',a:['8 kN','4 kN','6 kN'],e:'上向きの反力の合計が 12 kN になる。12 − 4 = 8 kN。'},
+ {q:'A の水平反力 H_A は？',f:'c1',a:['0','12 kN','4 kN'],e:'水平の荷重がないので 0。'},
+ {q:'比で確かめる。V_A : V_B は？',f:'c1',s:'V_A = 8 kN、V_B = 4 kN',a:['2 : 1','1 : 2','1 : 1'],e:'8 : 4 = 2 : 1。距離の比 4 m : 2 m と同じで正しい。'}
+]},
+{g:'C 例題（図つき）',t:'例題2 等分布荷重・例題5 モーメント荷重',q:[
+ {q:'合力 W = 3 × 8 は？',f:'c2',a:['24 kN','11 kN','12 kN'],e:'w × L = 3 × 8 = 24 kN。'},
+ {q:'合力が働く位置は、A から何 m？',f:'c2',s:'W = 24 kN',a:['4 m','8 m','2 m'],e:'等分布なので中央。8 ÷ 2 = 4 m。'},
+ {q:'左右対称なので V_A = V_B = 24 ÷ 2 は？',f:'c2',s:'W = 24 kN、中央に働く',a:['12 kN','24 kN','8 kN'],e:'半分ずつ受ける。24 ÷ 2 = 12 kN。'},
+ {q:'例題5：V_B は？',h:'A 回り：8 − V_B × 4 = 0',f:'c5',a:['2 kN','4 kN','32 kN'],e:'V_B = 8 ÷ 4 = 2 kN（上向き）。'},
+ {q:'例題5：V_A は？',f:'c5',s:'V_B = 上向き 2 kN、鉛直の荷重はない',a:['下向き 2 kN','上向き 2 kN','0'],e:'縦の合計が 0 になるので、V_A は逆向きの 2 kN。'}
+]},
+{g:'C 例題（図つき）',t:'例題3 片持ち梁',q:[
+ {q:'等分布の合力 W = 2 × 4 は？',f:'c3',a:['8 kN','6 kN','16 kN'],e:'w × L = 2 × 4 = 8 kN。'},
+ {q:'等分布の合力が働く位置は、固定端 A から何 m？',f:'c3',s:'W = 8 kN',a:['2 m','4 m','1 m'],e:'中央なので 4 ÷ 2 = 2 m。'},
+ {q:'V_A = 5 + 8 は？',f:'c3',s:'先端 5 kN、等分布の合力 8 kN',a:['13 kN','8 kN','3 kN'],e:'鉛直荷重の合計。5 + 8 = 13 kN。'},
+ {q:'先端 B の 5 kN の、A からの腕の長さは？',f:'c3',a:['4 m','2 m','0 m'],e:'B は先端なので、A から 4 m。'},
+ {q:'固定端 A のモーメント M_A は？',f:'c3',s:'5 × 4 = 20、8 × 2 = 16',a:['36 kN·m','26 kN·m','52 kN·m'],e:'20 + 16 = 36 kN·m。'}
+]},
+{g:'C 例題（図つき）',t:'例題4 三角形分布',q:[
+ {q:'合力 W = 6 × 6 ÷ 2 は？',f:'c4',a:['18 kN','36 kN','12 kN'],e:'三角形なので半分。36 ÷ 2 = 18 kN。'},
+ {q:'合力が働く位置は、最大側の B から何 m？',f:'c4',s:'W = 18 kN',a:['2 m（L/3）','3 m','4 m'],e:'大きい側から L/3。6 ÷ 3 = 2 m。'},
+ {q:'では A からは何 m？',f:'c4',s:'W = 18 kN、B から 2 m',a:['4 m','2 m','3 m'],e:'6 − 2 = 4 m。'},
+ {q:'V_B は？',h:'A 回り：72 − V_B × 6 = 0',f:'c4',s:'18 × 4 = 72 kN·m',a:['12 kN','9 kN','6 kN'],e:'V_B = 72 ÷ 6 = 12 kN。'},
+ {q:'V_A = 18 − 12 は？',f:'c4',s:'W = 18 kN、V_B = 12 kN',a:['6 kN','12 kN','9 kN'],e:'18 − 12 = 6 kN。重い B 側の反力の方が大きい。'}
+]},
+{g:'C 例題（図つき）',t:'例題6 判別式',h:'m = n + s + r − 2k',q:[
+ {q:'(a) 張出し梁（A ピン・B ローラー）。反力の総数 n は？',f:'ha',a:['3','2','4'],e:'ピン 2 + ローラー 1 = 3。'},
+ {q:'(a) m = 3 + 1 + 0 − 4 は？',f:'ha',s:'n = 3、s = 1、r = 0、k = 2（部材1本として数える）',a:['0（静定）','1（1次不静定）','−1（不安定）'],e:'3 + 1 + 0 − 4 = 0。静定。'},
+ {q:'(b) 門型ラーメン（両端ピン）。n = 2 + 2 は？',f:'hb',a:['4','2','6'],e:'ピン 2か所 × 2つ = 4。'},
+ {q:'(b) m = 4 + 3 + 2 − 8 は？',f:'hb',s:'n = 4、s = 3、r = 2、k = 4',a:['1（1次不静定）','0（静定）','2（2次不静定）'],e:'4 + 3 + 2 − 8 = 1。1次不静定。'},
+ {q:'(c) 3ヒンジラーメン。ヒンジが1つ増えると、不静定の次数は？',f:'hc',s:'(b) は 1次不静定。(c) は m = 0 で静定',a:['1つ減る','1つ増える','変わらない'],e:'ヒンジはモーメントを伝えないので、条件が1つ増えて次数が1つ減る。'}
+]}
+];
+
+/* ============ 保存 ============ */
+function st(){ var s=K.rd(KEY); s.sets=s.sets||{}; s.wrong=s.wrong||[]; return s; }
+function save(s){ K.wr(KEY,s); }
+function qid(si,qi){ return (si+1)+'-'+(qi+1); }
+function shuffle(a){ a=a.slice(); for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)), t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+function esc(t){ return String(t).replace(/[&<>]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]; }); }
+
+var view=document.getElementById('view');
+
+/* ============ 一覧 ============ */
+function home(){
+  var s=st(), h='', grp='';
+  delete s.cur; save(s);
+  h+='<p style="margin:0 0 6px">1セット5問・約3分。途中でやめても、次に開くと続きから始まります。</p>';
+  if(s.wrong.length) h+='<button class="pri wide" id="gowrong">前に間違えた問題だけ（'+s.wrong.length+' 問）</button>';
+  var nx=nextSet(s);
+  if(nx!=null) h+='<button class="'+(s.wrong.length?'':'pri ')+'wide" id="gonext">次のセット：'+(nx+1)+' '+esc(SETS[nx].t)+'</button>';
+  h+='<ul class="slist">';
+  SETS.forEach(function(set,i){
+    if(set.g!==grp){ grp=set.g; h+='</ul><div class="grp">'+grp+'</div><ul class="slist">'; }
+    var r=s.sets[i+1], lab='未';
+    if(r) lab='<span class="'+(r.best===5?'ok':'')+'">最高 '+r.best+'/5</span>';
+    h+='<li><button data-set="'+i+'"><span class="no">'+(i+1)+'</span><span class="nm2">'+esc(set.t)+'</span><span class="st">'+lab+'</span></button></li>';
+  });
+  h+='</ul>';
+  view.innerHTML=h;
+  Array.prototype.forEach.call(view.querySelectorAll('[data-set]'),function(b){
+    b.addEventListener('click',function(){ start(+b.getAttribute('data-set')); });
+  });
+  var gw=document.getElementById('gowrong'); if(gw) gw.addEventListener('click',startWrong);
+  var gn=document.getElementById('gonext'); if(gn) gn.addEventListener('click',function(){ start(nx); });
+  scrollTo(0,0);
+}
+function nextSet(s){
+  for(var i=0;i<SETS.length;i++){ if(!s.sets[i+1]) return i; }
+  for(var j=0;j<SETS.length;j++){ if(s.sets[j+1].best<5) return j; }
+  return null;
+}
+
+/* ============ 出題 ============ */
+function start(si){
+  var s=st();
+  s.cur={mode:'set', set:si, list:SETS[si].q.map(function(_,qi){ return qid(si,qi); }), i:0, res:[]};
+  save(s); ask();
+}
+function startWrong(){
+  var s=st();
+  s.cur={mode:'wrong', list:shuffle(s.wrong).slice(0,5), i:0, res:[]};
+  save(s); ask();
+}
+function getQ(id){ var p=id.split('-'); return {set:SETS[p[0]-1], q:SETS[p[0]-1].q[p[1]-1], si:p[0]-1}; }
+
+function ask(){
+  var s=st(), c=s.cur;
+  if(!c) return home();
+  if(c.i>=c.list.length) return done();
+  var o=getQ(c.list[c.i]), q=o.q, h='';
+  var dots=c.list.map(function(_,k){ var r=c.res[k]; return '<i class="'+(r===true?'o':r===false?'x':'')+(k===c.i?' now':'')+'"></i>'; }).join('');
+  var title=c.mode==='wrong' ? '間違えた問題（セット'+(o.si+1)+'）' : 'セット'+(o.si+1)+' '+esc(o.set.t);
+  h+='<div class="mhead"><span>'+title+'</span><span class="dots">'+dots+'</span></div>';
+  if(q.f) h+='<div class="qfig">'+FIG[q.f]()+'</div>';
+  if(q.s) h+='<div class="sofar"><b>ここまで</b>'+esc(q.s)+'</div>';
+  h+='<div class="qt">'+(c.i+1)+'. '+esc(q.q)+(q.h?'<span class="hint">'+esc(q.h)+'</span>':'')+'</div>';
+  h+='<div class="ans">';
+  shuffle(q.a.map(function(t,k){ return {t:t,k:k}; })).forEach(function(x){
+    h+='<button data-k="'+x.k+'">'+esc(x.t)+'</button>';
+  });
+  h+='</div><div id="after"></div>';
+  h+='<div class="tools" style="margin-top:18px"><button id="quit">一覧へ戻る（ここまで保存）</button></div>';
+  view.innerHTML=h;
+  Array.prototype.forEach.call(view.querySelectorAll('.ans button'),function(b){
+    b.addEventListener('click',function(){ answer(+b.getAttribute('data-k')); });
+  });
+  document.getElementById('quit').addEventListener('click',function(){ home(); });
+  scrollTo(0,0);
+}
+
+function answer(k){
+  var s=st(), c=s.cur, id=c.list[c.i], q=getQ(id).q, ok=(k===0);
+  c.res[c.i]=ok; c.i++;  /* 答えた時点で進める（閉じても同じ問題を二度解かない） */
+  var wi=s.wrong.indexOf(id);
+  if(ok && wi>=0) s.wrong.splice(wi,1);
+  if(!ok && wi<0) s.wrong.push(id);
+  save(s); K.touchDay();
+  Array.prototype.forEach.call(view.querySelectorAll('.ans button'),function(b){
+    var bk=+b.getAttribute('data-k');
+    b.disabled=true;
+    if(bk===0) b.classList.add('o');
+    else if(bk===k) b.classList.add('x');
+    else b.classList.add('dim');
+  });
+  var last=(c.i>=c.list.length);
+  document.getElementById('after').innerHTML=
+    '<div class="fb '+(ok?'o':'x')+'"><b>'+(ok?'○ 正解':'× 正解は「'+esc(q.a[0])+'」')+'</b><br>'+esc(q.e)+'</div>'+
+    '<button class="pri next" id="nx">'+(last?'結果を見る':'次の問題へ')+'</button>';
+  document.getElementById('nx').addEventListener('click',function(){
+    ask();
+  });
+  document.getElementById('nx').scrollIntoView({block:'nearest',behavior:'smooth'});
+}
+
+function done(){
+  var s=st(), c=s.cur, n=c.res.filter(function(r){ return r===true; }).length, h='';
+  if(c.mode==='set'){
+    var r=s.sets[c.set+1]||{best:0,times:0};
+    r.best=Math.max(r.best,n); r.last=n; r.times=(r.times||0)+1; r.date=K.today();
+    s.sets[c.set+1]=r;
+  }
+  var miss=c.list.filter(function(_,k){ return c.res[k]===false; });
+  h+='<p style="text-align:center;margin:0;color:var(--sub)">'+(c.mode==='set'?'セット'+(c.set+1)+' '+esc(SETS[c.set].t):'間違えた問題')+'</p>';
+  h+='<div class="big">'+n+' / '+c.list.length+'</div>';
+  h+='<p style="text-align:center">'+(n===c.list.length?'全問正解です。':'間違えた問題は「前に間違えた問題だけ」から、あとで解き直せます。')+'</p>';
+  if(miss.length) h+='<button class="pri wide" id="again">間違えた '+miss.length+' 問だけ今やり直す</button>';
+  var nx=(c.mode==='set' && c.set+1<SETS.length) ? c.set+1 : null;
+  if(nx!=null) h+='<button class="'+(miss.length?'':'pri ')+'wide" id="nextset">次のセットへ：'+(nx+1)+' '+esc(SETS[nx].t)+'</button>';
+  h+='<button class="wide" id="tohome">一覧へ戻る</button>';
+  delete s.cur; save(s);
+  view.innerHTML=h;
+  if(miss.length) document.getElementById('again').addEventListener('click',function(){
+    var s2=st(); s2.cur={mode:'wrong', list:miss, i:0, res:[]}; save(s2); ask();
+  });
+  if(nx!=null) document.getElementById('nextset').addEventListener('click',function(){ start(nx); });
+  document.getElementById('tohome').addEventListener('click',home);
+  scrollTo(0,0);
+}
+
+K.applyTheme();
+K.header({});
+K.initSW('../../');
+if(st().cur) ask(); else home();
+})();
+</script>
+</body>
+</html>

@@ -9,6 +9,7 @@ var ASSETS = [
   './formulas.html',
   './past-exams.html',
   './structure/mechanics/S00.html',
+  './structure/mechanics/S00m.html',
   './structure/mechanics/S01.html',
   './structure/mechanics/S02.html',
   './structure/mechanics/S03.html',
